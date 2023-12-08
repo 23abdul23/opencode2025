@@ -1,3 +1,4 @@
+'use client'
 import { Icon } from '@chakra-ui/react';
 import {
   MdBarChart,
@@ -6,10 +7,15 @@ import {
   MdLock,
   MdOutlineShoppingCart,
 } from 'react-icons/md';
+import { useEffect } from 'react';
+import { useAuth } from 'contexts/AuthContext.js';
 
 
 import { IRoute } from 'types/navigation';
-
+var auth_isLoggedIn = false;
+if(localStorage.getItem('GithubData') !== null){
+  auth_isLoggedIn = true;
+}
 const routes: IRoute[] = [
   {
     name: 'Our Events',
@@ -17,6 +23,7 @@ const routes: IRoute[] = [
     path: '/home',
     icon: <Icon as={MdHome} width="20px" height="20px" color="inherit" />,
   },
+  auth_isLoggedIn &&
   {
     name: 'Leaderboard',
     layout: '/user',
@@ -37,7 +44,7 @@ const routes: IRoute[] = [
   //   ),
   //   secondary: true,
   // },
- 
+ auth_isLoggedIn &&
   {
     name: 'Profile',
     layout: '/user',
