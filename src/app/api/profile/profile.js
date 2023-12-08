@@ -1,9 +1,5 @@
 export async function FetchedData() {
-  const storedGithubData = localStorage.getItem('GithubData');
   const token = localStorage.getItem('token');
-  if (storedGithubData) {
-    return JSON.parse(storedGithubData);
-  }
 
   const response = await fetch('http://localhost:4000/api/v1/participant/', {
     method: 'GET',

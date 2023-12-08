@@ -42,13 +42,15 @@ export default function Banner (props: {
     '#111C44 !important'
   )
   return (
-    <Card mb={{ base: '0px', lg: '20px' }} alignItems='center' {...rest}>
+    <Card mb={{ base: '0px', lg: '20px' }} mt={{base: '20px'}} padding="0" paddingBottom="20px" alignItems='center' {...rest}>
       <Box
-        bg={`url(${banner})`}
+        bg={`url(${TempData.avatarUrl})`}
         bgSize='cover'
         borderRadius='16px'
-        h='131px'
+        h='100%'
         w='100%'
+        opacity={0.5}
+        position={'absolute'}
       />
       <NextAvatar
         mx='auto'
@@ -59,6 +61,8 @@ export default function Banner (props: {
         mt='-43px'
         border='4px solid'
         borderColor={borderColor}
+        postion='relative'
+        top='10px'
       />
       <Text color={textColorPrimary} fontWeight='bold' fontSize='xl' mt='10px'>
      {TempData.name}
@@ -67,29 +71,29 @@ export default function Banner (props: {
       {TempData.githubId
 }
       </Text>
-      <Flex w='max-content' mx='auto' mt='26px'>
+      <Flex w='max-content' mx='auto' mt='26px' position='relative' left='30px'>
         <Flex mx='auto' me='60px' alignItems='center' flexDirection='column'>
           <Text color={textColorPrimary} fontSize='2xl' fontWeight='700'>
-            {posts}
+            {TempData.PR?.length}
           </Text>
           <Text color={textColorSecondary} fontSize='sm' fontWeight='400'>
-            PR Merged
+            Recent PRs <br/>Contributed
           </Text>
         </Flex>
         <Flex mx='auto' me='60px' alignItems='center' flexDirection='column'>
           <Text color={textColorPrimary} fontSize='2xl' fontWeight='700'>
-            {followers}
+            {TempData.prMerged}
           </Text>
           <Text color={textColorSecondary} fontSize='sm' fontWeight='400'>
-Points          </Text>
+            Recent PRs <br/>Merged
+          </Text>
         </Flex>
-        <Flex mx='auto' alignItems='center' flexDirection='column'>
+        <Flex mx='auto' me='60px' alignItems='center' flexDirection='column'>
           <Text color={textColorPrimary} fontSize='2xl' fontWeight='700'>
-            {following}
+            {TempData.points}
           </Text>
           <Text color={textColorSecondary} fontSize='sm' fontWeight='400'>
-            Following
-          </Text>
+Recent Points <br/>Earned         </Text>
         </Flex>
       </Flex>
     </Card>
