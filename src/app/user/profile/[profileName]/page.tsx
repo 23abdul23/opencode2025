@@ -23,7 +23,6 @@ export default function ProfileOverviewOther({
   const profileName = params.profileName;
   const [TempData, setTempData] = useState('');
 
-  console.log(profileName);
 
   const { data: profileData, isLoading } = useQuery({
     queryKey: ['profileInfo'],
@@ -89,9 +88,9 @@ export default function ProfileOverviewOther({
         }}
         gap={{ base: '20px', xl: '20px' }}
       >
-        <Projects
+        {TempData?.PR ? <Projects
           name={profileName}
-        />
+        /> : <div className='flex justify-center items-center text-xl'>Sign in to view recent PRs</div>}
         <General
         name={TempData.name}
         githubId={TempData.githubId}

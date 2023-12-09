@@ -10,6 +10,7 @@ export const AuthProvider = ({ children }) => {
     
     //alert("I'm called")
     if (localStorage.getItem('GithubData') !== null && localStorage.getItem('token')) {
+
       setLoggedIn(true);
      // alert("I'm set to true");
     }
@@ -21,6 +22,7 @@ export const AuthProvider = ({ children }) => {
     localStorage.removeItem('token');
     localStorage.removeItem('GithubData');
     setLoggedIn(false);
+    
   };
 
   useEffect(() => {

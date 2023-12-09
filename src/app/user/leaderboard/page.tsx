@@ -90,7 +90,6 @@ export default function DataTables() {
        
             <SimpleGrid columns={{ base: 1, md: 3 }} gap="20px">
               
-          {console.log(events.logoUrl)}
             {events.map((event : any) => (
 
 

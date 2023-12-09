@@ -30,6 +30,7 @@ import { FetchedEvents } from 'app/api/events/events';
 import { useQuery } from '@tanstack/react-query';
 import { getUserPRDetails } from 'app/api/admin/admin';
 import { RingLoader } from 'react-spinners';
+import {useAuth} from '../../../contexts/AuthContext.js';
 
 
 export default function Dashboard() {
@@ -43,11 +44,12 @@ export default function Dashboard() {
 const brandColor = useColorModeValue('brand.500', 'white');
   const boxBg = useColorModeValue('secondaryGray.300', 'whiteAlpha.100');
   useEffect(() => {
+    const auth = useAuth();
     const querystring = window.location.search;
     const urlParam = new URLSearchParams(querystring);
     const TokenParam = urlParam.get('token');
     if(TokenParam===null){
-      window.location.assign('localhost:3000/auth/sign-in')
+      auth.check_login();
     }
     else localStorage.setItem('token',TokenParam);
   }, []);

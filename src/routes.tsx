@@ -3,12 +3,10 @@ import { Icon } from '@chakra-ui/react';
 import {
   MdBarChart,
   MdPerson,
-  MdHome,
-  MdLock,
-  MdOutlineShoppingCart,
+  MdHome
 } from 'react-icons/md';
 import { useEffect } from 'react';
-import { useAuth } from 'contexts/AuthContext.js';
+import { useAuth } from './contexts/AuthContext.js';
 
 
 import { IRoute } from 'types/navigation';

@@ -49,15 +49,15 @@ export default function GeneralInformation(props: {
           title="Github Username"
           value={githubId}
         />
-        <Information boxShadow={cardShadow} title="College" value={college} />
-        <Information
+        {college && <Information boxShadow={cardShadow} title="College" value={college} />}
+        {discordId && <Information
           boxShadow={cardShadow}
           title="Discord ID"
           value={discordId}
-        />
-        <Information boxShadow={cardShadow} title="Email" 
+        />}
+        { email && <Information boxShadow={cardShadow} title="Email" 
         value={email}
-        />
+        />}
       </SimpleGrid>
     </Card>
   );

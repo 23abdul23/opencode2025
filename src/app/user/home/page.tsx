@@ -46,7 +46,7 @@ export default function Dashboard() {
     const urlParam = new URLSearchParams(querystring);
     const TokenParam = urlParam.get('token');
     if(TokenParam===null){
-      window.location.assign('localhost:3000/auth/sign-in')
+      auth.check_login();
     }
     else localStorage.setItem('token',TokenParam);
     const GitDatalocal = localStorage.getItem('GithubData');

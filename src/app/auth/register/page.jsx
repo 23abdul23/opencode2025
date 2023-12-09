@@ -53,22 +53,13 @@ export default function SignIn() {
     const querystring = window.location.search;
     const urlParam = new URLSearchParams(querystring);
     const TokenParam = urlParam.get('token');
-    const AvatarUrl = urlParam.get('avatar_url');
-    if (TokenParam === null) {
-      window.location.assign('localhost:3000/auth/sign-in');
-    }
-    const avatarUrl = urlParam.get('avatarUrl');
+    const avatarUrl = urlParam.get('avatar_url');
     setformData({
       ...formData,
-      avatarUrl: avatarUrl,
+      avatarUrl: avatarUrl || '',
     });
 
     localStorage.setItem('token', TokenParam);
-
-    setformData((prevData) => ({
-      ...prevData,
-      avatarUrl: AvatarUrl || '',
-    }));
   }, []);
 
   const textColor = useColorModeValue('navy.700', 'white');

@@ -9,9 +9,10 @@ export default function Banner (props: {
   name: string
   
   githubUrl:string
-  prMerged: number | string
-  prContributed: number | string
-  pointsEarned: number | string
+  prMerged: number
+  prContributed: number
+  pointsEarned: number
+  rank: number
   [x: string]: any
 }) {
   const {
@@ -26,6 +27,7 @@ export default function Banner (props: {
     posts,
     followers,
     following,
+    rank,
     ...rest
   } = props
   // Chakra Color Mode
@@ -74,20 +76,20 @@ export default function Banner (props: {
      {githubUrl}
       </Text>
       <Flex w='max-content' mx='auto' mt='26px' position='relative' left='30px'>
-        <Flex mx='auto' me='60px' alignItems='center' flexDirection='column'>
+        {rank && <Flex mx='auto' me='60px' alignItems='center' flexDirection='column'>
           <Text color={textColorPrimary} fontSize='2xl' fontWeight='700'>
-          {prContributed}
+          {rank}
           </Text>
           <Text color={textColorSecondary} fontSize='sm' fontWeight='400'>
-            Recent PRs <br/>Contributed
+            Rank
           </Text>
-        </Flex>
+        </Flex>}
         <Flex mx='auto' me='60px' alignItems='center' flexDirection='column'>
           <Text color={textColorPrimary} fontSize='2xl' fontWeight='700'>
            {prMerged}
           </Text>
           <Text color={textColorSecondary} fontSize='sm' fontWeight='400'>
-            Recent PRs <br/>Merged
+            PRs <br/>Merged
           </Text>
         </Flex>
         <Flex mx='auto' me='60px' alignItems='center' flexDirection='column'>

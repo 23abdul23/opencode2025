@@ -15,7 +15,7 @@ import {
   useColorMode,
   useColorModeValue,
 } from '@chakra-ui/react';
-import { useState,useEffect } from 'react'
+import { useState, useEffect } from 'react';
 // Custom Components
 import { Image } from 'components/image/Image';
 import { ItemContent } from 'components/menu/ItemContent';
@@ -31,7 +31,7 @@ import { useRouter } from 'next/navigation';
 export default function HeaderLinks(props: { secondary: boolean }) {
   const { secondary } = props;
   const { colorMode, toggleColorMode } = useColorMode();
-  const[TempData,setTempData] = useState({});
+  const [TempData, setTempData] = useState({});
   const [ProfileInitals, setProfileInitials] = useState(' ');
   const auth = useAuth();
   const router = useRouter();
@@ -40,32 +40,28 @@ export default function HeaderLinks(props: { secondary: boolean }) {
     await auth.logout();
     router.push('/auth/sign-in');
   };
-  
 
   useEffect(() => {
     const GitDatalocal = localStorage.getItem('GithubData');
     const ParseData = JSON.parse(GitDatalocal);
-  
+
     if (ParseData && ParseData.data && ParseData.data.name) {
       // Ensure TempData is defined and has the expected structure
       setTempData(ParseData.data);
-  
+
       const words = ParseData.data.name.split(' ');
-  
+
       // Get the first character of the first word
       const firstCharFirstWord = words[0].slice(0, 1);
-  
+
       // Get the first character of the last word
       const lastWordIndex = words.length - 1;
       const firstCharLastWord = words[lastWordIndex].slice(0, 1);
-  
+
       setProfileInitials(firstCharFirstWord + firstCharLastWord);
     }
   }, []);
-  
-  
 
-  
   // Chakra Color Mode
   const navbarIcon = useColorModeValue('gray.400', 'white');
   let menuBg = useColorModeValue('white', 'navy.800');
@@ -92,7 +88,6 @@ export default function HeaderLinks(props: { secondary: boolean }) {
       borderRadius="30px"
       boxShadow={shadow}
     >
-      
       <Flex
         bg={ethBg}
         display={secondary ? 'flex' : 'none'}
@@ -128,7 +123,7 @@ export default function HeaderLinks(props: { secondary: boolean }) {
         </Text>
       </Flex>
       <SidebarResponsive routes={routes} />
-      
+
       <Button
         variant="no-hover"
         bg="transparent"
@@ -157,10 +152,10 @@ export default function HeaderLinks(props: { secondary: boolean }) {
             h="40px"
             borderRadius={'50%'}
           />
-          
+
           <Center top={0} left={0} position={'absolute'} w={'100%'} h={'100%'}>
             <Text fontSize={'xs'} fontWeight="bold" color={'white'}>
-             {ProfileInitals}
+              {ProfileInitals}
             </Text>
           </Center>
         </MenuButton>
@@ -172,25 +167,36 @@ export default function HeaderLinks(props: { secondary: boolean }) {
           bg={menuBg}
           border="none"
         >
-    
           <Flex flexDirection="column" p="10px">
             <MenuItem
-              _hover={{ bg: 'none' }}
-              _focus={{ bg: 'none' }}
+              _hover={{ bg: ethBg }}
+              _focus={{ bg: ethBg }}
               borderRadius="8px"
               px="14px"
+              bg={'none'}
             >
-              <Link href='/user/profile'>   <Text fontSize="sm">Profile Settings</Text></Link>
+              <Link href="/user/profile">
+                {' '}
+                <Text fontSize="sm">Profile Settings</Text>
+              </Link>
             </MenuItem>
-           
+
             <MenuItem
-              _hover={{ bg: 'none' }}
-              _focus={{ bg: 'none' }}
+              _hover={{ bg: ethBg }}
+              _focus={{ bg: ethBg }}
               color="red.400"
               borderRadius="8px"
               px="14px"
+              bg={'none'}
             >
-             <Button onClick={handleLogout}>  <Text fontSize="sm">Log out</Text></Button>
+              <Button
+                onClick={handleLogout}
+                bg={'none'}
+                _hover={{ bg: 'none' }}
+              >
+                {' '}
+                <Text fontSize="sm">Log out</Text>
+              </Button>
             </MenuItem>
           </Flex>
         </MenuList>

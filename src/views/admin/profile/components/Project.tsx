@@ -62,7 +62,7 @@ export default function Project(props: {
               PR #{ranking} • Repo: 
             </Text>
             <Link fontWeight="500" color={textColorSecondary} href={JSON.parse(localStorage.getItem('GithubData')).data.githubUrl+"/"+repoName} fontSize="sm">
-              {language}
+              {repoName}
             </Link>
           </Flex>
             <Text
