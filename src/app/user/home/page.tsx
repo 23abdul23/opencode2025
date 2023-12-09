@@ -69,7 +69,7 @@ export default function Dashboard() {
 
   return (
     <>
-      {events.map((event: any) => (
+      {events?.map((event: any) => (
         <EventCard
           key={event.name}
           btnStatus={

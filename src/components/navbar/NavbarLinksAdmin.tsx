@@ -26,11 +26,20 @@ import { FaEthereum } from 'react-icons/fa';
 import { IoMdMoon, IoMdSunny } from 'react-icons/io';
 import { MdInfoOutline, MdNotificationsNone } from 'react-icons/md';
 import routes from 'routes';
+import { useAuth } from 'contexts/AuthContext';
+import { useRouter } from 'next/navigation';
 export default function HeaderLinks(props: { secondary: boolean }) {
   const { secondary } = props;
   const { colorMode, toggleColorMode } = useColorMode();
   const[TempData,setTempData] = useState({});
   const [ProfileInitals, setProfileInitials] = useState(' ');
+  const auth = useAuth();
+  const router = useRouter();
+
+  const handleLogout = async () => {
+    await auth.logout();
+    router.push('/auth/sign-in');
+  };
   
 
   useEffect(() => {
@@ -181,7 +190,7 @@ export default function HeaderLinks(props: { secondary: boolean }) {
               borderRadius="8px"
               px="14px"
             >
-             <Link href='/auth/sign-in'>  <Text fontSize="sm">Log out</Text></Link>
+             <Button onClick={handleLogout}>  <Text fontSize="sm">Log out</Text></Button>
             </MenuItem>
           </Flex>
         </MenuList>
