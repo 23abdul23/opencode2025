@@ -24,18 +24,52 @@ import {
   Box,
   useColorModeValue,Text, Flex
 } from '@chakra-ui/react';
+import { Toast } from '@chakra-ui/react';
 
 import { useEffect,useState } from 'react';
 import { FetchedEvents } from 'app/api/events/events';
-import { useQuery } from '@tanstack/react-query';
+import { useQuery ,useMutation} from '@tanstack/react-query';
 import { getUserPRDetails } from 'app/api/admin/admin';
 import { RingLoader } from 'react-spinners';
+import {
+  Modal,
+  ModalOverlay,
+  ModalContent,
+  ModalHeader,
+  ModalFooter,
+  ModalBody,
+  ModalCloseButton,
+} from '@chakra-ui/react'
+import { EditPRPoints } from 'app/api/admin/admin';
+import { useToast } from '@chakra-ui/react'
+
 
 
 export default function Dashboard() {
+
+  const toast = useToast();
   const [githubId, setGithubId] = useState('');
   const [eventName, setEventName] = useState('');
-  const [buttonClicked, setButtonClicked] = useState(false);
+  const [selectedPrDetails, setSelectedPrDetails] = useState(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [changePointData, setChangePointData] = useState(null);
+const [incrementPoints, setIncrementPoints] = useState('');
+
+
+const handleIncrementPointsChange = (e) => {
+  setIncrementPoints(e.target.value);
+};
+  const handleOpenModal = (prDetails:any) => {
+    setSelectedPrDetails(prDetails);
+    setIsModalOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setSelectedPrDetails(null);
+    setIncrementPoints('');
+    setIsModalOpen(false);
+  };
+ 
   const [userPrDetails,setuserPrDetails] = useState([])
 
   const textColor = useColorModeValue('secondaryGray.900', 'white');
@@ -56,11 +90,85 @@ const brandColor = useColorModeValue('brand.500', 'white');
     name:string;
   }
 
+  const pointUpdate = useMutation({
+    mutationFn:EditPRPoints,
+    onSuccess:()=>{
+      console.log("Success");
+      // Show a success toast
+      toast({
+        title: 'Points Updated',
+        description: 'PR points were successfully updated.',
+        status: 'success',
+        duration: 10000,
+        isClosable: true,
+      });
+
+      setIsModalOpen(false);
+
+      
+
+    },
+    onError:()=>{
+      console.log("Error");
+      toast({
+        title: 'Points not Updated',
+        description: 'PR points were successfully updated.',
+        status: 'error',
+        duration: 3000,
+        isClosable: true,
+      });
+    }
+  })
+
+
+  
+
+  const handleChangePoints = () => {
+    if (incrementPoints == '') {
+      toast({
+        title: 'Enter a point to increment!',
+        status: 'warning',
+        duration: 3000,
+        isClosable: true,
+      });
+      return;
+    }
+  
+   
+    if (selectedPrDetails) {
+      const { repoName, prNumber, issueNumber } = selectedPrDetails;
+      const incrementPointsAsNumber = parseInt(incrementPoints, 10) || 0; // Assuming it's an integer
+  
+      const prUpdateData = {
+        repoName,
+        prNumber,
+        issueNumber,
+        pointIncrement: incrementPointsAsNumber,
+        githubId: githubId,
+        eventName: eventName,
+      };
+  
+   
+      setChangePointData(prUpdateData);
+      setChangePointData((prevData:any) => {
+        handleSubmit(prevData);
+      });
+  
+     
+    }
+  };
+  
   const { data: eventData } = useQuery({
     queryKey: ['EventInfo'],
     queryFn: FetchedEvents,
   });
 
+  const handleSubmit = (data:any) => {
+  
+   console.log(data)
+    pointUpdate.mutate(data);
+
+  }
  
 
   const { data: userPrDeatils,refetch,isLoading,isError } = useQuery({
@@ -82,15 +190,17 @@ const brandColor = useColorModeValue('brand.500', 'white');
       await refetch(); 
       
   
-      const updatedData = userPrDeatils;
-      setuserPrDetails(updatedData);
+      const prUpdateData = userPrDeatils;
+      setuserPrDetails(prUpdateData);
   
-      setButtonClicked(true);
-      console.log(updatedData);
+  
+      console.log(prUpdateData);
     } catch (error) {
       console.error('Error fetching data:', error);
     }
   };
+
+ 
 
   if(!eventData){
     return <div> No data</div>
@@ -117,15 +227,15 @@ const brandColor = useColorModeValue('brand.500', 'white');
             >
 
                 <FormControl isRequired>
-  <FormLabel color={textColor}>First name</FormLabel>
+  <FormLabel color={textColor}>Github ID</FormLabel>
   <Input placeholder='First name' color={textColor} value={githubId} onChange={(e) => setGithubId(e.target.value)}/>
   
  
 </FormControl>
 
   <FormControl marginLeft="10px">
-    <FormLabel>Country</FormLabel>
-    <Select placeholder='Select country'value={eventName} onChange={(e) => setEventName(e.target.value)}>
+    <FormLabel>All Events</FormLabel>
+    <Select placeholder='Select Event'value={eventName} onChange={(e) => setEventName(e.target.value)}>
     {
   Events.map((e:Event,key:number)=>{
     return <option key={key} value={e.name}>{e.name}</option>
@@ -149,9 +259,11 @@ const brandColor = useColorModeValue('brand.500', 'white');
       <Tr>
         <Th>PR Title</Th>
         <Th>PR Number</Th>
+        <Th>Issue Number</Th>
         <Th>Points</Th>
         <Th>RepoName</Th>
         <Th>Status</Th>
+        <Th>Action</Th>
       </Tr>
     </Thead>
     <Tbody>
@@ -159,15 +271,68 @@ const brandColor = useColorModeValue('brand.500', 'white');
     <Tr key={index}>
       <Td>{pr.prTitle}</Td>
       <Td>{pr.prNumber}</Td>
+      <Td>{pr.issueNumber}</Td>
       <Td>{pr.points}</Td>
       <Td>{pr.repoName}</Td>
       <Td>{pr.status}</Td>
+      <Td>
+      <Button onClick={() => handleOpenModal(pr)}>View Details</Button>
+
+      </Td>
+      
     </Tr>
   ))}
      
     </Tbody>
 
+
+
   </Table>
+
+  <Modal isOpen={isModalOpen} onClose={handleCloseModal} >
+  <ModalOverlay />
+  <ModalContent>
+    <ModalHeader>PR Details</ModalHeader>
+    <ModalCloseButton />
+    <ModalBody>
+      <form>
+        <FormControl mb={4}>
+          <FormLabel>PR Title</FormLabel>
+          <Input
+            type="text"
+            value={selectedPrDetails?.prTitle || ''}
+            color={textColor} isReadOnly
+          />
+        </FormControl>
+        <FormControl mb={4}>
+          <FormLabel>PR Number</FormLabel>
+          <Input
+            type="text"
+            value={selectedPrDetails?.prNumber || ''}
+            color={textColor} isReadOnly
+          />
+        </FormControl>
+        <FormControl mb={4}>
+          <FormLabel>Increment Points</FormLabel>
+          <Input
+            type="number"
+            placeholder='Enter Point to Increment'
+            color={textColor} onChange={handleIncrementPointsChange} required
+          />
+        </FormControl>
+       
+      </form>
+    </ModalBody>
+    <ModalFooter>
+      <Button colorScheme="blue" mr={3} type="submit" onClick={handleCloseModal}>
+        Close
+      </Button>
+      <Button colorScheme="blue" mr={3} type="submit" onClick={handleChangePoints}>
+        Change Points
+      </Button>
+    </ModalFooter>
+  </ModalContent>
+</Modal>
 </TableContainer>
       </Box>
     </>
