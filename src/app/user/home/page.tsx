@@ -64,8 +64,6 @@ export default function Dashboard() {
     );
   }
 
-  const brandColor = useColorModeValue('brand.500', 'white');
-  const boxBg = useColorModeValue('secondaryGray.300', 'whiteAlpha.100');
 
   return (
     <>
