@@ -13,9 +13,6 @@ const nextConfig = {
     // Make ENV
     unoptimized: true,
   },
-  env: {
-    BACKEND_URL: process.env.BACKEND_URL,
-  },
 };
 
 // module.exports = withTM(nextConfig);
