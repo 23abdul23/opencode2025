@@ -34,7 +34,7 @@ export default function Assigned() {
             { username: 'aksahyw', issues: 69 },
           ];
           setSamplespace(newData);
-          alert('Data fetched successfully!');
+          //alert("Data fetched successfully!");
         } catch (error) {
           console.error('Error fetching data:', error);
         }
