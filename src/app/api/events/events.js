@@ -1,7 +1,7 @@
 export async function FetchedEvents(){
   
     const response = await fetch(
-      'http://localhost:4000/api/v1/events/',
+      `${process.env.BACKEND_URL}/api/v1/events/`,
       {
         method: 'GET',
         headers: {

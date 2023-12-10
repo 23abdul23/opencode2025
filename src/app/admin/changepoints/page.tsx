@@ -14,8 +14,6 @@ import {
 import {
   FormControl,
   FormLabel,
-  FormErrorMessage,
-  FormHelperText,
   Input,
   Button,
   Select,
@@ -39,9 +37,11 @@ import {
 } from '@chakra-ui/react';
 import { EditPRPoints } from 'app/api/admin/admin';
 import { useToast } from '@chakra-ui/react';
+import { useRouter } from 'next/navigation';
 
 export default function Dashboard() {
   const toast = useToast();
+  const router = useRouter();
   const [githubId, setGithubId] = useState('');
   const [eventName, setEventName] = useState('');
   const [selectedPrDetails, setSelectedPrDetails] = useState(null);
@@ -50,7 +50,7 @@ export default function Dashboard() {
   const [incrementPoints, setIncrementPoints] = useState('');
   const [isLoading, setIsLoading] = useState(false);
 
-  const handleIncrementPointsChange = (e) => {
+  const handleIncrementPointsChange = (e: any) => {
     setIncrementPoints(e.target.value);
   };
   const handleOpenModal = (prDetails: any) => {
@@ -71,12 +71,12 @@ export default function Dashboard() {
   const brandColor = useColorModeValue('brand.500', 'white');
   const boxBg = useColorModeValue('secondaryGray.300', 'whiteAlpha.100');
   useEffect(() => {
-    const querystring = window.location.search;
-    const urlParam = new URLSearchParams(querystring);
-    const TokenParam = urlParam.get('token');
-    if (TokenParam === null) {
-      window.location.assign('localhost:3000/auth/sign-in');
-    } else localStorage.setItem('token', TokenParam);
+    // const querystring = window.location.search;
+    // const urlParam = new URLSearchParams(querystring);
+    // const TokenParam = urlParam.get('token');
+    // if (TokenParam === null) {
+    //   router.push('/auth/sign-in');
+    // } else localStorage.setItem('token', TokenParam);
   }, []);
 
   interface Event {

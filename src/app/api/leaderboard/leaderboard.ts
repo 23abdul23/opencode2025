@@ -1,4 +1,4 @@
-const LEADERBOARD_API_URL = "http://localhost:4000/api/v1/events/";
+const LEADERBOARD_API_URL = `${process.env.BACKEND_URL}/api/v1/events/`;
 type RowObj = {
 	position:number;
 	name: string;
