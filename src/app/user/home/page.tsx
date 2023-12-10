@@ -131,7 +131,7 @@ export default function Dashboard() {
         :
         <Link href= {`${process.env.NEXT_PUBLIC_FRONTEND_URL}/auth/sign-in`}>
         <Button colorScheme="teal" mr="4">
-        Login
+        Join Now
         </Button></Link>}
         <Button colorScheme="teal" mr="4" onClick={()=>handleLeaderboardclick(event.name)}>
           Leaderboard
