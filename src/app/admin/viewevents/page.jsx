@@ -9,6 +9,8 @@ import { Button, ButtonGroup } from '@chakra-ui/react';
 import axios from 'axios';
 
 var eventData = [];
+
+
 const deleteHandler = async (eventName) => {
   const token = localStorage.getItem('token');
   const headers = {

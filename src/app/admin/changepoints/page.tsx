@@ -63,6 +63,10 @@ export default function Dashboard() {
   const [userPrDetails, setuserPrDetails] = useState([]);
 
   const textColor = useColorModeValue('secondaryGray.900', 'white');
+  const textColorBrand = useColorModeValue('brand.500', 'white');
+  const brandColor = useColorModeValue('brand.500', 'white');
+  const boxBg = useColorModeValue('secondaryGray.300', 'whiteAlpha.100');
+  
 
   interface Event {
     name: string;
