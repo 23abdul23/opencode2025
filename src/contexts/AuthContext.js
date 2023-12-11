@@ -7,17 +7,17 @@ export const AuthProvider = ({ children }) => {
   const [isLoggedIn, setLoggedIn] = useState(false);
 
   const check_login = () => {
-    if (
-      localStorage.getItem('GithubData') !== null &&
-      localStorage.getItem('token')
-    ) {
-      setLoggedIn(true);
+    if (localStorage) {
+      if (localStorage.getItem('token')) {
+        setLoggedIn(true);
+      } else {
+        setLoggedIn(false);
+      }
     }
   };
 
   const logout = () => {
     localStorage.removeItem('token');
-    localStorage.removeItem('GithubData');
     setLoggedIn(false);
   };
 

@@ -132,64 +132,75 @@ export default function HeaderLinks(props: { secondary: boolean }) {
           as={colorMode === 'light' ? IoMdMoon : IoMdSunny}
         />
       </Button>
-      <Menu>
-        <MenuButton p="0px" style={{ position: 'relative' }}>
-          <Box
-            _hover={{ cursor: 'pointer' }}
-            color="white"
-            bg="#11047A"
-            w="40px"
-            h="40px"
-            borderRadius={'50%'}
-          />
+      {!auth.isLoggedIn ? (
+        <Link href="/auth/sign-in">
+          <Button>Sign IN</Button>
+        </Link>
+      ) : (
+        <Menu>
+          <MenuButton p="0px" style={{ position: 'relative' }}>
+            <Box
+              _hover={{ cursor: 'pointer' }}
+              color="white"
+              bg="#11047A"
+              w="40px"
+              h="40px"
+              borderRadius={'50%'}
+            />
 
-          <Center top={0} left={0} position={'absolute'} w={'100%'} h={'100%'}>
-            <Text fontSize={'xs'} fontWeight="bold" color={'white'}>
-              {ProfileInitals}
-            </Text>
-          </Center>
-        </MenuButton>
-        <MenuList
-          boxShadow={shadow}
-          p="0px"
-          mt="10px"
-          borderRadius="20px"
-          bg={menuBg}
-          border="none"
-        >
-          <Flex flexDirection="column" p="10px">
-            <MenuItem
-              _hover={{ bg: ethBg }}
-              _focus={{ bg: ethBg }}
-              borderRadius="8px"
-              px="14px"
-              bg={'none'}
+            <Center
+              top={0}
+              left={0}
+              position={'absolute'}
+              w={'100%'}
+              h={'100%'}
             >
-              <Link href="/user/profile">
-                <Text fontSize="sm">Profile Settings</Text>
-              </Link>
-            </MenuItem>
-
-            <MenuItem
-              _hover={{ bg: ethBg }}
-              _focus={{ bg: ethBg }}
-              color="red.400"
-              borderRadius="8px"
-              px="14px"
-              bg={'none'}
-            >
-              <Button
-                onClick={handleLogout}
+              <Text fontSize={'xs'} fontWeight="bold" color={'white'}>
+                {ProfileInitals}
+              </Text>
+            </Center>
+          </MenuButton>
+          <MenuList
+            boxShadow={shadow}
+            p="0px"
+            mt="10px"
+            borderRadius="20px"
+            bg={menuBg}
+            border="none"
+          >
+            <Flex flexDirection="column" p="10px">
+              <MenuItem
+                _hover={{ bg: ethBg }}
+                _focus={{ bg: ethBg }}
+                borderRadius="8px"
+                px="14px"
                 bg={'none'}
-                _hover={{ bg: 'none' }}
               >
-                {' '}
-                <Text fontSize="sm">Log out</Text>
-              </Button>
-            </MenuItem>
-          </Flex>
-        </MenuList>
-      </Menu>
+                <Link href="/user/profile">
+                  <Text fontSize="sm">Profile Settings</Text>
+                </Link>
+              </MenuItem>
+
+              <MenuItem
+                _hover={{ bg: ethBg }}
+                _focus={{ bg: ethBg }}
+                color="red.400"
+                borderRadius="8px"
+                px="14px"
+                bg={'none'}
+              >
+                <Button
+                  onClick={handleLogout}
+                  bg={'none'}
+                  _hover={{ bg: 'none' }}
+                >
+                  <Text fontSize="sm">Log out</Text>
+                </Button>
+              </MenuItem>
+            </Flex>
+          </MenuList>
+        </Menu>
+      )}
     </Flex>
   );
 }
