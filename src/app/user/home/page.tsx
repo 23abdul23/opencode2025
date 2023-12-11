@@ -11,7 +11,7 @@ import { useEffect } from 'react';
 import EventCard from '../../../components/eventCard/eventCard';
 import { RingLoader } from 'react-spinners';
 import testImage from '../../../img/avatars/avatar3.png';
-import Image from 'next/image';
+import { Image } from '@chakra-ui/react';
 import Link from 'next/link';
 
 export default function Dashboard() {
@@ -64,65 +64,73 @@ export default function Dashboard() {
   return (
     <>
       {events?.map((event: any, index: number) => (
-        <Box pt={{ base: '180px', md: '80px', xl: '80px' }} key={index}>
-          <Box key={event.name} position="relative" h="80vh" overflow="hidden">
-            <Box
-              position="absolute"
-              top="0"
-              left="0"
-              w="100%"
-              h="100%"
-              bgGradient="linear(to-b, rgba(0,0,0,0.6), rgba(0,0,0,0.9))"
-            />
-
-            <Image
-              src={event.logoImageURL}
-              alt={event.name}
-              objectFit="cover"
-              width={10000}
-              height={1000}
-            />
-
-            <Box
-              position="absolute"
-              top="50%"
-              left="50%"
-              transform="translate(-50%, -50%)"
-              textAlign="center"
-              zIndex="2"
-              color="white"
-            >
-              <Text fontSize="4xl" fontWeight="bold" mb="4">
-                {event.name}
-              </Text>
-              <Text fontSize="xl">{event.description}</Text>
-            </Box>
-
-            <Box
-              position="absolute"
-              bottom="8"
-              left="50%"
-              transform="translateX(-50%)"
-              zIndex="2"
-              textAlign="center"
-            >
-              {!auth.isLoggedIn && (
-                <Link href="/auth/sign-in">
-                  <Button colorScheme="teal" mr="4">
-                    Join Now
-                  </Button>
-                </Link>
-              )}
-              <Button
-                colorScheme="teal"
-                mr="4"
-                onClick={() => handleLeaderboardclick(event.name)}
-              >
-                Leaderboard
-              </Button>
-            </Box>
-          </Box>
+      <Box pt={{ base: '110px', md: '80px', xl: '80px' }} key={index}  borderRadius="100px" >
+      <Box key={event.name} position="relative" h={{ base: '80vh', md: '80vh' }} overflow="hidden"  borderRadius="10px">
+        <Box
+          position="absolute"
+          top="0"
+          left="0"
+          w="100%"
+          h="100%"
+          bgGradient="linear(to-b, rgba(0,0,0,0.6), rgba(0,0,0,0.9))"
+        />
+    
+        <Image
+          src={event.logoImageURL}
+          alt={event.name}
+          objectFit="cover"
+          width="100%"
+          height="100%"
+        />
+    
+        <Box
+          position="absolute"
+          top={{ base: '70%', md: '70%' }}
+          left="50%"
+          transform="translate(-50%, -50%)"
+          textAlign="center"
+          zIndex="2"
+          color="white"
+        >
+          <Text fontSize={{ base: '2xl', md: '4xl' }} fontWeight="bold" mb="4">
+            {event.name}
+          </Text>
+          <Text fontSize={{ base: 'md', md: 'xl' }}>{event.description}</Text>
         </Box>
+    
+        <Box
+          position="absolute"
+          bottom="8"
+          left="50%"
+          transform="translateX(-50%)"
+          zIndex="2"
+          textAlign="center"
+        >
+          {!auth.isLoggedIn && (
+            <Link href="/auth/sign-in">
+              <Button colorScheme="teal" mb={{ base: '4', md: '0' }} mr={{ base: '0', md: '4' }} 
+               bg="linear-gradient(to right, #001f3f, #003366)"
+               _hover={{ bg: 'linear-gradient(to right, #001a33, #001f3f)' }}
+               color="white">
+                Join Now
+              </Button>
+            </Link>
+          )}
+          <Button
+  colorScheme="teal"
+  onClick={() => handleLeaderboardclick(event.name)}
+  bg="linear-gradient(to right, #001f3f, #003366)"
+  _hover={{ bg: 'linear-gradient(to right, #001a33, #001f3f)' }}
+  color="white"
+>
+            Leaderboard
+          </Button>
+        </Box>
+      </Box>
+    </Box>
+    
+     
+      
       ))}
     </>
   );
