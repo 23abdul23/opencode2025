@@ -220,7 +220,7 @@ export default function ColumnTable(props: { tableData: any; eventName : string;
             <Tbody>
               {table
                 .getRowModel()
-                .rows.slice(0, 11)
+                .rows
                 .map((row) => {
                   return (
                     <Tr key={row.id}>

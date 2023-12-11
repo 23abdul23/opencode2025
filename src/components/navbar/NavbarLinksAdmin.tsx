@@ -69,7 +69,7 @@ export default function HeaderLinks(props: { secondary: boolean }) {
   );
 
   return (
-    <Flex  justifyContent="right" w={{ sm: '100%', md: 'auto' }}>
+    <Flex  justifyContent="right" w={{ sm: 'fit-content', md: 'auto' }}>
 
    
     <Flex
