@@ -25,7 +25,7 @@ import routes from 'routes';
 import { useAuth } from 'contexts/AuthContext';
 import { useRouter } from 'next/navigation';
 
-export default function HeaderLinks(props: { secondary: boolean }) {
+export default function   HeaderLinks(props: { secondary: boolean }) {
   const { secondary } = props;
   const { colorMode, toggleColorMode } = useColorMode();
   const [ProfileInitals, setProfileInitials] = useState(' ');

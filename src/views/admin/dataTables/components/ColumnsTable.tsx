@@ -16,6 +16,7 @@ import Card from 'components/card/Card';
 import Menu from 'components/menu/MainMenu';
 import { NextAvatar } from 'components/image/Avatar';
 import Confetti from 'react-confetti';
+import { color } from '@chakra-ui/system';
 
 type RowObj = {
 	position: string;
@@ -34,6 +35,13 @@ export default function ColumnTable(props: { tableData: any; eventName : string;
 	const [ sorting, setSorting ] = React.useState<SortingState>([]);
 	const textColor = useColorModeValue('secondaryGray.900', 'white');
 	const borderColor = useColorModeValue('gray.200', 'whiteAlpha.100');
+
+	const firstPos = useColorModeValue('#6464ce', '#2B2D9A');
+	const secondPos = useColorModeValue('#9292dd', '#1A1C7C');
+	const thirdPos = useColorModeValue('#c1c1ec', '#0D0F66');
+	const defaultPos = useColorModeValue('white', 'navy.800');
+
+
 	let defaultData= tableData;
 	
 	const columns = [
@@ -192,7 +200,7 @@ export default function ColumnTable(props: { tableData: any; eventName : string;
               {table.getHeaderGroups().map((headerGroup : any) => (
                 <Tr key={headerGroup.id}>
                   {headerGroup.headers.map((header : any) => {
-                    return (
+                    return ( 	
                       <Th
                         key={header.id}
                         colSpan={header.colSpan}
@@ -227,25 +235,96 @@ export default function ColumnTable(props: { tableData: any; eventName : string;
                 .getRowModel()
                 .rows
                 .map((row : any) => {
-                  return (
-                    <Tr key={row.id}>
-                      {row.getVisibleCells().map((cell : any) => {
-                        return (
-                          <Td
-                            key={cell.id}
-                            fontSize={{ sm: '14px' }}
-                            minW={{ sm: '150px', md: '200px', lg: 'auto' }}
-                            borderColor="transparent"
-                          >
-                            {flexRender(
-                              cell.column.columnDef.cell,
-                              cell.getContext(),
-                            )}
-                          </Td>
-                        );
-                      })}
-                    </Tr>
-                  );
+				
+					if(row.original.position === 1){
+						return (
+							<Tr key={row.id} bg={firstPos}>
+							  {row.getVisibleCells().map((cell : any) => {
+									return (
+										<Td
+										  key={cell.id}
+										  fontSize={{ sm: '14px' }}
+										  minW={{ sm: '150px', md: '200px', lg: 'auto' }}
+										  borderColor="transparent"
+										  bg={firstPos}
+										>
+										  {flexRender(
+											cell.column.columnDef.cell,
+											cell.getContext(),
+										  )}
+										</Td>
+									  );
+							  })}
+							</Tr>
+						  );
+					}
+					else if(row.original.position === 2){
+						return (
+							<Tr key={row.id} bg={secondPos}>
+							  {row.getVisibleCells().map((cell : any) => {
+									return (
+										<Td
+										  key={cell.id}
+										  fontSize={{ sm: '14px' }}
+										  minW={{ sm: '150px', md: '200px', lg: 'auto' }}
+										  borderColor="transparent"
+										  
+										>
+										  {flexRender(
+											cell.column.columnDef.cell,
+											cell.getContext(),
+										  )}
+										</Td>
+									  );
+							  })}
+							</Tr>
+						  );
+					}
+					else if(row.original.position === 3){
+						return (
+							<Tr key={row.id} bg={thirdPos}>
+							  {row.getVisibleCells().map((cell : any) => {
+									return (
+										<Td
+										  key={cell.id}
+										  fontSize={{ sm: '14px' }}
+										  minW={{ sm: '150px', md: '200px', lg: 'auto' }}
+										  borderColor="transparent"
+										  
+										>
+										  {flexRender(
+											cell.column.columnDef.cell,
+											cell.getContext(),
+										  )}
+										</Td>
+									  );
+							  })}
+							</Tr>
+						  );
+					}
+					else{
+						return (
+							<Tr key={row.id} bg={defaultPos}>
+							  {row.getVisibleCells().map((cell : any) => {
+									return (
+										<Td
+										  key={cell.id}
+										  fontSize={{ sm: '14px' }}
+										  minW={{ sm: '150px', md: '200px', lg: 'auto' }}
+										  borderColor="transparent"
+										  
+										>
+										  {flexRender(
+											cell.column.columnDef.cell,
+											cell.getContext(),
+										  )}
+										</Td>
+									  );
+							  })}
+							</Tr>
+						  );
+					}
+                  
                 })}
             </Tbody>
           </Table>
