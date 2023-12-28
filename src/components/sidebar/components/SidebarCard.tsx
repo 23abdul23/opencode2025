@@ -5,8 +5,12 @@ import logoWhite from 'img/layout/logoWhite.png';
 export default function SidebarDocs() {
   const bgColor = 'linear-gradient(135deg, #868CFF 0%, #4318FF 100%)';
   const borderColor = useColorModeValue('white', 'navy.800');
+  const currentDate = new Date();
+const targetDate = new Date(currentDate.getFullYear(), 11, 14); 
+//alert(currentDate<=targetDate)
 
   return (
+    currentDate<=targetDate && 
     <Flex
       justify="center"
       direction="column"
@@ -62,7 +66,7 @@ export default function SidebarDocs() {
          Start your Open Source Contribution journey from here! at IIIT Allahabad
         </Text>
       </Flex>
-      <Link href="https://horizon-ui.com/pro">
+      <Link href="opencodeiiita.devfolio.co">
         <Button
           bg="whiteAlpha.300"
           _hover={{ bg: 'whiteAlpha.200' }}
