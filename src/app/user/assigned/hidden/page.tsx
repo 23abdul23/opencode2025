@@ -79,7 +79,7 @@ export default function Dashboard() {
 
   const { data: UserIssueDetils, isLoading } = useQuery({
     queryKey: ['profileInfo'],
-    queryFn: () => getUserIssueDetails(profileName, "Opencode'23", repoName),
+    queryFn: () => getUserIssueDetails(profileName, process.env.NEXT_PUBLIC_EVENT_NAME, repoName),
   });
 
   useEffect(() => {

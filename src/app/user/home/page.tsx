@@ -50,7 +50,7 @@ export default function Dashboard() {
     } else localStorage.setItem('token', TokenParam);
     const GitDatalocal = localStorage.getItem('GithubData');
     if (localStorage.getItem('token')) {
-      axios.post(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/events/register?eventName=${encodeURIComponent('GeekCamp\'24')}`,{},{
+      axios.post(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/events/register?eventName=${encodeURIComponent(`${process.env.NEXT_PUBLIC_EVENT_NAME}`)}`,{},{
         headers: {
           Authorization: `Bearer ${localStorage.getItem('token')}`
         }
