@@ -33,7 +33,7 @@ interface ProfileData {
   githubId: string;
   discordId: string;
   PR: PullRequest[]; // Update this with the actual type of PR array
-  prMerged: number;
+  //prMerged: number;
   //pointsEarned: number;
 }
 
@@ -45,6 +45,7 @@ export default function ProfileOverviewOther({
   const profileName = params.profileName;
   const [TempData, setTempData] = useState<ProfileData | undefined>(undefined);
   const [points, setPoints] = useState<number>(0);
+  const [prMerged, setPrMerged] = useState<number>(0);
 
   const { data: profileData, isLoading } = useQuery({
     queryKey: ['profileInfo'],
@@ -52,16 +53,17 @@ export default function ProfileOverviewOther({
   });
 
   useEffect(() => {
-    async function fetchPoints() {
+    async function fetchPointsAndPr() {
       try {
         const leaderboard = await FetchedLeaderboard(process.env.NEXT_PUBLIC_EVENT_NAME);
         const user = leaderboard.find((entry) => entry.githubid === profileName);
         setPoints(user?.points ? parseInt(user.points, 10) : 0);
+        setPrMerged(user?.prmerged ? parseInt(user.prmerged, 10) : 0);
       } catch (error) {
         console.error('Error fetching leaderboard points:', error);
       }
     }
-    fetchPoints();
+    fetchPointsAndPr();
   }, [profileName]);
 
   useEffect(() => {
@@ -98,9 +100,8 @@ export default function ProfileOverviewOther({
           avatar={TempData?.avatarUrl}
           name={TempData?.name}
           githubUrl={TempData?.githubId}
-          prMerged={TempData?.prMerged || 0}
+          prMerged={prMerged || 0}
           prContributed={TempData?.PR?.length}
-          //pointsEarned={TempData?.pointsEarned || 0}
           pointsEarned={points || 0}
         />
       </Grid>

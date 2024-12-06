@@ -13,6 +13,7 @@ import { useQuery } from '@tanstack/react-query';
 import { useEffect, useState } from 'react';
 import { otherUserProfile } from 'api/profile/profile';
 import { RingLoader } from 'react-spinners';
+import { FetchedLeaderboard } from 'api/leaderboard/leaderboard';
 
 interface PullRequest {
   prNumber: number;
@@ -33,7 +34,7 @@ interface ProfileData {
   discordId: string;
   PR: PullRequest[]; // Update this with the actual type of PR array
   prMerged: number;
-  pointsEarned: number;
+  //pointsEarned: number;
 }
 
 export default function ProfileOverviewOther({
@@ -42,6 +43,9 @@ export default function ProfileOverviewOther({
   params: { profileName: string };
 }) {
   const [profileName, setProfileName] = useState('');
+  const [points, setPoints] = useState<number>(0);
+  const [prMerged, setPrMerged] = useState<number>(0);
+
   useEffect(() => {
     const naam = JSON.parse(localStorage.getItem('GithubData'));
     if (naam) setProfileName(naam.data.githubId);
@@ -53,6 +57,20 @@ export default function ProfileOverviewOther({
     queryKey: ['profileInfo'],
     queryFn: () => otherUserProfile(profileName),
   });
+
+  useEffect(() => {
+    async function fetchPointsAndPr() {
+      try {
+        const leaderboard = await FetchedLeaderboard(process.env.NEXT_PUBLIC_EVENT_NAME);
+        const user = leaderboard.find((entry) => entry.githubid === profileName);
+        setPoints(user?.points ? parseInt(user.points, 10) : 0);
+        setPrMerged(user?.prmerged ? parseInt(user.prmerged, 10) : 0);
+      } catch (error) {
+        console.error('Error fetching leaderboard points:', error);
+      }
+    }
+    fetchPointsAndPr();
+  }, [profileName]);
 
   useEffect(() => {
     if (profileData) {
@@ -88,9 +106,9 @@ export default function ProfileOverviewOther({
           avatar={TempData?.avatarUrl}
           name={TempData?.name}
           githubUrl={TempData?.githubId}
-          prMerged={TempData?.prMerged || 0}
+          prMerged={prMerged || 0}
           prContributed={TempData?.PR?.length}
-          pointsEarned={TempData?.pointsEarned || 0}
+          pointsEarned={points || 0}
         />
       </Grid>
       <Grid
