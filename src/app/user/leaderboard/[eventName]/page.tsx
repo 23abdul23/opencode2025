@@ -17,6 +17,7 @@ export default function EventName({
   const { data: LeadData, isLoading } = useQuery({
     queryKey: ['LeadInfo'],
     queryFn: () => FetchedLeaderboard(eventName),
+    refetchInterval: 10000,
   });
 
   if (isLoading) {
