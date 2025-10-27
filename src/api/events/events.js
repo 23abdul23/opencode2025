@@ -16,9 +16,6 @@ export async function FetchedEvents(){
     }
 
     const feventsData = await response.json();
-    console.log(feventsData);
-
-
     return feventsData;
 
 }

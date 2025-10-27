@@ -1,6 +1,6 @@
 'use client';
 import { Icon } from '@chakra-ui/react';
-import { MdBarChart, MdPerson, MdHome } from 'react-icons/md';
+import { MdBarChart, MdPerson, MdHome , MdLock} from 'react-icons/md';
 
 import { IRoute } from 'types/navigation';
 
@@ -57,12 +57,12 @@ const routes: IRoute[] = [
     path: '/profile',
     icon: <Icon as={MdPerson} width="20px" height="20px" color="inherit" />,
   },
-  // {
-  //   name: 'Sign In',
-  //   layout: '/auth',
-  //   path: '/sign-in',
-  //   icon: <Icon as={MdLock} width="20px" height="20px" color="inherit" />,
-  // },
+  {
+    name: 'Sign In',
+    layout: '/auth',
+    path: '/sign-in',
+    icon: <Icon as={MdLock} width="20px" height="20px" color="inherit" />,
+  },
 ];
 
 export default routes;

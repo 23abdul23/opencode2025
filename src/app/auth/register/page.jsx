@@ -28,13 +28,13 @@ export default function SignIn() {
   const [gituser, setGitUser] = useState('');
   const [formData, setformData] = useState({
     name: gituser,
-    email: '',
-    degree: '',
-    branch: '',
-    college: '',
-    discordId: '',
-    githubId: '',
-    graduationYear: '',
+    email: '23abdulazeem23@gmail.com',
+    degree: 'BTECH',
+    branch: 'IT',
+    college: 'IIIT Allahabad',
+    discordId: 'abdul8869145',
+    githubId: '23abdul23',
+    graduationYear: '2028',
     avatarUrl: '',
   });
 

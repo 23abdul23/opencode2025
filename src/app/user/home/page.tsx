@@ -37,9 +37,12 @@ export default function Dashboard() {
     const querystring = window.location.search;
     const urlParam = new URLSearchParams(querystring);
     const TokenParam = urlParam.get('token');
+
     if (TokenParam === null) {
       auth.check_login();
-    } else localStorage.setItem('token', TokenParam);
+    } 
+    else localStorage.setItem('token', TokenParam);
+    
     if (localStorage.getItem('token')) {
       fetchLoggedInBasicDetails();
       axios.post(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/events/register?eventName=${encodeURIComponent(`${process.env.NEXT_PUBLIC_EVENT_NAME}`)}`,{},{

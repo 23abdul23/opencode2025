@@ -1,8 +1,16 @@
+import { useAuth } from "contexts/AuthContext";
+
 export async function fetchLoggedInBasicDetails() {
   const token = localStorage.getItem('token');
-  if (token === null) {
-    auth.check_login();
-  } else {
+  const auth = useAuth();
+
+  console.log('Fetched Token:', token);
+
+  if (token === 'null') {
+    console.log('No token found, redirecting to login.');
+    // auth.check_login();
+  } 
+  else {
     const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/participant/`, {
       method: 'GET',
       headers: {
@@ -11,19 +19,22 @@ export async function fetchLoggedInBasicDetails() {
       },
     });
 
+    console.log('Hahah: ', response)
+
     if (!response.ok) {
       throw new Error('Failed to fetch user info');
+      return;
     }
     const data = (await response.json()).data;
     localStorage.setItem('user', JSON.stringify(data));
     return data;
   }
+
 }
 
 export async function sendRegData(formData) {
   try {
     const token = localStorage.getItem('token');
-
     const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/register`, {
       method: 'POST',
       headers: {
