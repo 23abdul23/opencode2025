@@ -8,14 +8,18 @@ import { useQuery } from '@tanstack/react-query';
 import { getUserProfileByName } from 'api/profile/profile';
 import { RingLoader } from 'react-spinners';
 import { ProfileData } from '../page';
+import { profile } from 'console';
+import React from 'react';
 
 export default function ProfileOverviewOther({
-  params: { profileName },
+  params,
 }: {
-  params: { profileName: string };
+  params: any;
 }) {
+  const {profileName} = React.use(params);
+
   const { data, isLoading } = useQuery<{ data: ProfileData }>({
-    queryKey: ['profileInfo'],
+    queryKey: ['profileInfo', profileName],
     queryFn: () => getUserProfileByName(profileName),
   });
   const profileData = data?.data;
@@ -43,7 +47,7 @@ export default function ProfileOverviewOther({
       >
         <Text fontSize="m" fontWeight="bold">
           Please join the Discord server for further communication regarding
-          Opencode&apos;24. Discord server link: {' '}
+          Opencode&apos;25. Discord server link: {' '}
           <a
             href="https://bit.ly/oc-discord"
             target="_blank"

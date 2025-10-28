@@ -178,6 +178,7 @@ export default function HeaderLinks(props: { secondary: boolean }) {
                 px="14px"
                 bg={'none'}
               >
+              </MenuItem>
                 <Button
                   onClick={handleLogout}
                   bg={'none'}
@@ -185,7 +186,6 @@ export default function HeaderLinks(props: { secondary: boolean }) {
                 >
                   <Text fontSize="sm">Log out</Text>
                 </Button>
-              </MenuItem>
             </Flex>
           </MenuList>
         </Menu>

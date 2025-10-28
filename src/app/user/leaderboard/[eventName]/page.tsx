@@ -9,13 +9,16 @@ import { RingLoader } from 'react-spinners';
 export default function EventName({
   params,
 }: {
-  params: { eventName: string };
+  params: any;
 }) {
-  const eventName = params.eventName;
+
+  const {eventName} = React.use(params);
+
+  console.log("Event: ",eventName);
   const textThemeColor = useColorModeValue("secondaryGray.900", "gray.100");
 
   const { data: LeadData, isLoading } = useQuery({
-    queryKey: ['LeadInfo'],
+    queryKey: ['LeadInfo', eventName],
     queryFn: () => FetchedLeaderboard(eventName),
     refetchInterval: 10000,
   });
@@ -40,7 +43,7 @@ export default function EventName({
     prDetailsURL: string;
   };
 
-  const tableDataColumns: RowObj[] = LeadData.map((item, index) => {
+  const tableDataColumns: RowObj[] = (LeadData || []).map((item, index) => {
     return {
       key: index,
       position: item.position,
@@ -66,7 +69,7 @@ export default function EventName({
       >
         Total Participants: {participantCount}
       </Text>
-      <ColumnsTable tableData={tableDataColumns} eventName={params.eventName} />
+      <ColumnsTable tableData={tableDataColumns} eventName={eventName} />
       <SimpleGrid columns={3} spacing={4}></SimpleGrid>
     </Box>
   );

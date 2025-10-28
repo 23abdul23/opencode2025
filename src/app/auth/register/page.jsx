@@ -49,7 +49,8 @@ export default function SignIn() {
       ...formData,
       avatarUrl: avatarUrl || '',
     }));
-
+    
+    console.log('URL:', window.location.search);
     localStorage.setItem('token', TokenParam);
   }, []);
 

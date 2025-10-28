@@ -41,7 +41,9 @@ export default function Dashboard() {
     if (TokenParam === null) {
       auth.check_login();
     } 
-    else localStorage.setItem('token', TokenParam);
+    else {
+      localStorage.setItem('token', TokenParam);
+    }
     
     if (localStorage.getItem('token')) {
       fetchLoggedInBasicDetails();

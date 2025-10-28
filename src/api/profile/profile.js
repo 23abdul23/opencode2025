@@ -6,7 +6,7 @@ export async function fetchLoggedInBasicDetails() {
 
   console.log('Fetched Token:', token);
 
-  if (token === 'null') {
+  if (token === null) {
     console.log('No token found, redirecting to login.');
     // auth.check_login();
   } 
@@ -26,6 +26,7 @@ export async function fetchLoggedInBasicDetails() {
       return;
     }
     const data = (await response.json()).data;
+    console.log('Fetched User Data:', data);
     localStorage.setItem('user', JSON.stringify(data));
     return data;
   }
