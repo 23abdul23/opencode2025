@@ -174,7 +174,6 @@ export default function ColumnTable(props: { tableData: any; eventName : string;
 
 	const width = window.innerWidth;
 	const height = window.innerHeight;
-
 	return (
     <>
       <Card

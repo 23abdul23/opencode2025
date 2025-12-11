@@ -5,46 +5,24 @@ import { useState } from 'react';
 import { Box } from '@chakra-ui/react';
 import axios from 'axios';
 
-const formData = new FormData();
-
 export default function Addevent  ()  {
   const [eventData, setEventData] = useState({
     Fullname: '',
     Description: '',
   });
-  var logo;
-  var coverimages = [];
+  const [logoFile, setLogoFile] = useState(null);
+  const [coverFiles, setCoverFiles] = useState([]);
 
   const logoUpload = (event) => {
-    var file = event.target.files[0];
-    console.log(file);
-    formData.append('logoImage', file);
+    const file = event.target.files[0];
+    setLogoFile(file);
+  };
 
-    if (file) {
-      var reader = new FileReader();
-      alert('UPLAODED');
-      reader.onloadend = function () {
-        logo = reader.result;
-        console.log('Encoded Base 64 File String:', reader.result);
-      };
-      reader.readAsDataURL(file);
-    }
-  };
-  var arrayOfCover = [];
   const coverUpload = (event) => {
-    var file = event.target.files[0];
-    arrayOfCover.push(file);
-    //console.log(file)
-    if (file) {
-      alert('UPLAODED');
-      var reader = new FileReader();
-      reader.onloadend = function () {
-        coverimages.push(reader.result);
-        console.log('Encoded Base 64 File String:', reader.result);
-      };
-      reader.readAsDataURL(file);
-    }
+    const file = event.target.files[0];
+    if (file) setCoverFiles((prev) => [...prev, file]);
   };
+
   const handleChange = (event) => {
     setEventData({
       ...eventData,
@@ -54,26 +32,32 @@ export default function Addevent  ()  {
   const handleSubmit = async (event) => {
     event.preventDefault();
 
-    const finalData = {
-      title: eventData.Fullname,
-      description: eventData.Description,
-      startDate: '2023-12-01T00:00:00Z',
-      endDate: '2023-12-02T00:00:00Z',
+    const formData = new FormData();
+    formData.append('title', eventData.Fullname);
+    formData.append('description', eventData.Description);
+    formData.append('startDate', '2023-12-01T00:00:00Z');
+    formData.append('endDate', '2023-12-02T00:00:00Z');
 
-      logoUrl: logo,
-      coverImages: coverimages,
-    };
-    coverimages = [];
+    // Interchange logo and cover files in FormData:
+    // - If there's at least one cover file, use the first cover as the `logoImage` (backend expects logoImage[0]).
+    // - Append the provided logo file and any remaining cover files as `coverImages`.
+    
+    //BELIEVE ME the interchange was necessary 
+
+    if (coverFiles && coverFiles.length > 0) {
+      // first cover becomes the logo
+      formData.append('logoImage', coverFiles[0]);
+      // remaining covers (if any) become coverImages
+      coverFiles.slice(1).forEach((f) => formData.append('coverImages', f));
+      // also include the explicit logoFile as an additional cover image
+      if (logoFile) formData.append('coverImages', logoFile);
+    } else {
+      // no cover provided — fall back to original behaviour
+      if (logoFile) formData.append('logoImage', logoFile);
+    }
 
     try {
-      formData.append('title', finalData.title);
-      formData.append('description', finalData.description);
-
-      //console.log(arrayOfCover)
-
-      formData.append('coverImages', arrayOfCover);
       const token = localStorage.getItem('token');
-
       const response = await axios.post(
         `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/admin/create`,
         formData,
@@ -84,23 +68,10 @@ export default function Addevent  ()  {
           },
         },
       );
-      console.log(response.data);
-
-      if (!response.ok) {
-        throw new Error('Failed to create event');
-      }
-
-      //const responseData = await response.json();
-      console.log('Event created successfully:', formData);
-      // You can update your UI or perform other actions based on the response
+      console.log('Event created:', response.data);
     } catch (error) {
-      console.error('Error creating event:', error.message);
-      // Handle the error and provide feedback to the user
+      console.error('Error creating event:', error?.response?.data || error.message);
     }
-
-    // Example usage:
-
-    //createEvent(formData);
   };
   return (
     <Box pt={{ base: '130px', md: '80px', xl: '80px' }}>
@@ -141,25 +112,7 @@ export default function Addevent  ()  {
                     </div>
 
                     <div class="md:col-span-3">
-                      <label for="address">Cover Image</label>
-                      <input
-                        type="file"
-                        accept="image/*"
-                        class="h-10 border mt-1 rounded px-4 w-full text-black"
-                        onChange={coverUpload}
-                      />
-                    </div>
-                    <div class="md:col-span-3">
-                      <label for="address">Cover Image2</label>
-                      <input
-                        type="file"
-                        accept="image/*"
-                        class="h-10 border mt-1 rounded px-4 w-full text-black"
-                        onChange={coverUpload}
-                      />
-                    </div>
-                    <div class="md:col-span-3">
-                      <label for="address">Cover Image3</label>
+                      <label for="address">Cover Image (only one)</label>
                       <input
                         type="file"
                         accept="image/*"

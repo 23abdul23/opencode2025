@@ -69,7 +69,7 @@ export default function EventName({
       >
         Total Participants: {participantCount}
       </Text>
-      <ColumnsTable tableData={tableDataColumns} eventName={eventName} />
+      <ColumnsTable tableData={tableDataColumns} eventName={decodeURIComponent(eventName || '')} />
       <SimpleGrid columns={3} spacing={4}></SimpleGrid>
     </Box>
   );

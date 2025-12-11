@@ -60,14 +60,19 @@ export default function DataTables() {
               </Text>
             </Flex>
 
-            <SimpleGrid columns={{ base: 1, md: 3 }} gap="20px">
+            <SimpleGrid
+              columns={{ base: 1, md: 2, lg: 3 }}
+              gap={{ base: '24px', md: '28px', lg: '36px' }}
+              justifyItems="center"
+              px={{ base: '12px', md: '20px', lg: '40px' }}
+            >
               {events.map((event: any) => (
                 <NFT
                   name={event.name}
                   des={event.description}
                   key={event.name}
                   image={event.logoImageURL}
-                  download={`/user/leaderboard/${event.name}`}
+                  download={`/user/leaderboard/${encodeURIComponent(event.name)}`}
                 />
               ))}
             </SimpleGrid>
