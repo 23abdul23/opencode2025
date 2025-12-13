@@ -1,3 +1,4 @@
+"use client";
 import { Flex, Box, Table, Checkbox, Tbody, Td, Text, Th, Thead, Tr, useColorModeValue, Link } from '@chakra-ui/react';
 import * as React from 'react';
 import {FaTrophy} from 'react-icons/fa'
@@ -172,8 +173,20 @@ export default function ColumnTable(props: { tableData: any; eventName : string;
 		debugTable: true
 	});
 
-	const width = window.innerWidth;
-	const height = window.innerHeight;
+	const [width, setWidth] = React.useState(0);
+	const [height, setHeight] = React.useState(0);
+
+	React.useEffect(() => {
+		const setSizes = () => {
+			if (typeof window !== 'undefined') {
+				setWidth(window.innerWidth);
+				setHeight(window.innerHeight);
+			}
+		};
+		setSizes();
+		window.addEventListener('resize', setSizes);
+		return () => window.removeEventListener('resize', setSizes);
+	}, []);
 	return (
     <>
       <Card

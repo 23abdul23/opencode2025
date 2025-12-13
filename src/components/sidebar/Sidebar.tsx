@@ -1,4 +1,6 @@
-import React from 'react'
+"use client";
+
+import React, { useEffect, useState } from 'react'
 
 // chakra imports
 import {
@@ -46,6 +48,13 @@ function Sidebar (props: SidebarProps) {
   let sidebarBg = useColorModeValue('white', 'navy.800')
   let sidebarMargins = '0px'
 
+  const [isMounted, setIsMounted] = useState(false);
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
+
+  if (!isMounted) return null;
+
   // SIDEBAR
   return (
     <Box display={{ sm: 'none', xl: 'block' }} position='fixed' minH='100%'>
@@ -75,6 +84,7 @@ function Sidebar (props: SidebarProps) {
 // FUNCTIONS
 
 export function SidebarResponsive (props: SidebarResponsiveProps) {
+  // call hooks first so order is stable
   let sidebarBackgroundColor = useColorModeValue('white', 'navy.800')
   let menuColor = useColorModeValue('gray.400', 'white')
   // // SIDEBAR
@@ -82,6 +92,13 @@ export function SidebarResponsive (props: SidebarResponsiveProps) {
   const btnRef = React.useRef()
 
   const { routes } = props
+
+  const [isMounted, setIsMounted] = useState(false);
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
+
+  if (!isMounted) return null;
   // let isWindows = navigator.platform.startsWith("Win");
   //  BRAND
 

@@ -2,17 +2,46 @@
 import { useState } from 'react';
 import ReactSimplyCarousel from 'react-simply-carousel';
 import { useEffect } from 'react';
-import { Image } from '@chakra-ui/react';
-import { Box } from '@chakra-ui/react';
+import { Image, Box, SimpleGrid } from '@chakra-ui/react';
+
+import { redirect } from 'next/navigation';
 
 import { Button, ButtonGroup } from '@chakra-ui/react';
+import NFT from '../../../components/card/NFT';
 import axios from 'axios';
 
 var eventData = [];
 
 
+  // helper to decode JWT payload (browser)
+  function parseJwt(token) {
+    if (!token) return null;
+    try {
+      const base64Url = token.split('.')[1];
+      const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+      const jsonPayload = decodeURIComponent(
+        atob(base64)
+          .split('')
+          .map((c) => '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2))
+          .join('')
+      );
+      return JSON.parse(jsonPayload);
+    } catch {
+      return null;
+    }
+  }
+
 const deleteHandler = async (eventName) => {
   const token = localStorage.getItem('token');
+  const payload = parseJwt(token);
+
+  // require admin role before calling backend
+  if (!payload?.roles?.isAdmin) {
+    console.error('Only admin can create events');
+    // show UI feedback if needed
+    return;
+  }
+
   await axios
     .delete(
       `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/admin/delete/${eventName}`,
@@ -21,7 +50,8 @@ const deleteHandler = async (eventName) => {
       } },
     )
     .then(() => {
-      alert('YAY! deleted');
+      alert('Event Deleted Successfully');
+      window.location.reload();
     })
     .catch((error) => {
       console.error(error);
@@ -31,6 +61,10 @@ const deleteHandler = async (eventName) => {
 export default function Viewevents() {
   const [activeSlideIndex, setActiveSlideIndex] = useState(0);
   const [dataLoaded, setDataLoaded] = useState(false);
+
+  const [isMounted, setIsMounted] = useState(false);
+
+  
 
   /*THIS WILL HAVE TO BE CHANGED ONCE DATABASE ACCESS IS RECIEVED*/
   useEffect(() => {
@@ -46,9 +80,19 @@ export default function Viewevents() {
       });
   }, []);
 
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
+
+  if (!isMounted) {
+    return null;
+  }
+  
   if (!dataLoaded) {
     return <div>Loading...</div>; // or any loading indicator
   }
+
+
   if (!eventData) {
     return (
       <Box pt={{ base: '130px', md: '80px', xl: '80px' }}>
@@ -58,90 +102,28 @@ export default function Viewevents() {
   }
   return (
     <Box pt={{ base: '130px', md: '80px', xl: '80px' }}>
-      {eventData.data.map((item, i) => (
-        <div style={{ paddingTop: 20 }} key={i}>
-          <div style={{ display: 'flex', margin: 'auto' }}>
-            <h1>
-              {i + 1}. {item.name}
-            </h1>
-            <Image
-              boxSize="130px"
-              src={item.logoImageURL}
-              style={{ paddingRight: 30 }}
-              alt={item.name}
+      <SimpleGrid
+        columns={{ base: 1, md: 2, lg: 3 }}
+        spacing={{ base: '20px', md: '28px', lg: '36px' }}
+        justifyItems="center"
+        px={{ base: '12px', md: '20px', lg: '40px' }}
+      >
+        {eventData.data.map((item, i) => (
+          <Box key={i} w={{ base: '320px', md: '360px', lg: '420px' }}>
+            <NFT
+              name={item.name}
+              des={item.description}
+              image={item.logoImageURL}
+              download={`/admin/viewevents/${encodeURIComponent(item.name)}`}
             />
-            <Button
-              colorScheme="red"
-              size="sm"
-              onClick={() => deleteHandler(item.name)}
-            >
-              DELETE EVENT
-            </Button>
-          </div>
-          <div>
-            <p className="text-sm">{item.description}</p>
-          </div>
-          <div>
-            <ReactSimplyCarousel
-              activeSlideIndex={activeSlideIndex}
-              onRequestChange={setActiveSlideIndex}
-              itemsToShow={1}
-              itemsToScroll={1}
-              forwardBtnProps={{
-                //here you can also pass className, or any other button element attributes
-                style: {
-                  alignSelf: 'center',
-                  background: 'black',
-                  border: 'none',
-                  borderRadius: '50%',
-                  color: 'white',
-                  cursor: 'pointer',
-                  fontSize: '20px',
-                  height: 30,
-                  lineHeight: 1,
-                  textAlign: 'center',
-                  width: 30,
-                },
-                children: <span>{`>`}</span>,
-              }}
-              backwardBtnProps={{
-                //here you can also pass className, or any other button element attributes
-                style: {
-                  alignSelf: 'center',
-                  background: 'black',
-                  border: 'none',
-                  borderRadius: '50%',
-                  color: 'white',
-                  cursor: 'pointer',
-                  fontSize: '20px',
-                  height: 30,
-                  lineHeight: 1,
-                  textAlign: 'center',
-                  width: 30,
-                },
-                children: <span>{`<`}</span>,
-              }}
-              responsiveProps={[
-                {
-                  itemsToShow: 2,
-                  itemsToScroll: 2,
-                  minWidth: 768,
-                },
-              ]}
-              speed={400}
-              easing="linear"
-            >
-              {item.coverImagesURL?.map((img, j) => (
-                <div style={{ width: 300, height: 325 }} key={j}>
-                  <Image boxSize="300px" src={img.url} alt="Dan Abramov" />
-                  <p>Image {j + 1}</p>
-                </div>
-              ))}
-              {/* here you can also pass any other element attributes. Also, you can use your custom components as slides */}
-            </ReactSimplyCarousel>
-          </div>
-        </div>
-      ))}
+            <Box mt={3} display="flex" justifyContent="center">
+              <Button colorScheme="red" size="sm" onClick={() => deleteHandler(item.name)}>
+                DELETE EVENT
+              </Button>
+            </Box>
+          </Box>
+        ))}
+      </SimpleGrid>
     </Box>
   );
 }
