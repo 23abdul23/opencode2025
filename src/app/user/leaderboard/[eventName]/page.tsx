@@ -1,30 +1,27 @@
 'use client';
+
 import { Box, SimpleGrid, Text, useColorModeValue } from '@chakra-ui/react';
 import ColumnsTable from 'views/admin/dataTables/components/ColumnsTable';
 import { useQuery } from '@tanstack/react-query';
+import { useParams } from 'next/navigation';
 import React from 'react';
-import { FetchedLeaderboard } from '../../../../api/leaderboard/leaderboard';
 import { RingLoader } from 'react-spinners';
-import { parseAppSegmentConfig } from 'next/dist/build/segment-config/app/app-segment-config';
+import { FetchedLeaderboard } from '../../../../api/leaderboard/leaderboard';
 
-export default function EventName({
-  params,
-}: {
-  params: any;
-}) {
+export default function EventName() {
+  const { eventName } = useParams<{ eventName: string }>();
 
-  const { eventName } = React.use(params);
-
-  console.log("Event: ",eventName);
-  const textThemeColor = useColorModeValue("secondaryGray.900", "gray.100");
+  const textThemeColor = useColorModeValue(
+    'secondaryGray.900',
+    'gray.100'
+  );
 
   const { data: LeadData, isLoading } = useQuery({
     queryKey: ['LeadInfo', eventName],
     queryFn: () => FetchedLeaderboard(eventName),
     refetchInterval: 10000,
+    enabled: !!eventName
   });
-
-  console.log(LeadData);
 
   if (isLoading) {
     return (
@@ -44,18 +41,16 @@ export default function EventName({
     prDetailsURL: string;
   };
 
-  const tableDataColumns: RowObj[] = (LeadData || []).map((item, index) => {
-    return {
-      key: index,
-      position: item.position,
-      name: item.name,
-      prmerged: item.prmerged,
-      githubid: item.githubid,
-      points: item.points,
-      avatarUrl: item.avatarUrl,
-      prDetailsURL: item.prDetailsURL,
-    };
-  });
+  const tableDataColumns: RowObj[] = (LeadData || []).map((item, index) => ({
+    key: index,
+    position: item.position,
+    name: item.name,
+    prmerged: item.prmerged,
+    githubid: item.githubid,
+    points: item.points,
+    avatarUrl: item.avatarUrl,
+    prDetailsURL: item.prDetailsURL
+  }));
 
   const participantCount = tableDataColumns.length;
 
@@ -70,9 +65,13 @@ export default function EventName({
       >
         Total Participants: {participantCount}
       </Text>
-      <ColumnsTable tableData={tableDataColumns} eventName={decodeURIComponent(eventName || '')} />
-      <SimpleGrid columns={3} spacing={4}></SimpleGrid>
+
+      <ColumnsTable
+        tableData={tableDataColumns}
+        eventName={decodeURIComponent(eventName ?? '')}
+      />
+
+      <SimpleGrid columns={3} spacing={4} />
     </Box>
   );
 }
-

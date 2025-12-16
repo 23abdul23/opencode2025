@@ -11,19 +11,19 @@ import { ProfileData } from '../page';
 import { profile } from 'console';
 import React from 'react';
 
-export default function ProfileOverviewOther({
-  params,
-}: {
-  params: any;
-}) {
-  const {profileName} = React.use(params) 
+import { useParams } from 'next/navigation';
+
+export default function ProfileOverviewOther() {
+  const { profileName } = useParams<{ profileName: string }>();
 
   const { data, isLoading } = useQuery<{ data: ProfileData }>({
     queryKey: ['profileInfo', profileName],
     queryFn: () => getUserProfileByName(profileName),
+    enabled: !!profileName
   });
+
   const profileData = data?.data;
-  const { colorMode } = useColorMode();
+  const { colorMode } = useColorMode();;
 
   if (isLoading) {
     return (
