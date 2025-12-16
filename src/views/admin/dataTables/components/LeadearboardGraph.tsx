@@ -28,6 +28,7 @@ async function fetchProgress(eventName: string) {
   const r = await fetch(url);
   if (!r.ok) throw new Error('Failed to fetch leaderboard progress');
   const json = await r.json();
+  console.log(json)
   if (json && Array.isArray(json.data)) return json.data as ParticipantSeries[];
   return json as ParticipantSeries[];
 }
@@ -43,11 +44,25 @@ const genDates = (start: string, end: string) => {
   return res;
 };
 
+const parseYMD = (s: string) => {
+  // accept YYYY-MM-DD
+  const [y, m, d] = s.split('-').map(Number);
+  return new Date(y, m - 1, d);
+};
+
+const formatYMD = (d: Date) => d.toISOString().slice(0, 10);
+
+const addDays = (iso: string, days: number) => {
+  const dt = parseYMD(iso);
+  dt.setDate(dt.getDate() + days);
+  return formatYMD(dt);
+};
+
 const genTenMinSlots = (dayIso: string) => {
-  // dayIso expected as YYYY-MM-DD
+  // dayIso expected as YYYY-MM-DD (use UTC day start to match backend ISO timestamps)
   const slots: string[] = [];
-  const dayStart = new Date(`${dayIso}T00:00:00`);
-  for (let mins = 0; mins < 24 * 60; mins += 60) {
+  const dayStart = new Date(`${dayIso}T00:00:00.000Z`);
+  for (let mins = 0; mins < 24 * 60; mins += 15) {
     const d = new Date(dayStart.getTime() + mins * 60 * 1000);
     slots.push(d.toISOString());
   }
@@ -57,33 +72,36 @@ const genTenMinSlots = (dayIso: string) => {
 const pivotParticipants = (participants: ParticipantSeries[], startDate: string, endDate: string, mode: 'daily' | 'tenMin' = 'daily') => {
   const dates = mode === 'daily' ? genDates(startDate, endDate) : genTenMinSlots(startDate);
   const map = participants.map((p) => {
-    // build a map for quick lookup. For tenMin mode, we match by nearest slot using timestamp.
     if (mode === 'daily') {
-      const dmap = new Map(p.data.map((d) => [d.date, d.points]));
-      const rowPoints = dates.map((date) => (dmap.has(date) ? dmap.get(date)! : null));
-      for (let i = 0; i < rowPoints.length; i++) {
-        if (rowPoints[i] === null) rowPoints[i] = i === 0 ? 0 : rowPoints[i - 1];
+      // Group entries by YYYY-MM-DD (UTC) and keep the latest positive points for that day
+      const dmap = new Map<string, number>();
+      for (const entry of p.data) {
+        if (!entry || typeof entry.date !== 'string') continue;
+        const ymd = new Date(entry.date).toISOString().slice(0, 10);
+        if (entry.points > 0) dmap.set(ymd, entry.points);
       }
-      return { participantId: p.participantId, name: p.name, pointsByDate: rowPoints as number[] };
+      const rowPoints = dates.map((date) => (dmap.has(date) ? dmap.get(date)! : null));
+      return { participantId: p.participantId, name: p.name, pointsByDate: rowPoints as (number | null)[] };
     }
 
-    // tenMin mode: map timestamps into slots
+    // tenMin mode: assign timestamped entries into 10-minute UTC slots for the selected day
     const slotTimes = dates.map((s) => new Date(s).getTime());
     const slotMap = new Map<number, number>();
-    for (const d of p.data) {
-      const ts = new Date(d.date).getTime();
-      // find first slot that is >= timestamp
-      let idx = slotTimes.findIndex((t) => ts <= t);
-      if (idx === -1) idx = slotTimes.length - 1;
-      if (ts < slotTimes[0]) idx = 0;
-      slotMap.set(idx, d.points);
+    const dayStartMs = slotTimes[0];
+    const dayEndMs = dayStartMs + 24 * 60 * 60 * 1000;
+    for (const entry of p.data) {
+      if (!entry || entry.points <= 0) continue; // ignore zeros
+      const ts = new Date(entry.date).getTime();
+      if (ts < dayStartMs || ts >= dayEndMs) continue; // skip outside selected day
+      const minutesSinceStart = Math.floor((ts - dayStartMs) / 60000);
+      const idx = Math.floor(minutesSinceStart / 10);
+      const clamped = Math.max(0, Math.min(idx, slotTimes.length - 1));
+      // overwrite so the latest point for a slot wins
+      slotMap.set(clamped, entry.points);
     }
 
     const rowPoints = dates.map((_, idx) => (slotMap.has(idx) ? slotMap.get(idx)! : null));
-    for (let i = 0; i < rowPoints.length; i++) {
-      if (rowPoints[i] === null) rowPoints[i] = i === 0 ? 0 : rowPoints[i - 1];
-    }
-    return { participantId: p.participantId, name: p.name, pointsByDate: rowPoints as number[] };
+    return { participantId: p.participantId, name: p.name, pointsByDate: rowPoints as (number | null)[] };
   });
 
   return { chartData: dates.map((_, idx) => {
@@ -111,7 +129,7 @@ export default function LeaderboardGraph({ eventName, topN = 10, startDate, endD
   endDate: string;
 }) {
   const [mode, setMode] = useState<'daily' | 'tenMin'>('daily');
-  const [selectedDay, setSelectedDay] = useState(endDate.slice(0, 10));
+  const [selectedDay, setSelectedDay] = useState(new Date().toISOString().slice(0, 10));
   const { data, isLoading, isError, error } = useQuery({
     queryKey: ['leaderboardProgress', eventName, topN],
     queryFn: () => fetchProgress(eventName)
@@ -119,7 +137,16 @@ export default function LeaderboardGraph({ eventName, topN = 10, startDate, endD
 
   const transformed = useMemo(() => {
     if (!data) return { chartData: [], participants: [] as {participantId:string,name:string}[], dates: [] as string[] };
-    if (mode === 'daily') return pivotParticipants(data, startDate, endDate, 'daily');
+    if (mode === 'daily') {
+      // determine earliest date across all participant data
+      const allDates: string[] = [];
+      for (const p of data) for (const d of p.data) allDates.push(d.date.slice(0, 10));
+      const earliest = allDates.length ? allDates.reduce((a, b) => (a < b ? a : b)) : startDate.slice(0, 10);
+      const windowStart = earliest;
+      const windowEnd = addDays(windowStart, 29); // 30 days including start
+      return pivotParticipants(data, windowStart, windowEnd, 'daily');
+    }
+
     return pivotParticipants(data, selectedDay, selectedDay, 'tenMin');
   }, [data, startDate, endDate, mode, selectedDay]);
 
@@ -138,10 +165,21 @@ export default function LeaderboardGraph({ eventName, topN = 10, startDate, endD
   });
 
   const datasets = transformed.participants.map((p, i) => {
-    const dataPoints = transformed.chartData.map((row: any) => row[p.participantId] ?? 0);
-    // per-point radius: show a larger marker at the startIndex
-    const pointRadiusArr = dataPoints.map((_, idx) => (p.startIndex === idx ? 6 : 0));
-    const pointStyleArr = dataPoints.map((_, idx) => (p.startIndex === idx ? 'triangle' : 'circle'));
+    // keep nulls for missing/zero points so Chart.js shows gaps
+    const rawPoints: (number | null)[] = transformed.chartData.map((row: any) => (row[p.participantId] ?? null));
+
+    // find first and last positive point
+    const firstPos = rawPoints.findIndex((v) => v !== null && v > 0);
+    const lastPos = rawPoints.length - 1 - rawPoints.slice().reverse().findIndex((v) => v !== null && v > 0);
+    const hasPos = firstPos !== -1 && lastPos >= firstPos;
+
+    // trim outside active range to avoid lines dropping to zero before/after
+    const dataPoints = rawPoints.map((v, idx) => (hasPos && (idx < firstPos || idx > lastPos) ? null : v));
+
+    // show marker only for real points; larger triangle at participant start
+    const pointRadiusArr = dataPoints.map((val: number | null, idx: number) => (val !== null && val > 0 ? (p.startIndex === idx ? 6 : 3) : 0));
+    const pointStyleArr = dataPoints.map((val: number | null, idx: number) => (p.startIndex === idx ? 'triangle' : 'circle'));
+
     return {
       label: p.name,
       data: dataPoints,
@@ -151,8 +189,9 @@ export default function LeaderboardGraph({ eventName, topN = 10, startDate, endD
       fill: false,
       pointRadius: pointRadiusArr,
       pointStyle: pointStyleArr,
+      pointHoverRadius: 6,
       borderWidth: 2,
-      spanGaps: true
+      spanGaps: false
     } as any;
   });
 
@@ -195,7 +234,7 @@ export default function LeaderboardGraph({ eventName, topN = 10, startDate, endD
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 8 }}>
         <div>
           <button onClick={() => setMode('daily')} style={{ marginRight: 8, padding: '6px 10px', background: mode === 'daily' ? '#0369a1' : '#e5e7eb', color: mode === 'daily' ? '#fff' : '#111', border: 'none', borderRadius: 6 }}>30 Days</button>
-          <button onClick={() => setMode('tenMin')} style={{ padding: '6px 10px', background: mode === 'tenMin' ? '#0369a1' : '#e5e7eb', color: mode === 'tenMin' ? '#fff' : '#111', border: 'none', borderRadius: 6 }}>Single Day (10m)</button>
+          <button onClick={() => setMode('tenMin')} style={{ padding: '6px 10px', background: mode === 'tenMin' ? '#0369a1' : '#e5e7eb', color: mode === 'tenMin' ? '#fff' : '#111', border: 'none', borderRadius: 6 }}>Single Day (60m)</button>
         </div>
         {mode === 'tenMin' && (
           <div style={{ display: 'flex', gap: 8, alignItems: 'center' }}>
