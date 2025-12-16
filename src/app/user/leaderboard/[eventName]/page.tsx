@@ -5,6 +5,7 @@ import { useQuery } from '@tanstack/react-query';
 import React from 'react';
 import { FetchedLeaderboard } from '../../../../api/leaderboard/leaderboard';
 import { RingLoader } from 'react-spinners';
+import { parseAppSegmentConfig } from 'next/dist/build/segment-config/app/app-segment-config';
 
 export default function EventName({
   params,
@@ -12,7 +13,7 @@ export default function EventName({
   params: any;
 }) {
 
-  const { eventName } = params;
+  const { eventName } = React.use(params);
 
   console.log("Event: ",eventName);
   const textThemeColor = useColorModeValue("secondaryGray.900", "gray.100");

@@ -16,7 +16,7 @@ export default function ProfileOverviewOther({
 }: {
   params: any;
 }) {
-  const {profileName} = params 
+  const {profileName} = React.use(params) 
 
   const { data, isLoading } = useQuery<{ data: ProfileData }>({
     queryKey: ['profileInfo', profileName],
