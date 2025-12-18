@@ -11,6 +11,7 @@ import { ProfileData } from '../page';
 import { profile } from 'console';
 import React from 'react';
 
+
 import { useParams } from 'next/navigation';
 
 export default function ProfileOverviewOther() {
@@ -22,7 +23,9 @@ export default function ProfileOverviewOther() {
     enabled: !!profileName
   });
 
+
   const profileData = data?.data;
+
   const { colorMode } = useColorMode();;
 
   if (isLoading) {
@@ -33,7 +36,6 @@ export default function ProfileOverviewOther() {
     );
   }
 
-  console.log(profileData)
 
   return (
     <Box pt={{ base: '130px', md: '80px', xl: '80px' }}>

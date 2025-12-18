@@ -45,7 +45,6 @@ export default function Dashboard() {
     else {
       localStorage.setItem('token', TokenParam);
     }
-    console.log('Haha')
     if (localStorage.getItem('token')) {
       fetchLoggedInBasicDetails();
       axios.post(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/events/register?eventName=${encodeURIComponent(`${process.env.NEXT_PUBLIC_EVENT_NAME}`)}`,{},{
