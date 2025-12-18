@@ -33,6 +33,8 @@ async function fetchProgress(eventName: string) {
   return json as ParticipantSeries[];
 }
 
+const timeframe = 10;
+
 const genDates = (start: string, end: string) => {
   const res: string[] = [];
   let cur = new Date(start);
@@ -62,7 +64,7 @@ const genTenMinSlots = (dayIso: string) => {
   // dayIso expected as YYYY-MM-DD (use UTC day start to match backend ISO timestamps)
   const slots: string[] = [];
   const dayStart = new Date(`${dayIso}T00:00:00.000Z`);
-  for (let mins = 0; mins < 24 * 60; mins += 15) {
+  for (let mins = 0; mins < 24 * 60; mins += timeframe) {
     const d = new Date(dayStart.getTime() + mins * 60 * 1000);
     slots.push(d.toISOString());
   }
@@ -234,7 +236,7 @@ export default function LeaderboardGraph({ eventName, topN = 10, startDate, endD
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 8 }}>
         <div>
           <button onClick={() => setMode('daily')} style={{ marginRight: 8, padding: '6px 10px', background: mode === 'daily' ? '#0369a1' : '#e5e7eb', color: mode === 'daily' ? '#fff' : '#111', border: 'none', borderRadius: 6 }}>30 Days</button>
-          <button onClick={() => setMode('tenMin')} style={{ padding: '6px 10px', background: mode === 'tenMin' ? '#0369a1' : '#e5e7eb', color: mode === 'tenMin' ? '#fff' : '#111', border: 'none', borderRadius: 6 }}>Single Day (60m)</button>
+          <button onClick={() => setMode('tenMin')} style={{ padding: '6px 10px', background: mode === 'tenMin' ? '#0369a1' : '#e5e7eb', color: mode === 'tenMin' ? '#fff' : '#111', border: 'none', borderRadius: 6 }}>Single Day ({timeframe}m)</button>
         </div>
         {mode === 'tenMin' && (
           <div style={{ display: 'flex', gap: 8, alignItems: 'center' }}>

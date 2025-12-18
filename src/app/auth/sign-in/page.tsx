@@ -63,7 +63,7 @@ export default function SignIn() {
             fontWeight="400"
             fontSize="md"
           >
-            Sign In with GitHub! Sign In Now!
+            Sign In with GitHub! 
           </Text>
         </Box>
         <Flex

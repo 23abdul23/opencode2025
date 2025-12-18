@@ -1,14 +1,12 @@
-import { useAuth } from "contexts/AuthContext";
-
 export async function fetchLoggedInBasicDetails() {
   const token = localStorage.getItem('token');
-  const auth = useAuth();
-
   console.log('Fetched Token:', token);
 
   if (token === null) {
     console.log('No token found, redirecting to login.');
-    // auth.check_login();
+    // NOTE: cannot call hooks (useAuth) from non-component functions.
+    // If you need to trigger an auth check here, call `auth.check_login()` from a component instead.
+    return null;
   } 
   else {
     const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/participant/`, {

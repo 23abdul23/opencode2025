@@ -1,3 +1,4 @@
+'use client'
 // Chakra imports
 import { Box, Flex, Text, useColorModeValue } from '@chakra-ui/react';
 import Card from 'components/card/Card';
@@ -47,15 +48,7 @@ export default function Banner(props: {
       alignItems="center"
       {...rest}
     >
-      <Box
-        bg={banner}
-        bgSize="cover"
-        borderRadius="16px"
-        h="100%"
-        w="100%"
-        opacity={0.5}
-        position={'absolute'}
-      />
+      
       <NextAvatar
         mx="auto"
         src={avatar}
@@ -64,7 +57,7 @@ export default function Banner(props: {
         mt="-43px"
         border="4px solid"
         borderColor={borderColor}
-        postion="relative"
+        position="relative"
         top="10px"
       />
       <Text color={textColorPrimary} fontWeight="bold" fontSize="xl" mt="10px">

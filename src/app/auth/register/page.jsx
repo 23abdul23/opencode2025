@@ -36,6 +36,7 @@ export default function SignIn() {
     githubId: '',
     graduationYear: '',
     avatarUrl: '',
+    year: '', // added new field
   });
 
   const toast = useToast();
@@ -267,7 +268,6 @@ export default function SignIn() {
                   display="flex"
                   ms="4px"
                   fontSize="sm"
-                  name="college"
                   fontWeight="500"
                   color={textColor}
                   mb="8px"
@@ -337,7 +337,7 @@ export default function SignIn() {
                   type="number"
                   name="graduationYear"
                   onChange={handleChange}
-                  placeholder="2026"
+                  placeholder="2028"
                   mb="24px"
                   fontWeight="500"
                   size="lg"
@@ -373,34 +373,43 @@ export default function SignIn() {
               </FormControl>
             </Flex>
 
-            {/* <Flex justifyContent="space-between" align="center" mb="24px">
-              <FormControl display="flex" alignItems="center">
-                <Checkbox
-                  id="remember-login"
-                  colorScheme="brandScheme"
-                  me="10px"
-                />
+            {/* NEW: Year select */}
+            <Flex justifyContent="space-between" align="center" gap={6}>
+              <FormControl>
                 <FormLabel
-                  htmlFor="remember-login"
-                  mb="0"
-                  fontWeight="normal"
-                  color={textColor}
+                  display="flex"
+                  ms="4px"
                   fontSize="sm"
-                >
-                  Keep me logged in
-                </FormLabel>
-              </FormControl>
-              <Link href="/auth/forgot-password">
-                <Text
-                  color={textColorBrand}
-                  fontSize="sm"
-                  w="124px"
                   fontWeight="500"
+                  color={textColor}
+                  mb="8px"
                 >
-                  Forgot password?
-                </Text>
-              </Link>
-            </Flex> */}
+                  Year<Text color={brandStars}>*</Text>
+                </FormLabel>
+                <Select
+                  placeholder="Select Year"
+                  isRequired={true}
+                  variant="auth"
+                  name="year"
+                  value={formData.year}
+                  fontSize="sm"
+                  onChange={handleChange}
+                  ms={{ base: '0px', md: '0px' }}
+                  mb="24px"
+                  fontWeight="500"
+                  size="lg"
+                  required
+                >
+                  <option value="School">School</option>
+                  <option value="1st Year">1st Year</option>
+                  <option value="2nd Year">2nd Year</option>
+                  <option value="3rd Year">3rd Year</option>
+                  <option value="4th Year">4th Year</option>
+                  <option value="Passout">Passout</option>
+                </Select>
+              </FormControl>
+            </Flex>
+
             {/* <Link href="/admin/home"> */}
             <Button
               fontSize="sm"
