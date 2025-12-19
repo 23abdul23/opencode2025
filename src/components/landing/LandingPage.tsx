@@ -1,7 +1,7 @@
 'use client';
 
 import Link from "next/link";
-import { SparklesIcon } from "lucide-react";
+import { SparklesIcon, Users, Star, Github, ArrowRight } from "lucide-react";
 import PixelBlast from "./PixelBlast";
 
 const OpenCodeHero = () => {
@@ -46,8 +46,8 @@ const OpenCodeHero = () => {
       </div>
 
     
-      <div className="relative z-20 flex flex-col items-center justify-center text-center px-6 md:px-20 pt-32 pb-20 w-full">
-        <div className="max-w-4xl flex flex-col items-center gap-6">
+      <div className="relative z-20 flex flex-col md:flex-row items-center justify-center text-center md:items-start md:justify-center px-6 md:px-20 pt-32 pb-20 w-full gap-8">
+        <div className="max-w-4xl flex flex-col items-center gap-6 md:items-start md:text-left">
 
   
           <div className="flex items-center gap-3 px-6 py-3 rounded-full border border-white/10 bg-white/5 backdrop-blur-md">
@@ -97,6 +97,61 @@ const OpenCodeHero = () => {
           </div>
 
         </div>
+        {/* Sidebar - visible on md+ */}
+        <aside className="hidden md:flex flex-col w-80 p-5 rounded-2xl border border-white/6 bg-gradient-to-br from-white/5 to-white/2 backdrop-blur-lg text-white">
+          <div className="flex items-center gap-4">
+            <div className="w-14 h-14 rounded-xl bg-gradient-to-br from-[#7551FF] to-[#E9E3FF] flex items-center justify-center text-black font-bold text-lg">OC</div>
+            <div>
+              <h3 className="text-lg font-semibold">OpenCode</h3>
+              <p className="text-xs text-white/70">Join projects, earn stars, and grow.</p>
+            </div>
+          </div>
+
+          <div className="mt-4 flex gap-3 text-sm">
+            <div className="flex-1 p-3 rounded-lg bg-white/5 text-center">
+              <div className="text-xs text-white/70">Participants</div>
+              <div className="mt-1 font-semibold flex items-center justify-center gap-2"><Users className="w-4 h-4" /> 1.2k</div>
+            </div>
+            <div className="flex-1 p-3 rounded-lg bg-white/5 text-center">
+              <div className="text-xs text-white/70">Repos</div>
+              <div className="mt-1 font-semibold flex items-center justify-center gap-2"><Github className="w-4 h-4" /> 420</div>
+            </div>
+          </div>
+
+          <div className="mt-4 p-3 rounded-lg bg-white/3">
+            <div className="flex items-center justify-between">
+              <div className="text-xs text-white/70">Top Projects</div>
+              <div className="text-xs text-white/60">Updated</div>
+            </div>
+            <ul className="mt-3 space-y-2">
+              <li className="flex items-center justify-between text-sm">
+                <div className="flex items-center gap-2">
+                  <span className="w-6 h-6 rounded bg-white/6 flex items-center justify-center text-xs">#</span>
+                  <span>Web Starter</span>
+                </div>
+                <div className="text-white/70 flex items-center gap-1"><Star className="w-4 h-4 text-yellow-300"/> 1.5k</div>
+              </li>
+              <li className="flex items-center justify-between text-sm">
+                <div className="flex items-center gap-2">
+                  <span className="w-6 h-6 rounded bg-white/6 flex items-center justify-center text-xs">#</span>
+                  <span>Design System</span>
+                </div>
+                <div className="text-white/70 flex items-center gap-1"><Star className="w-4 h-4 text-yellow-300"/> 980</div>
+              </li>
+            </ul>
+          </div>
+
+          <div className="mt-4 flex gap-2">
+            <Link href="/leaderboard">
+              <button className="flex-1 px-3 py-2 rounded-full bg-gradient-to-r from-[#7551FF] to-[#E9E3FF] font-semibold text-black flex items-center justify-center gap-2">
+                Explore Projects <ArrowRight className="w-4 h-4" />
+              </button>
+            </Link>
+            <Link href="/auth/sign-in">
+              <button className="px-3 py-2 rounded-full border border-white/10">Sign In</button>
+            </Link>
+          </div>
+        </aside>
       </div>
     </section>
   );

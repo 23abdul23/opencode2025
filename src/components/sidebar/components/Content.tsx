@@ -1,34 +1,56 @@
-// chakra imports
-import { Box, Flex, Stack } from '@chakra-ui/react';
-//   Custom components
+// Chakra imports
+import { Box, Flex, Stack, Divider } from '@chakra-ui/react';
+// Custom components
 import Brand from 'components/sidebar/components/Brand';
 import Links from 'components/sidebar/components/Links';
-import SidebarCard from 'components/sidebar/components/SidebarCard';
+// import SidebarCard from 'components/sidebar/components/SidebarCard';
 import { IRoute } from 'types/navigation';
 
-// FUNCTIONS
-
 interface SidebarContentProps {
-	routes: IRoute[];
+  routes: IRoute[];
 }
 
 function SidebarContent(props: SidebarContentProps) {
-	const { routes } = props;
-	// SIDEBAR
-	return (
-		<Flex direction='column' height='100%' pt='25px' borderRadius='30px'>
-			<Brand />
-			<Stack direction='column' mt='8px' mb='auto'>
-				<Box ps='20px' pe={{ lg: '16px', '2xl': '16px' }}>
-					<Links routes={routes} />
-				</Box>
-			</Stack>
+  const { routes } = props;
 
-			<Box ps='20px' pe={{ lg: '16px', '2xl': '20px' }} mt='60px' mb='40px' borderRadius='30px'>
-				{/* <SidebarCard /> */}
-			</Box>
-		</Flex>
-	);
+  return (
+    <Flex
+      direction="column"
+      h="100%"
+      pt="20px"
+      pb="20px"
+    >
+      {/* Brand Section */}
+      <Brand />
+
+      {/* Navigation Links */}
+      <Stack
+        direction="column"
+        spacing="6px"
+        mt="4px"
+        mb="auto"
+      >
+        <Box
+          px="16px"
+        >
+          <Links routes={routes} />
+        </Box>
+      </Stack>
+
+
+      <Box
+        px="16px"
+        mt="40px"
+        mb="20px"
+        opacity={0.9}
+      >
+        {/* 
+          Optional future use:
+          <SidebarCard />
+        */}
+      </Box>
+    </Flex>
+  );
 }
 
 export default SidebarContent;

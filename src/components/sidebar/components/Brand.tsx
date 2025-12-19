@@ -1,5 +1,10 @@
 // Chakra imports
-import { Flex, Text, Image, useColorModeValue, Box } from '@chakra-ui/react';
+import {
+  Flex,
+  Text,
+  Box,
+  useColorModeValue,
+} from '@chakra-ui/react';
 import Link from 'next/link';
 
 // Custom components
@@ -7,25 +12,70 @@ import { HorizonLogo } from 'components/icons/Icons';
 import { HSeparator } from 'components/separator/Separator';
 
 export function SidebarBrand() {
-  // Use useColorModeValue to set logoColor with the gradient
-  let logoColor = useColorModeValue('navy.700', 'white');
+  const textColor = useColorModeValue('gray.800', 'white');
+  const mutedText = useColorModeValue('gray.500', 'gray.400');
+  const accentColor = 'purple.500';
+
   return (
-    <Flex alignItems="center" flexDirection="column">
+    <Flex
+      align="center"
+      direction="column"
+      py="24px"
+      px="16px"
+    >
       <Link href="/user/home">
-        <Box cursor="pointer">
-          <HorizonLogo h="80px" w="80px" color={logoColor} />
+        <Box cursor="pointer" textAlign="center">
+          
+          <Box mb="12px">
+            <HorizonLogo h="70px" w="70px" color={textColor} />
+          </Box>
+
+        
+          <Box position="relative" display="inline-block">
+            <Text
+              fontSize="22px"
+              fontWeight="800"
+              letterSpacing="-0.8px"
+              color={textColor}
+            >
+              Geekhaven Events
+            </Text>
+
+        
+            <Flex
+              position="absolute"
+              right="0"
+              bottom="-6px"
+              align="center"
+              gap="6px"
+            >
+              <Box
+                w="22px"
+                h="2.5px"
+                bg={accentColor}
+                borderRadius="full"
+              />
+              <Box
+                w="5px"
+                h="5px"
+                bg={accentColor}
+                borderRadius="full"
+              />
+            </Flex>
+          </Box>
+
+    
+          <Text
+            fontSize="12px"
+            color={mutedText}
+            mt="10px"
+          >
+            Open source • Events • Community
+          </Text>
         </Box>
       </Link>
 
-
-      <Link href="/user/home">
-        <Text fontSize="3xl" fontWeight="bold" cursor="pointer">
-          Geekhaven Events
-        </Text>
-      </Link>
-
-
-      <HSeparator mb="20px" />
+      <HSeparator my="24px" />
     </Flex>
   );
 }
