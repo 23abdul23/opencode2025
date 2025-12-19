@@ -86,7 +86,7 @@ const OpenCodeHero = () => {
               </button>
             </Link>
 
-            <Link href="https://opencode.geekahven.in">
+            <Link href="https://opencode.geekhaven.in">
               <button
                 className="px-8 py-3 rounded-full font-semibold text-white
                            border border-white/20 hover:bg-white/10 transition"

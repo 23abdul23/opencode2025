@@ -13,6 +13,7 @@ import React from 'react';
 import { RingLoader } from 'react-spinners';
 import { FetchedLeaderboard } from '../../../../api/leaderboard/leaderboard';
 import { FaUsers } from 'react-icons/fa';
+import LeaderboardLoader from 'components/common/LeaderboardLoader';
 
 export default function EventName() {
   const { eventName } = useParams<{ eventName: string }>();
@@ -33,9 +34,7 @@ export default function EventName() {
 
   if (isLoading) {
     return (
-      <Flex justify="center" align="center" h="100vh">
-        <RingLoader color="#7551FF" />
-      </Flex>
+      <LeaderboardLoader />
     );
   }
 

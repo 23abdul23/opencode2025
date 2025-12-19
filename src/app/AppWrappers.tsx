@@ -1,13 +1,15 @@
 'use client';
-import React, { ReactNode } from 'react';
+import React, { ReactNode, useEffect, useState } from 'react';
 import 'styles/App.css';
 import 'styles/Contact.css';
 import 'styles/MiniCalendar.css';
 import { ChakraProvider } from '@chakra-ui/react';
 import { AuthProvider } from 'contexts/AuthContext';
 import theme from 'theme/theme';
+import InitialLoader from 'components/common/InitialLoader';
 
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { usePathname } from 'next/navigation';
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -19,12 +21,58 @@ const queryClient = new QueryClient({
 });
 
 export default function AppWrappers({ children }: { children: ReactNode }) {
+  const [isLoading, setIsLoading] = useState(true);
+  const [isExiting, setIsExiting] = useState(false);
+  const [hasLoaded, setHasLoaded] = useState(false);
+  const [minTimeReached, setMinTimeReached] = useState(false);
+  const [animationDone, setAnimationDone] = useState(false);
+  const pathname = usePathname();
+  const initialVariant =
+    pathname && pathname.startsWith('/user/leaderboard') ? 'trophy' : 'seo';
+
+  useEffect(() => {
+    let timer: ReturnType<typeof setTimeout> | null = null;
+    const MIN_DURATION_MS = 3000;
+
+    if (document.readyState === 'complete') {
+      setHasLoaded(true);
+      timer = setTimeout(() => setMinTimeReached(true), MIN_DURATION_MS);
+      return () => {
+        if (timer) clearTimeout(timer);
+      };
+    }
+
+    const handleLoad = () => {
+      setHasLoaded(true);
+      timer = setTimeout(() => setMinTimeReached(true), MIN_DURATION_MS);
+    };
+    window.addEventListener('load', handleLoad);
+    return () => {
+      window.removeEventListener('load', handleLoad);
+      if (timer) clearTimeout(timer);
+    };
+  }, []);
+
+  useEffect(() => {
+    if (!hasLoaded || !minTimeReached || !animationDone) return;
+    setIsExiting(true);
+    const timer = setTimeout(() => setIsLoading(false), 350);
+    return () => clearTimeout(timer);
+  }, [hasLoaded, minTimeReached, animationDone]);
+
   return (
     <QueryClientProvider client={queryClient}>
       <AuthProvider>
         <ChakraProvider theme={theme}>{children}</ChakraProvider>
         {/* <ReactQueryDevtools initialIsOpen={false} /> */}
       </AuthProvider>
+      {isLoading && (
+        <InitialLoader
+          isExiting={isExiting}
+          onComplete={() => setAnimationDone(true)}
+          variant={initialVariant}
+        />
+      )}
     </QueryClientProvider>
   );
 }

@@ -16,7 +16,7 @@ import {
 } from "@chakra-ui/react";
 import * as React from "react";
 import { FaTrophy } from "react-icons/fa";
-import Confetti from "react-confetti";
+import Snowfall from "react-snowfall";
 
 import {
   createColumnHelper,
@@ -249,12 +249,15 @@ export default function ColumnTable(props: {
         )}
       </Card>
 
-      <Confetti
-        width={width}
-        height={height}
-        numberOfPieces={600}
-        recycle={false}
-      />
+      <Box position="fixed" inset={0} pointerEvents="none" zIndex={1}>
+        <Snowfall
+          width={width}
+          height={height}
+          snowflakeCount={140}
+          color="rgba(176, 144, 255, 0.85)"
+          style={{ filter: "drop-shadow(0 0 6px rgba(124, 58, 237, 0.35))" }}
+        />
+      </Box>
     </>
   );
 }
