@@ -19,10 +19,21 @@ import { SunIcon, MoonIcon } from "@chakra-ui/icons";
 import { gsap } from "gsap";
 import { useAuth } from "contexts/AuthContext";
 import { useRouter } from "next/navigation";
+import { SidebarResponsive } from "components/sidebar/Sidebar";
+import { IRoute } from "types/navigation";
 
-export default function AdminNavbar(props: {
+interface AdminNavbarProps {
   brandText: string;
-}) {
+  onOpen?: () => void;
+  logoText?: string;
+  secondary?: boolean;
+  message?: string | boolean;
+  fixed?: boolean;
+  routes?: IRoute[];
+}
+
+export default function AdminNavbar(props: AdminNavbarProps) {
+  const { routes } = props;
   const { colorMode, toggleColorMode } = useColorMode();
   const [name, setName] = useState("Guest");
   const [avatarUrl, setAvatarUrl] = useState<string | undefined>(undefined);
@@ -81,41 +92,54 @@ export default function AdminNavbar(props: {
     <Box
       ref={navRef}
       position="fixed"
-  top="0"
-  left={{ base: "0", xl: "300px" }}
-  right="0"
-  h="110px"
-  px={{ base: "20px", md: "40px" }}
-  pt="22px"
-  zIndex="20"
-  bgGradient={navbarBg}
+      top="0"
+      left={{ base: "0", xl: "300px" }}
+      right="0"
+      h={{ base: "auto", md: "110px" }}
+      px={{ base: "16px", md: "40px" }}
+      pt={{ base: "14px", md: "22px" }}
+      pb={{ base: "12px", md: "0px" }}
+      zIndex="20"
+      bgGradient={navbarBg}
     >
-      <Flex justify="space-between" align="flex-start">
+      <Flex
+        justify="space-between"
+        align="center"
+        flexWrap="wrap"
+        gap={{ base: "10px", md: "0" }}
+      >
         {/* LEFT */}
-        <Box data-nav-animate>
-          <Flex align="center" gap="10px">
-            <Text fontSize="30px">Hi!</Text>
+        <Box data-nav-animate flex="1" minW="0">
+          <Flex align="center" gap="10px" flexWrap="wrap">
+            <Text fontSize={{ base: "20px", md: "30px" }}>Hi!</Text>
             <Text
-              fontSize={{ base: "34px", md: "40px" }}
+              fontSize={{ base: "26px", sm: "30px", md: "40px" }}
               fontWeight="900"
               color="purple.500"
               lineHeight="1"
+              noOfLines={1}
             >
               {name}
             </Text>
           </Flex>
 
           <Text
-            fontSize="14px"
+            fontSize={{ base: "12px", md: "14px" }}
             color={subtitleColor}
-            mt="6px"
+            mt="4px"
+            noOfLines={1}
           >
             Welcome to OPENCODE
           </Text>
         </Box>
 
         {/* RIGHT */}
-        <Flex align="center" gap="14px" data-nav-animate>
+        <Flex align="center" gap="12px" data-nav-animate>
+          {routes && (
+            <Box display={{ base: "flex", xl: "none" }}>
+              <SidebarResponsive routes={routes} />
+            </Box>
+          )}
          <IconButton
   aria-label="Toggle theme"
   icon={colorMode === "light" ? <MoonIcon /> : <SunIcon />}

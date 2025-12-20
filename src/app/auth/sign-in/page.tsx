@@ -48,16 +48,16 @@ export default function SignIn() {
         alignItems="start"
         justifyContent="center"
         mb={{ base: '30px', md: '60px' }}
-        px={{ base: '25px', md: '0px' }}
+        px={{ base: '10px', md: '0px' }}
         mt={{ base: '40px', md: '14vh' }}
         flexDirection="column"
       >
         <Box me="auto">
-          <Heading color={textColor} fontSize="36px" mb="10px">
+          <Heading color={textColor} fontSize={{ base: '28px', md: '36px' }} mb="10px">
             Sign In
           </Heading>
           <Text
-            mb="36px"
+            mb="28px"
             ms="4px"
             color={textColorSecondary}
             fontWeight="400"
@@ -91,6 +91,7 @@ export default function SignIn() {
             _active={googleActive}
             _focus={googleActive}
             onClick={handleLoginWithGitHub}
+            w="100%"
           >
             <Icon as={FaGithub} w="20px" h="20px" me="10px" />
             Sign in with Github

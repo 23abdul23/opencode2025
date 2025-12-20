@@ -66,8 +66,14 @@ export default function Dashboard() {
   return (
     <>
       {events?.map((event: any, index: number) => (
-      <Box pt={{ base: '110px', md: '80px', xl: '80px' }} key={index}  borderRadius="100px" >
-      <Box key={event.name} position="relative" h={{ base: '80vh', md: '80vh' }} overflow="hidden"  borderRadius="10px">
+      <Box pt={{ base: '90px', md: '80px', xl: '80px' }} key={index}>
+      <Box
+        key={event.name}
+        position="relative"
+        minH={{ base: '70vh', md: '80vh' }}
+        overflow="hidden"
+        borderRadius={{ base: '16px', md: '20px' }}
+      >
         <Box
           position="absolute"
           top="0"
@@ -85,29 +91,37 @@ export default function Dashboard() {
         />
         <Box
           position="absolute"
-          top={{ base: '70%', md: '70%' }}
+          top={{ base: '62%', md: '70%' }}
           left="50%"
           transform="translate(-50%, -50%)"
           textAlign="center"
           zIndex="2"
           color="white"
+          px={{ base: '16px', md: '0' }}
+          maxW={{ base: '320px', md: '600px' }}
         >
-          {/* <Text fontSize={{ base: '2xl', md: '4xl' }} fontWeight="bold" mb="4">
+          <Text fontSize={{ base: '2xl', md: '4xl' }} fontWeight="bold" mb="3">
             {event.name}
           </Text>
-          <Text fontSize={{ base: 'md', md: 'xl' }}>{event.description}</Text> */}
+          <Text fontSize={{ base: 'sm', md: 'xl' }}>{event.description}</Text>
         </Box>
         <Box
           position="absolute"
-          bottom="8"
+          bottom={{ base: '6', md: '8' }}
           left="50%"
           transform="translateX(-50%)"
           zIndex="2"
           textAlign="center"
+          w={{ base: '100%', sm: 'auto' }}
+          px={{ base: '16px', sm: '0' }}
         >
           {!auth.isLoggedIn && (
             <Link href="/auth/sign-in">
-              <Button colorScheme="teal" mb={{ base: '4', md: '0' }} mr={{ base: '0', md: '4' }} 
+              <Button
+               w={{ base: '100%', sm: 'auto' }}
+               colorScheme="teal"
+               mb={{ base: '3', sm: '0' }}
+               mr={{ base: '0', sm: '3' }}
                bg="linear-gradient(to right, #001f3f, #003366)"
                _hover={{ bg: 'linear-gradient(to right, #001a33, #001f3f)' }}
                color="white">
@@ -116,12 +130,13 @@ export default function Dashboard() {
             </Link>
           )}
           <Button
-  colorScheme="teal"
-  onClick={() => handleLeaderboardclick(event.name)}
-  bg="linear-gradient(to right, #190793, #003366)"
-  _hover={{ bg: 'linear-gradient(to right, #001a33, #001f3f)' }}
-  color="white"
->
+            w={{ base: '100%', sm: 'auto' }}
+            colorScheme="teal"
+            onClick={() => handleLeaderboardclick(event.name)}
+            bg="linear-gradient(to right, #001f3f, #003366)"
+            _hover={{ bg: 'linear-gradient(to right, #001a33, #001f3f)' }}
+            color="white"
+          >
             Leaderboard
           </Button>
         </Box>

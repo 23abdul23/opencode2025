@@ -1,12 +1,23 @@
 'use client';
 
 import Link from "next/link";
+import Image from "next/image";
 import { SparklesIcon, Users, Star, Github, ArrowRight } from "lucide-react";
 import PixelBlast from "./PixelBlast";
 import { FaGithub } from 'react-icons/fa';
 import {Icon} from '@chakra-ui/react';
+import { useEffect, useState } from "react";
 
 const OpenCodeHero = () => {
+  const [isCompact, setIsCompact] = useState(false);
+
+  useEffect(() => {
+    const update = () => setIsCompact(window.innerWidth < 768);
+    update();
+    window.addEventListener("resize", update);
+    return () => window.removeEventListener("resize", update);
+  }, []);
+
   const handleLoginWithGitHub = () => {
     window.location.assign(
       `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/auth/github`,
@@ -16,16 +27,16 @@ const OpenCodeHero = () => {
   return (
     <section
       id="opencode"
-      className="relative flex justify-center w-full min-h-[650px] md:min-h-screen overflow-hidden bg-[#0b1437]"
+      className="relative flex justify-center w-full min-h-screen overflow-hidden bg-[#0b1437]"
     >
 
       <div
         className="absolute inset-0 z-10"
-        style={{ height: "140%", top: "-260px" }}
+        style={{ height: isCompact ? "150%" : "140%", top: isCompact ? "-200px" : "-260px" }}
       >
         <PixelBlast
           variant="square"
-          pixelSize={6}
+          pixelSize={isCompact ? 4 : 6}
           color="#7551FF"
           patternScale={3}
           patternDensity={1.1}
@@ -54,41 +65,41 @@ const OpenCodeHero = () => {
       </div>
 
     
-      <div className="relative z-20 flex flex-col md:flex-row items-center justify-center text-center md:items-start md:justify-center px-6 md:px-20 pt-32 pb-20 w-full gap-8">
+      <div className="relative z-20 flex flex-col md:flex-row items-center justify-center text-center md:items-start md:justify-center px-5 sm:px-8 md:px-20 pt-24 sm:pt-28 md:pt-32 pb-20 w-full gap-10">
         <div className="max-w-4xl flex flex-col items-center gap-6 md:items-start md:text-left">
 
   
-          <div className="flex items-center gap-3 px-6 py-3 rounded-full border border-white/10 bg-white/5 backdrop-blur-md">
+          <div className="flex items-center gap-3 px-5 sm:px-6 py-2.5 sm:py-3 rounded-full border border-white/10 bg-white/5 backdrop-blur-md">
             <SparklesIcon className="h-5 w-5 text-[#E9E3FF]" />
-            <span className="text-xs md:text-sm text-white font-medium">
+            <span className="text-[11px] sm:text-xs md:text-sm text-white font-medium">
               A Month-Long Open-Source Event!
             </span>
           </div>
 
         
           <h1 className="font-bold leading-tight text-white">
-            <span className="block text-[22px] md:text-[34px]">
+            <span className="block text-[20px] sm:text-[24px] md:text-[34px]">
               Welcome to
             </span>
-            <span className="block text-[42px] md:text-[72px] text-transparent bg-clip-text bg-gradient-to-r from-[#7551FF] to-[#E9E3FF]">
+            <span className="block text-[40px] sm:text-[48px] md:text-[72px] text-transparent bg-clip-text bg-gradient-to-r from-[#7551FF] to-[#E9E3FF]">
               OpenCode
             </span>
           </h1>
 
   
-          <p className="text-[16px] md:text-lg text-[#E0E5F2] max-w-[720px]">
+          <p className="text-[15px] sm:text-[16px] md:text-lg text-[#E0E5F2] max-w-[720px]">
             OpenCode is a month-long open-source journey where students learn by
             building real projects, collaborating with mentors, and contributing
             to impactful codebases.
           </p>
 
         
-          <div className="flex flex-col sm:flex-row gap-4 mt-4">
+          <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 mt-4 w-full sm:w-auto">
             {/* <Link href="/auth/sign-in">
               
             </Link> */}
             <button
-              className="px-8 py-3 rounded-full font-semibold text-black
+              className="px-7 sm:px-8 py-3 rounded-full font-semibold text-black
                           bg-gradient-to-r from-[#7551FF] to-[#E9E3FF]
                           hover:scale-105 transition-transform"
               onClick={handleLoginWithGitHub}
@@ -98,7 +109,7 @@ const OpenCodeHero = () => {
 
             <Link href="https://opencode.geekhaven.in">
               <button
-                className="px-8 py-3 rounded-full font-semibold text-white
+                className="px-7 sm:px-8 py-3 rounded-full font-semibold text-white
                            border border-white/20 hover:bg-white/10 transition"
               >
                 Learn More
@@ -107,10 +118,18 @@ const OpenCodeHero = () => {
           </div>
 
         </div>
-        {/* Sidebar - visible on md+ */}
-        <aside className="hidden md:flex flex-col w-80 p-5 rounded-2xl border border-white/6 bg-gradient-to-br from-white/5 to-white/2 backdrop-blur-lg text-white">
+        {/* Sidebar Card */}
+        <aside className="flex flex-col w-full max-w-[360px] md:w-80 p-5 rounded-2xl border border-white/6 bg-gradient-to-br from-white/5 to-white/2 backdrop-blur-lg text-white md:mt-4 mt-2">
           <div className="flex items-center gap-4">
-            <div className="w-14 h-14 rounded-xl bg-gradient-to-br from-[#7551FF] to-[#E9E3FF] flex items-center justify-center text-black font-bold text-lg">OC</div>
+            <div className="w-14 h-14 rounded-xl bg-gradient-to-br from-[#7551FF] to-[#E9E3FF] flex items-center justify-center">
+              <Image
+                src="/img/avatars/opencodelogo.png"
+                alt="OpenCode"
+                width={36}
+                height={36}
+                className="h-9 w-9 object-contain"
+              />
+            </div>
             <div>
               <h3 className="text-lg font-semibold">OpenCode</h3>
               <p className="text-xs text-white/70">Join projects, earn stars, and grow.</p>
@@ -151,9 +170,9 @@ const OpenCodeHero = () => {
             </ul>
           </div> */}
 
-          <div className=" ml-10 mt-8 flex gap-2 ">
+          <div className="mt-6 flex gap-2">
             <Link href="https://github.com/OpenCode2025">
-              <button className="flex-1 px-3 py-2 rounded-full bg-gradient-to-r from-[#7551FF] to-[#E9E3FF] font-semibold text-black flex items-center justify-center gap-2">
+              <button className="w-full px-3 py-2 rounded-full bg-gradient-to-r from-[#7551FF] to-[#E9E3FF] font-semibold text-black flex items-center justify-center gap-2">
                 Explore Projects <ArrowRight className="w-4 h-4" />
               </button>
             </Link>

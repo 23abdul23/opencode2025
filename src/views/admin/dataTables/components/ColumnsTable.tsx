@@ -193,15 +193,16 @@ export default function ColumnTable(props: {
       <Card
         w="100%"
         px={{ base: "16px", md: "24px" }}
-        py="20px"
+        py={{ base: "16px", md: "20px" }}
         borderRadius="20px"
         bg={glassBg}
         backdropFilter="blur(18px)"
         boxShadow="0 20px 50px rgba(0,0,0,0.08)"
       >
+        {/* Header */}
         <Flex
           justify="space-between"
-          align="flex-start"
+          align={{ base: "flex-start", md: "center" }}
           mb="20px"
           direction={{ base: "column", md: "row" }}
           gap={{ base: "12px", md: "0" }}
@@ -218,70 +219,63 @@ export default function ColumnTable(props: {
           <Button
             size="sm"
             borderRadius="full"
+            w={{ base: "100%", md: "auto" }}
             onClick={() => setShowProgress(!showProgress)}
           >
             {showProgress ? "Show Graph" : "Show Leaderboard"}
           </Button>
         </Flex>
 
-        {showProgress ? (
-          <Box overflowX={{ base: "auto", md: "visible" }}>
-            <Table variant="unstyled" minW={{ base: "720px", md: "100%" }}>
-              <Thead>
-                {table.getHeaderGroups().map((hg) => (
-                  <Tr key={hg.id}>
-                    {hg.headers.map((header) => (
-                      <Th
-                        key={header.id}
-                        fontSize="11px"
-                        textTransform="uppercase"
-                        color="gray.400"
-                        display={
-                          header.column.id === "prmerged"
-                            ? { base: "none", md: "table-cell" }
-                            : "table-cell"
-                        }
-                      >
-                        {flexRender(
-                          header.column.columnDef.header,
-                          header.getContext()
-                        )}
-                      </Th>
-                    ))}
-                  </Tr>
-                ))}
-              </Thead>
+        {/* Table */}
+        {showProgress && (
+          <Box overflowX="auto">
+            <Table variant="unstyled" minW="720px">
+            <Thead>
+            {table.getHeaderGroups().map((hg) => (
+              <Tr key={hg.id}>
+                  {hg.headers.map((header) => (
+                    <Th
+                      key={header.id}
+                      fontSize="11px"
+                      textTransform="uppercase"
+                      color="gray.400"
+                      px={{ base: "10px", md: "16px" }}
+                    >
+                      {flexRender(
+                        header.column.columnDef.header,
+                        header.getContext()
+                      )}
+                    </Th>
+                  ))}
+                </Tr>
+              ))}
+            </Thead>
 
-              <Tbody ref={tbodyRef}>
-                {table.getRowModel().rows.map((row) => (
-                  <Tr
-                    key={row.id}
-                    data-row-id={row.id}
-                    _hover={{ bg: rowHover }}
-                    transition="background 0.2s ease"
-                  >
-                    {row.getVisibleCells().map((cell) => (
-                      <Td
-                        key={cell.id}
-                        py={{ base: "10px", md: "16px" }}
-                        display={
-                          cell.column.id === "prmerged"
-                            ? { base: "none", md: "table-cell" }
-                            : "table-cell"
-                        }
-                      >
-                        {flexRender(
-                          cell.column.columnDef.cell,
-                          cell.getContext()
-                        )}
-                      </Td>
-                    ))}
-                  </Tr>
-                ))}
-              </Tbody>
-            </Table>
+            <Tbody ref={tbodyRef}>
+              {table.getRowModel().rows.map((row) => (
+                <Tr
+                  key={row.id}
+                  data-row-id={row.id}
+                  data-rank={row.original.position}
+                  _hover={{ bg: rowHover }}
+                  transition="background 0.2s ease"
+                >
+                  {row.getVisibleCells().map((cell) => (
+                    <Td key={cell.id} py="16px" px={{ base: "10px", md: "16px" }}>
+                      {flexRender(
+                        cell.column.columnDef.cell,
+                        cell.getContext()
+                      )}
+                    </Td>
+                  ))}
+                </Tr>
+              ))}
+            </Tbody>
+          </Table>
           </Box>
-        ) : (
+        )}
+
+        {!showProgress && (
           <LeaderboardGraph
             eventName={decodeURIComponent(eventName)}
             topN={5}

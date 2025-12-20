@@ -93,7 +93,7 @@ export default function AdminLayout(props: DashboardLayoutProps) {
   if (!mounted) return null;
 
   return (
-    <Box h="100vh" w="100vw" bg={bg}>
+    <Box minH="100vh" w="100%" bg={bg}>
       <SidebarContext.Provider
         value={{
           toggleSidebar,
@@ -104,12 +104,11 @@ export default function AdminLayout(props: DashboardLayoutProps) {
         <Box
           float="right"
           minHeight="100vh"
-          height="100%" 
+          height="100%"
           overflowX="hidden"
           position="relative"
-          maxHeight="100%"
-          w={{ base: '100%', xl: 'calc( 100% - 290px )' }}
-          maxWidth={{ base: '100%', xl: 'calc( 100% - 290px )' }}
+          w={{ base: '100%', xl: 'calc(100% - 300px)' }}
+          maxWidth={{ base: '100%', xl: 'calc(100% - 300px)' }}
           transition="all 0.33s cubic-bezier(0.685, 0.0473, 0.346, 1)"
           transitionDuration=".2s, .2s, .35s"
           transitionProperty="top, bottom, width"
@@ -125,6 +124,7 @@ export default function AdminLayout(props: DashboardLayoutProps) {
                   secondary: getActiveNavbar(routes),
                   message: getActiveNavbarText(routes),
                   fixed,
+                  routes: Droutes,
                   ...rest,
                 } as any)}
               />
@@ -133,10 +133,10 @@ export default function AdminLayout(props: DashboardLayoutProps) {
 
           <Box
             mx="auto"
-            p={{ base: '20px', md: '30px' }}
-            pe="20px"
+            p={{ base: '16px', md: '30px' }}
+            pe={{ base: '16px', md: '30px' }}
             minH="100vh"
-            pt="50px"
+            pt={{ base: '120px', md: '110px' }}
           >
             {children}
           </Box>

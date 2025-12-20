@@ -84,7 +84,6 @@ export default function EventName() {
             OPENCODE
           </Text>
 
-          {/* Underline */}
           <Flex
             position="absolute"
             right="0"

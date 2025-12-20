@@ -36,7 +36,7 @@ export default function DataTables() {
   }
 
   return (
-    <Box pt={{ base: '180px', md: '80px', xl: '80px' }}>
+    <Box pt={{ base: '120px', md: '90px', xl: '90px' }}>
       <Grid
         mb="20px"
         gridTemplateColumns={{ xl: 'repeat(2, 1fr)', '2xl': '1fr 0.46fr' }}
@@ -55,7 +55,12 @@ export default function DataTables() {
               direction={{ base: 'column', md: 'row' }}
               align={{ base: 'start', md: 'center' }}
             >
-              <Text color={textColor} fontSize="2xl" ms="24px" fontWeight="700">
+              <Text
+                color={textColor}
+                fontSize={{ base: 'xl', md: '2xl' }}
+                ms={{ base: '0', md: '24px' }}
+                fontWeight="700"
+              >
                 Events
               </Text>
             </Flex>

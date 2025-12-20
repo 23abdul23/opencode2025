@@ -13,19 +13,14 @@ function AuthIllustration(props: {
   const { children, illustrationBackground } = props;
 
   return (
-    <Flex minW="100vh" w="100%" bg={authBg} position="relative" h="max-content">
+    <Flex minH="100vh" w="100%" bg={authBg} position="relative">
       <Flex
-        h={{
-          sm: 'initial',
-          md: 'unset',
-          lg: '100vh',
-          xl: '100vh',
-        }}
-        w={{ base: '100vw', md: '100%' }}
+        minH={{ base: '100vh', lg: '100vh' }}
+        w="100%"
         maxW={{ md: '66%', lg: '1313px' }}
-        mx={{ md: 'auto' }}
-        pt={{ sm: '50px', md: '0px' }}
-        px={{ lg: '30px', xl: '0px' }}
+        mx={{ base: '0', md: 'auto' }}
+        pt={{ base: '40px', md: '0px' }}
+        px={{ base: '20px', md: '30px', xl: '0px' }}
         ps={{ xl: '70px' }}
         justifyContent="start"
         direction="column"

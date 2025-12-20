@@ -121,11 +121,11 @@ export default function SignIn() {
           flexDirection="column"
         >
           <Box me="auto">
-            <Heading color={textColor} fontSize="36px" mb="10px">
+            <Heading color={textColor} fontSize={{ base: '28px', md: '36px' }} mb="10px">
               Register
             </Heading>
             <Text
-              mb="36px"
+              mb="28px"
               ms="4px"
               color={textColorSecondary}
               fontWeight="400"
@@ -145,8 +145,14 @@ export default function SignIn() {
             me="auto"
             mb={{ base: '20px', md: 'auto' }}
           >
-            <Flex justifyContent="space-between" align="center" gap={6}>
-              <FormControl>
+            <Flex
+              w="100%"
+              justifyContent="space-between"
+              align={{ base: 'stretch', md: 'center' }}
+              direction={{ base: 'column', md: 'row' }}
+              gap={{ base: 0, md: 6 }}
+            >
+              <FormControl flex="1">
                 <FormLabel
                   display="flex"
                   ms="4px"
@@ -173,7 +179,7 @@ export default function SignIn() {
                 />
               </FormControl>
 
-              <FormControl>
+              <FormControl flex="1">
                 <FormLabel
                   display="flex"
                   ms="4px"
@@ -201,8 +207,14 @@ export default function SignIn() {
                 />
               </FormControl>
             </Flex>
-            <Flex justifyContent="space-between" align="center" gap={6}>
-              <FormControl>
+            <Flex
+              w="100%"
+              justifyContent="space-between"
+              align={{ base: 'stretch', md: 'center' }}
+              direction={{ base: 'column', md: 'row' }}
+              gap={{ base: 0, md: 6 }}
+            >
+              <FormControl flex="1">
                 <FormLabel
                   display="flex"
                   ms="4px"
@@ -234,7 +246,7 @@ export default function SignIn() {
                 </Select>
               </FormControl>
 
-              <FormControl>
+              <FormControl flex="1">
                 <FormLabel
                   display="flex"
                   ms="4px"
@@ -262,8 +274,14 @@ export default function SignIn() {
               </FormControl>
             </Flex>
 
-            <Flex justifyContent="space-between" align="center" gap={6}>
-              <FormControl>
+            <Flex
+              w="100%"
+              justifyContent="space-between"
+              align={{ base: 'stretch', md: 'center' }}
+              direction={{ base: 'column', md: 'row' }}
+              gap={{ base: 0, md: 6 }}
+            >
+              <FormControl flex="1">
                 <FormLabel
                   display="flex"
                   ms="4px"
@@ -290,7 +308,7 @@ export default function SignIn() {
                 />
               </FormControl>
 
-              <FormControl>
+              <FormControl flex="1">
                 <FormLabel
                   display="flex"
                   ms="4px"
@@ -316,8 +334,14 @@ export default function SignIn() {
                 />
               </FormControl>
             </Flex>
-            <Flex justifyContent="space-between" align="center" gap={6}>
-              <FormControl>
+            <Flex
+              w="100%"
+              justifyContent="space-between"
+              align={{ base: 'stretch', md: 'center' }}
+              direction={{ base: 'column', md: 'row' }}
+              gap={{ base: 0, md: 6 }}
+            >
+              <FormControl flex="1">
                 <FormLabel
                   display="flex"
                   ms="4px"
@@ -345,7 +369,7 @@ export default function SignIn() {
                 />
               </FormControl>
 
-              <FormControl>
+              <FormControl flex="1">
                 <FormLabel
                   display="flex"
                   ms="4px"
@@ -374,8 +398,14 @@ export default function SignIn() {
             </Flex>
 
             {/* NEW: Year select */}
-            <Flex justifyContent="space-between" align="center" gap={6}>
-              <FormControl>
+            <Flex
+              w="100%"
+              justifyContent="space-between"
+              align={{ base: 'stretch', md: 'center' }}
+              direction={{ base: 'column', md: 'row' }}
+              gap={{ base: 0, md: 6 }}
+            >
+              <FormControl flex="1">
                 <FormLabel
                   display="flex"
                   ms="4px"
