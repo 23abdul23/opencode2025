@@ -34,7 +34,7 @@ async function fetchProgress(eventName: string) {
   return json as ParticipantSeries[];
 }
 
-const timeframe = 10;
+const timeframe = 8*60;
 
 const genDates = (start: string, end: string) => {
   const res: string[] = [];
@@ -177,11 +177,24 @@ export default function LeaderboardGraph({ eventName, topN = 10, startDate, endD
     const hasPos = firstPos !== -1 && lastPos >= firstPos;
 
     // trim outside active range to avoid lines dropping to zero before/after
-    const dataPoints = rawPoints.map((v, idx) => (hasPos && (idx < firstPos || idx > lastPos) ? null : v));
+    //const dataPoints = rawPoints.map((v, idx) => (hasPos && (idx < firstPos || idx > lastPos) ? null : v));
+    
+    const dataPoints = rawPoints.map((v, idx) =>
+      hasPos && (idx < firstPos || idx > lastPos) ? null : v
+    );
 
     // show marker only for real points; larger triangle at participant start
-    const pointRadiusArr = dataPoints.map((val: number | null, idx: number) => (val !== null && val > 0 ? (p.startIndex === idx ? 6 : 3) : 0));
-    const pointStyleArr = dataPoints.map((val: number | null, idx: number) => (p.startIndex === idx ? 'triangle' : 'circle'));
+    //const pointRadiusArr = dataPoints.map((val: number | null, idx: number) => (val !== null && val > 0 ? (p.startIndex === idx ? 6 : 3) : 0));
+    //const pointStyleArr = dataPoints.map((val: number | null, idx: number) => (p.startIndex === idx ? 'triangle' : 'circle'));
+      
+    const pointRadiusArr = dataPoints.map((val, idx) =>
+      val !== null && val > 0 ? (p.startIndex === idx ? 6 : 3) : 0
+    );
+
+    const pointStyleArr = dataPoints.map((_, idx) =>
+      p.startIndex === idx ? 'triangle' : 'circle'
+    );
+    
 
     return {
       label: p.name,
@@ -194,7 +207,7 @@ export default function LeaderboardGraph({ eventName, topN = 10, startDate, endD
       pointStyle: pointStyleArr,
       pointHoverRadius: 6,
       borderWidth: 2,
-      spanGaps: false
+      spanGaps: true
     } as any;
   });
 
@@ -251,7 +264,7 @@ export default function LeaderboardGraph({ eventName, topN = 10, startDate, endD
         <Line data={chartData} options={options} />
       </div>
 
-      <label style={{display: 'block',textAlign: 'center',fontSize: '14px',marginTop: '12px',color: '#bfc4ceff'}} >Graph will be updated at the end of the day everyday.</label>
+      <label style={{display: 'block',textAlign: 'center',fontSize: '14px',marginTop: '12px',color: '#bfc4ceff'}} >The graph is updated automatically every 8 hours.</label>
     </div>
   );
 }
