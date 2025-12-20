@@ -156,16 +156,9 @@ export default function ColumnTable(props: {
     getRowId: (row) => row.githubid,
   });
 
-  const [width, setWidth] = React.useState(0);
-  const [height, setHeight] = React.useState(0);
   const tbodyRef = React.useRef<HTMLTableSectionElement | null>(null);
   const prevFlipStateRef = React.useRef<Flip.FlipState | null>(null);
   const prevRankRef = React.useRef<Record<string, number>>({});
-
-  React.useEffect(() => {
-    setWidth(window.innerWidth);
-    setHeight(window.innerHeight);
-  }, []);
 
   React.useLayoutEffect(() => {
     if (!showProgress || !tbodyRef.current) return;
@@ -323,8 +316,6 @@ export default function ColumnTable(props: {
 
       <Box position="fixed" inset={0} pointerEvents="none" zIndex={1}>
         <Snowfall
-          width={width}
-          height={height}
           snowflakeCount={110}
           color="rgba(176, 144, 255, 0.85)"
           style={{ filter: "drop-shadow(0 0 6px rgba(124, 58, 237, 0.35))" }}
