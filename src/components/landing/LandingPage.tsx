@@ -3,8 +3,16 @@
 import Link from "next/link";
 import { SparklesIcon, Users, Star, Github, ArrowRight } from "lucide-react";
 import PixelBlast from "./PixelBlast";
+import { FaGithub } from 'react-icons/fa';
+import {Icon} from '@chakra-ui/react';
 
 const OpenCodeHero = () => {
+  const handleLoginWithGitHub = () => {
+    window.location.assign(
+      `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/auth/github`,
+    );
+  };
+
   return (
     <section
       id="opencode"
@@ -76,15 +84,17 @@ const OpenCodeHero = () => {
 
         
           <div className="flex flex-col sm:flex-row gap-4 mt-4">
-            <Link href="/auth/sign-in">
-              <button
-                className="px-8 py-3 rounded-full font-semibold text-black
-                           bg-gradient-to-r from-[#7551FF] to-[#E9E3FF]
-                           hover:scale-105 transition-transform"
-              >
-                Get Started
-              </button>
-            </Link>
+            {/* <Link href="/auth/sign-in">
+              
+            </Link> */}
+            <button
+              className="px-8 py-3 rounded-full font-semibold text-black
+                          bg-gradient-to-r from-[#7551FF] to-[#E9E3FF]
+                          hover:scale-105 transition-transform"
+              onClick={handleLoginWithGitHub}
+            >
+              Sign In <Icon as={FaGithub} w="20px" h="20px"/>
+            </button>
 
             <Link href="https://opencode.geekhaven.in">
               <button
@@ -147,7 +157,13 @@ const OpenCodeHero = () => {
                 Explore Projects <ArrowRight className="w-4 h-4" />
               </button>
             </Link>
+<<<<<<< HEAD
             
+=======
+            {/* <Link href="/auth/sign-in">
+              <button className="px-3 py-2 rounded-full border border-white/10">Sign In</button>
+            </Link> */}
+>>>>>>> 2f8a3bfc48731d0ae990d9ef6b44239f29fc33c3
           </div>
         </aside>
       </div>

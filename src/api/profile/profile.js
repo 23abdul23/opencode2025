@@ -1,6 +1,5 @@
 export async function fetchLoggedInBasicDetails() {
   const token = localStorage.getItem('token');
-  console.log('Fetched Token:', token);
 
   if (token === null) {
     console.log('No token found, redirecting to login.');
@@ -17,14 +16,12 @@ export async function fetchLoggedInBasicDetails() {
       },
     });
 
-    console.log('Hahah: ', response)
 
     if (!response.ok) {
       throw new Error('Failed to fetch user info');
       return;
     }
     const data = (await response.json()).data;
-    console.log('Fetched User Data:', data);
     localStorage.setItem('user', JSON.stringify(data));
     return data;
   }
