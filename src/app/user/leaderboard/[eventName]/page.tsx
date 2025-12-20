@@ -10,10 +10,9 @@ import ColumnsTable from 'views/admin/dataTables/components/ColumnsTable';
 import { useQuery } from '@tanstack/react-query';
 import { useParams } from 'next/navigation';
 import React from 'react';
-import { RingLoader } from 'react-spinners';
-import { FetchedLeaderboard } from '../../../../api/leaderboard/leaderboard';
 import { FaUsers } from 'react-icons/fa';
 import LeaderboardLoader from 'components/common/LeaderboardLoader';
+import { FetchedLeaderboard } from '../../../../api/leaderboard/leaderboard';
 
 export default function EventName() {
   const { eventName } = useParams<{ eventName: string }>();
@@ -33,9 +32,7 @@ export default function EventName() {
   });
 
   if (isLoading) {
-    return (
-      <LeaderboardLoader />
-    );
+    return <LeaderboardLoader />;
   }
 
   type RowObj = {
@@ -61,81 +58,89 @@ export default function EventName() {
   const participantCount = tableDataColumns.length;
 
   return (
-    <Box pt={{ base: '120px', md: '90px' }} px={{ base: 4, md: 8 }}>
-      
+    <Box
+      pt={{ base: '110px', md: '90px' }}
+      px={{ base: '16px', md: '32px' }}
+      maxW="1400px"
+      mx="auto"
+    >
       {/* Header */}
       <Flex
         justify="space-between"
-        align="center"
-        mb="28px"
-        flexWrap="wrap"
-        gap="14px"
+        align={{ base: 'flex-start', md: 'center' }}
+        mb={{ base: '20px', md: '28px' }}
+        direction={{ base: 'column', md: 'row' }}
+        gap={{ base: '18px', md: '14px' }}
       >
-        {/* Left Title Section */}
-        <Box position="relative" display="inline-block">
-  <Text
-    fontSize={{ base: '34px', md: '44px' }}
-    fontWeight="900"
-    letterSpacing="-1.6px"
-    color={textColor}
-  >
-    OPENCODE
-  </Text>
+        {/* Title */}
+        <Box position="relative" w="fit-content">
+          <Text
+            fontSize={{ base: '30px', sm: '36px', md: '44px' }}
+            fontWeight="900"
+            letterSpacing="-1.4px"
+            color={textColor}
+            lineHeight="1"
+          >
+            OPENCODE
+          </Text>
 
-  {/* Right-side underline with dot */}
-  <Flex
-    position="absolute"
-    right="0"
-    bottom="-6px"
-    align="center"
-    gap="6px"
-  >
-    <Box
-      w="28px"
-      h="3px"
-      bg="purple.500"
-      borderRadius="full"
-    />
-    <Box
-      w="6px"
-      h="6px"
-      bg="purple.500"
-      borderRadius="full"
-    />
-  </Flex>
-</Box>
-
+          {/* Underline */}
+          <Flex
+            position="absolute"
+            right="0"
+            bottom={{ base: '-4px', md: '-6px' }}
+            align="center"
+            gap="6px"
+          >
+            <Box
+              w={{ base: '22px', md: '28px' }}
+              h="3px"
+              bg="purple.500"
+              borderRadius="full"
+            />
+            <Box
+              w="6px"
+              h="6px"
+              bg="purple.500"
+              borderRadius="full"
+            />
+          </Flex>
+        </Box>
 
         {/* Participants Card */}
         <Flex
           align="center"
           gap="12px"
-          px="18px"
-          py="12px"
+          px={{ base: '14px', md: '18px' }}
+          py={{ base: '10px', md: '12px' }}
           bg={glassBg}
           borderRadius="16px"
           backdropFilter="blur(16px)"
           boxShadow="0 10px 30px rgba(0,0,0,0.08)"
+          w={{ base: '100%', sm: 'auto' }}
+          justify={{ base: 'center', sm: 'flex-start' }}
         >
           <Box
             p="10px"
             borderRadius="full"
             bg="purple.100"
             color="purple.600"
+            fontSize="14px"
           >
             <FaUsers />
           </Box>
 
-          <Box>
+          <Box textAlign={{ base: 'center', sm: 'left' }}>
             <Text
               fontSize="11px"
               color={mutedText}
               fontWeight="600"
+              letterSpacing="0.6px"
             >
               TOTAL PARTICIPANTS
             </Text>
             <Text
-              fontSize="22px"
+              fontSize={{ base: '20px', md: '22px' }}
               fontWeight="800"
               color={textColor}
             >
@@ -145,7 +150,7 @@ export default function EventName() {
         </Flex>
       </Flex>
 
-      {/* Leaderboard */}
+      {/* Leaderboard Table */}
       <ColumnsTable
         tableData={tableDataColumns}
         eventName={decodeURIComponent(eventName ?? '')}

@@ -1,35 +1,39 @@
-"use client";
+'use client';
 
-import React, { useEffect, useLayoutEffect, useRef, useState } from "react";
+import React, {
+  useEffect,
+  useLayoutEffect,
+  useRef,
+  useState,
+} from 'react';
 
-// Chakra imports
 import {
   Box,
   Flex,
-  Drawer,
-  DrawerBody,
   Icon,
-  useColorModeValue,
+  Divider,
+  Drawer,
   DrawerOverlay,
-  useDisclosure,
   DrawerContent,
   DrawerCloseButton,
-  Divider,
-} from "@chakra-ui/react";
+  DrawerBody,
+  useDisclosure,
+  useColorModeValue,
+} from '@chakra-ui/react';
 
-import Content from "components/sidebar/components/Content";
+import { IoMenuOutline } from 'react-icons/io5';
+import { gsap } from 'gsap';
+import { Scrollbars } from 'react-custom-scrollbars-2';
+
+import Content from 'components/sidebar/components/Content';
 import {
   renderThumb,
   renderTrack,
   renderView,
-} from "components/scrollbar/Scrollbar";
-import { Scrollbars } from "react-custom-scrollbars-2";
+} from 'components/scrollbar/Scrollbar';
 
-// Icons
-import { IoMenuOutline } from "react-icons/io5";
-import { IRoute } from "types/navigation";
-import { isWindowAvailable } from "utils/navigation";
-import { gsap } from "gsap";
+import { IRoute } from 'types/navigation';
+import { isWindowAvailable } from 'utils/navigation';
 
 interface SidebarResponsiveProps {
   routes: IRoute[];
@@ -39,47 +43,60 @@ interface SidebarProps extends SidebarResponsiveProps {
   [x: string]: any;
 }
 
-
+/* -------------------------------------------------------------------------- */
+/*                                DESKTOP SIDEBAR                              */
+/* -------------------------------------------------------------------------- */
 
 function Sidebar(props: SidebarProps) {
   const { routes } = props;
 
   const sidebarBg = useColorModeValue(
-    "rgba(255,255,255,0.85)",
-    "rgba(15,23,42,0.85)"
+    'rgba(255,255,255,0.85)',
+    'rgba(15,23,42,0.85)'
   );
-  const borderColor = useColorModeValue("gray.200", "whiteAlpha.100");
+  const borderColor = useColorModeValue('gray.200', 'whiteAlpha.100');
   const shadow = useColorModeValue(
-    "0 20px 40px rgba(0,0,0,0.08)",
-    "0 20px 40px rgba(0,0,0,0.4)"
+    '0 20px 40px rgba(0,0,0,0.08)',
+    '0 20px 40px rgba(0,0,0,0.4)'
   );
 
-  const [isMounted, setIsMounted] = useState(false);
   const sidebarRef = useRef<HTMLDivElement | null>(null);
-  useEffect(() => setIsMounted(true), []);
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => setMounted(true), []);
 
   useLayoutEffect(() => {
-    if (!isMounted || !sidebarRef.current) return;
+    if (!mounted || !sidebarRef.current) return;
+
     const ctx = gsap.context(() => {
       gsap.fromTo(
         sidebarRef.current,
-        { x: -18, opacity: 0 },
-        { x: 0, opacity: 1, duration: 0.6, ease: "power2.out" }
+        { x: -24, opacity: 0 },
+        { x: 0, opacity: 1, duration: 0.6, ease: 'power2.out' }
       );
+
       gsap.fromTo(
-        sidebarRef.current.querySelectorAll("[data-nav-item]"),
-        { x: -10, opacity: 0 },
-        { x: 0, opacity: 1, duration: 0.45, ease: "power2.out", stagger: 0.06, delay: 0.2 }
+        sidebarRef.current.querySelectorAll('[data-nav-item]'),
+        { x: -12, opacity: 0 },
+        {
+          x: 0,
+          opacity: 1,
+          duration: 0.45,
+          ease: 'power2.out',
+          stagger: 0.06,
+          delay: 0.2,
+        }
       );
     }, sidebarRef);
-    return () => ctx.revert();
-  }, [isMounted]);
 
-  if (!isMounted) return null;
+    return () => ctx.revert();
+  }, [mounted]);
+
+  if (!mounted) return null;
 
   return (
     <Box
-      display={{ sm: "none", xl: "block" }}
+      display={{ base: 'none', xl: 'block' }}
       position="fixed"
       top="0"
       left="0"
@@ -96,7 +113,7 @@ function Sidebar(props: SidebarProps) {
         borderRight="1px solid"
         borderColor={borderColor}
       >
-        {/* Brand Header */}
+        {/* Brand */}
         <Flex
           h="72px"
           align="center"
@@ -106,18 +123,12 @@ function Sidebar(props: SidebarProps) {
           letterSpacing="-1px"
         >
           OPENCODE
-          <Box
-            ml="8px"
-            w="10px"
-            h="10px"
-            bg="purple.500"
-            borderRadius="full"
-          />
+          <Box ml="8px" w="10px" h="10px" bg="purple.500" borderRadius="full" />
         </Flex>
 
         <Divider borderColor={borderColor} />
 
-        {/* Navigation */}
+        {/* Nav */}
         <Scrollbars
           autoHide
           renderTrackVertical={renderTrack}
@@ -133,34 +144,31 @@ function Sidebar(props: SidebarProps) {
   );
 }
 
-
+/* -------------------------------------------------------------------------- */
+/*                               MOBILE SIDEBAR                                */
+/* -------------------------------------------------------------------------- */
 
 export function SidebarResponsive(props: SidebarResponsiveProps) {
-  const sidebarBg = useColorModeValue(
-    "rgba(255,255,255,0.9)",
-    "rgba(15,23,42,0.9)"
-  );
-  const menuColor = useColorModeValue("gray.600", "white");
-
-  const { isOpen, onOpen, onClose } = useDisclosure();
-  const btnRef = React.useRef<HTMLDivElement>(null);
-
   const { routes } = props;
 
-  const [isMounted, setIsMounted] = useState(false);
-  useEffect(() => setIsMounted(true), []);
-  if (!isMounted) return null;
+  const sidebarBg = useColorModeValue(
+    'rgba(255,255,255,0.9)',
+    'rgba(15,23,42,0.9)'
+  );
+  const menuColor = useColorModeValue('gray.600', 'white');
+
+  const { isOpen, onOpen, onClose } = useDisclosure();
+  const btnRef = useRef<HTMLDivElement>(null);
+
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => setMounted(true), []);
+  if (!mounted) return null;
 
   return (
-    <Flex display={{ sm: "flex", xl: "none" }} align="center">
-      <Flex ref={btnRef} onClick={onOpen}>
-        <Icon
-          as={IoMenuOutline}
-          color={menuColor}
-          w="22px"
-          h="22px"
-          cursor="pointer"
-        />
+    <Flex display={{ base: 'flex', xl: 'none' }} align="center">
+      {/* Menu Button */}
+      <Flex ref={btnRef} onClick={onOpen} cursor="pointer">
+        <Icon as={IoMenuOutline} color={menuColor} w="22px" h="22px" />
       </Flex>
 
       <Drawer
@@ -168,9 +176,9 @@ export function SidebarResponsive(props: SidebarResponsiveProps) {
         onClose={onClose}
         placement={
           isWindowAvailable() &&
-          window.document.documentElement.dir === "rtl"
-            ? "right"
-            : "left"
+          window.document.documentElement.dir === 'rtl'
+            ? 'right'
+            : 'left'
         }
         finalFocusRef={btnRef}
       >
@@ -181,10 +189,7 @@ export function SidebarResponsive(props: SidebarResponsiveProps) {
           bg={sidebarBg}
           backdropFilter="blur(18px)"
         >
-          <DrawerCloseButton
-            mt="10px"
-            _focus={{ boxShadow: "none" }}
-          />
+          <DrawerCloseButton mt="10px" _focus={{ boxShadow: 'none' }} />
 
           {/* Brand */}
           <Flex
@@ -196,13 +201,7 @@ export function SidebarResponsive(props: SidebarResponsiveProps) {
             letterSpacing="-1px"
           >
             OPENCODE
-            <Box
-              ml="8px"
-              w="10px"
-              h="10px"
-              bg="purple.500"
-              borderRadius="full"
-            />
+            <Box ml="8px" w="10px" h="10px" bg="purple.500" borderRadius="full" />
           </Flex>
 
           <Divider />
