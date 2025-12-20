@@ -36,11 +36,20 @@ export default function DataTables() {
   }
 
   return (
-    <Box pt={{ base: '120px', md: '90px', xl: '90px' }}>
+    <Box
+      pt={{ base: '80px', md: '90px', xl: '90px' }}
+      px={{ base: 2, md: 6, lg: 12 }}
+      w="100%"
+      minH="100vh"
+    >
       <Grid
-        mb="20px"
-        gridTemplateColumns={{ xl: 'repeat(2, 1fr)', '2xl': '1fr 0.46fr' }}
-        gap={{ base: '20px', xl: '20px' }}
+        mb={{ base: '10px', md: '20px' }}
+        gridTemplateColumns={{
+          base: '1fr',
+          xl: 'repeat(2, 1fr)',
+          '2xl': '1fr 0.46fr',
+        }}
+        gap={{ base: '10px', md: '20px', xl: '20px' }}
         display={{ base: 'block', xl: 'grid' }}
       >
         <Flex
@@ -49,15 +58,16 @@ export default function DataTables() {
         >
           <Flex direction="column">
             <Flex
-              mt="25px"
-              mb="20px"
+              mt={{ base: '10px', md: '25px' }}
+              mb={{ base: '10px', md: '20px' }}
               justifyContent="space-between"
               direction={{ base: 'column', md: 'row' }}
               align={{ base: 'start', md: 'center' }}
+              gap={{ base: 2, md: 0 }}
             >
               <Text
                 color={textColor}
-                fontSize={{ base: 'xl', md: '2xl' }}
+                fontSize={{ base: 'lg', md: '2xl' }}
                 ms={{ base: '0', md: '24px' }}
                 fontWeight="700"
               >
@@ -66,10 +76,11 @@ export default function DataTables() {
             </Flex>
 
             <SimpleGrid
-              columns={{ base: 1, md: 2, lg: 3 }}
-              gap={{ base: '24px', md: '28px', lg: '36px' }}
+              columns={{ base: 1, sm: 1, md: 2, lg: 3 }}
+              gap={{ base: '16px', md: '28px', lg: '36px' }}
               justifyItems="center"
-              px={{ base: '12px', md: '20px', lg: '40px' }}
+              px={{ base: '0px', md: '20px', lg: '40px' }}
+              w="100%"
             >
               {events.map((event: any) => (
                 <NFT

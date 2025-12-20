@@ -59,23 +59,24 @@ export default function EventName() {
 
   return (
     <Box
-      pt={{ base: '110px', md: '90px' }}
-      px={{ base: '16px', md: '32px' }}
-      maxW="1400px"
+      pt={{ base: '80px', md: '90px' }}
+      px={{ base: '6px', sm: '12px', md: '32px' }}
+      maxW="100vw"
       mx="auto"
+      w="full"
     >
       {/* Header */}
       <Flex
         justify="space-between"
         align={{ base: 'flex-start', md: 'center' }}
-        mb={{ base: '20px', md: '28px' }}
+        mb={{ base: '16px', md: '28px' }}
         direction={{ base: 'column', md: 'row' }}
-        gap={{ base: '18px', md: '14px' }}
+        gap={{ base: '12px', md: '14px' }}
       >
         {/* Title */}
         <Box position="relative" w="fit-content">
           <Text
-            fontSize={{ base: '30px', sm: '36px', md: '44px' }}
+            fontSize={{ base: '24px', sm: '28px', md: '44px' }}
             fontWeight="900"
             letterSpacing="-1.4px"
             color={textColor}
@@ -87,12 +88,12 @@ export default function EventName() {
           <Flex
             position="absolute"
             right="0"
-            bottom={{ base: '-4px', md: '-6px' }}
+            bottom={{ base: '-2px', md: '-6px' }}
             align="center"
             gap="6px"
           >
             <Box
-              w={{ base: '22px', md: '28px' }}
+              w={{ base: '16px', md: '28px' }}
               h="3px"
               bg="purple.500"
               borderRadius="full"
@@ -109,9 +110,9 @@ export default function EventName() {
         {/* Participants Card */}
         <Flex
           align="center"
-          gap="12px"
-          px={{ base: '14px', md: '18px' }}
-          py={{ base: '10px', md: '12px' }}
+          gap="10px"
+          px={{ base: '10px', md: '18px' }}
+          py={{ base: '8px', md: '12px' }}
           bg={glassBg}
           borderRadius="16px"
           backdropFilter="blur(16px)"
@@ -120,18 +121,18 @@ export default function EventName() {
           justify={{ base: 'center', sm: 'flex-start' }}
         >
           <Box
-            p="10px"
+            p={{ base: '6px', md: '10px' }}
             borderRadius="full"
             bg="purple.100"
             color="purple.600"
-            fontSize="14px"
+            fontSize={{ base: '12px', md: '14px' }}
           >
             <FaUsers />
           </Box>
 
           <Box textAlign={{ base: 'center', sm: 'left' }}>
             <Text
-              fontSize="11px"
+              fontSize="10px"
               color={mutedText}
               fontWeight="600"
               letterSpacing="0.6px"
@@ -139,7 +140,7 @@ export default function EventName() {
               TOTAL PARTICIPANTS
             </Text>
             <Text
-              fontSize={{ base: '20px', md: '22px' }}
+              fontSize={{ base: '16px', md: '22px' }}
               fontWeight="800"
               color={textColor}
             >
@@ -150,10 +151,17 @@ export default function EventName() {
       </Flex>
 
       {/* Leaderboard Table */}
-      <ColumnsTable
-        tableData={tableDataColumns}
-        eventName={decodeURIComponent(eventName ?? '')}
-      />
+      <Box
+        overflowX="auto"
+        w="full"
+        maxW="100vw"
+        pb={{ base: 4, md: 0 }}
+      >
+        <ColumnsTable
+          tableData={tableDataColumns}
+          eventName={decodeURIComponent(eventName ?? '')}
+        />
+      </Box>
     </Box>
   );
 }

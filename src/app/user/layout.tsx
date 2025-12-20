@@ -5,15 +5,16 @@ import {
   Box,
   useDisclosure,
   useColorModeValue,
-  Icon
+  Icon,
+  Drawer,
+  DrawerOverlay,
+  DrawerContent,
 } from '@chakra-ui/react';
 import { IRoute } from 'types/navigation';
 import {
   MdBarChart,
   MdPerson,
   MdHome,
-  MdLock,
-  MdOutlineShoppingCart,
 } from 'react-icons/md';
 import Footer from 'components/footer/FooterAdmin';
 // Layout components
@@ -32,14 +33,13 @@ interface DashboardLayoutProps extends PropsWithChildren {
   [x: string]: any;
 }
 
-
 export default function AdminLayout(props: DashboardLayoutProps) {
   useEffect(() => {
     window.document.documentElement.dir = 'ltr';
-  },[]);
-  
+  }, []);
+
   const auth = useAuth();
- 
+
   useEffect(() => {
     auth.check_login();
   }, [auth]);
@@ -50,38 +50,27 @@ export default function AdminLayout(props: DashboardLayoutProps) {
       path: '/home',
       icon: <Icon as={MdHome} width="20px" height="20px" color="inherit" />,
     },
-    auth.isLoggedIn && 
-    {
-      name: 'Leaderboard',
-      layout: '/user',
-      icon: <Icon as={MdBarChart} width="20px" height="20px" color="inherit" />,
-      path: '/leaderboard',
-    },
-  
-    auth.isLoggedIn && 
-    {
-      name: 'Profile',
-      layout: '/user',
-      path: '/profile',
-      icon: <Icon as={MdPerson} width="20px" height="20px" color="inherit" />,
-    },
-   
-  ];
-
-
-
+    auth.isLoggedIn &&
+      {
+        name: 'Leaderboard',
+        layout: '/user',
+        icon: <Icon as={MdBarChart} width="20px" height="20px" color="inherit" />,
+        path: '/leaderboard',
+      },
+    auth.isLoggedIn &&
+      {
+        name: 'Profile',
+        layout: '/user',
+        path: '/profile',
+        icon: <Icon as={MdPerson} width="20px" height="20px" color="inherit" />,
+      },
+  ].filter(Boolean) as IRoute[];
 
   const { children, ...rest } = props;
   // states and functions
   const [fixed] = useState(false);
   const [toggleSidebar, setToggleSidebar] = useState(false);
-  // functions for changing the states from components
-  const { onOpen } = useDisclosure();
-
-  useEffect(() => {
-    window.document.documentElement.dir = 'ltr';
-  },[]);
-  
+  const { isOpen, onOpen, onClose } = useDisclosure();
 
   const bg = useColorModeValue('secondaryGray.300', 'navy.900');
 
@@ -92,15 +81,33 @@ export default function AdminLayout(props: DashboardLayoutProps) {
 
   if (!mounted) return null;
 
+  // Sidebar toggle for mobile
+  const handleSidebarToggle = () => setToggleSidebar(!toggleSidebar);
+
   return (
     <Box minH="100vh" w="100%" bg={bg}>
       <SidebarContext.Provider
         value={{
           toggleSidebar,
-          setToggleSidebar,
+          setToggleSidebar: handleSidebarToggle,
         }}
       >
-        <Sidebar routes={Droutes} display="none" {...rest} />
+        {/* Sidebar for desktop */}
+        <Box display={{ base: 'none', xl: 'block' }}>
+          <Sidebar routes={Droutes} {...rest} />
+        </Box>
+        {/* Sidebar as Drawer for mobile */}
+        <Drawer
+          isOpen={toggleSidebar}
+          placement="left"
+          onClose={handleSidebarToggle}
+          size="xs"
+        >
+          <DrawerOverlay />
+          <DrawerContent maxW="250px">
+            <Sidebar routes={Droutes} {...rest} />
+          </DrawerContent>
+        </Drawer>
         <Box
           float="right"
           minHeight="100vh"
@@ -118,7 +125,7 @@ export default function AdminLayout(props: DashboardLayoutProps) {
             <Box>
               <Navbar
                 {...({
-                  onOpen,
+                  onOpen: handleSidebarToggle,
                   logoText: 'Geekhaven',
                   brandText: getActiveRoute(routes),
                   secondary: getActiveNavbar(routes),
@@ -133,10 +140,10 @@ export default function AdminLayout(props: DashboardLayoutProps) {
 
           <Box
             mx="auto"
-            p={{ base: '16px', md: '30px' }}
-            pe={{ base: '16px', md: '30px' }}
+            p={{ base: '8px', md: '16px', lg: '30px' }}
+            pe={{ base: '8px', md: '16px', lg: '30px' }}
             minH="100vh"
-            pt={{ base: '120px', md: '110px' }}
+            pt={{ base: '90px', md: '110px' }}
           >
             {children}
           </Box>
