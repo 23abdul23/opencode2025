@@ -1,60 +1,90 @@
+'use client';
+
 // Chakra imports
-import { SimpleGrid, Text, useColorModeValue } from '@chakra-ui/react';
+import {
+  Box,
+  Grid,
+  Text,
+  useColorModeValue,
+} from '@chakra-ui/react';
 // Custom components
 import Card from 'components/card/Card';
-import Information from 'views/admin/profile/components/Information';
 
-// Assets
 export default function GeneralInformation(props: {
   name: string;
   githubId: string;
-  discordId: string;
-  college: string;
-  email: string;
+  discordId?: string;
+  college?: string;
+  email?: string;
   [x: string]: any;
 }) {
   const { name, githubId, discordId, college, email, ...rest } = props;
-  // Chakra Color Mode
 
-  const textColorPrimary = useColorModeValue('secondaryGray.900', 'white');
-  const cardShadow = useColorModeValue(
-    '0px 18px 40px rgba(112, 144, 176, 0.12)',
-    'unset',
-  );
-  return (
-    <Card mb={{ base: '0px', '2xl': '20px' }} {...rest}>
+  const titleColor = useColorModeValue('gray.800', 'white');
+  const labelColor = useColorModeValue('gray.500', 'gray.400');
+  const valueColor = useColorModeValue('gray.800', 'white');
+  const itemBg = useColorModeValue('gray.50', 'rgba(255,255,255,0.04)');
+
+  const Item = ({
+    label,
+    value,
+  }: {
+    label: string;
+    value?: string;
+  }) => (
+    <Box
+      bg={itemBg}
+      borderRadius="12px"
+      px="14px"
+      py="12px"
+    >
       <Text
-        color={textColorPrimary}
-        fontWeight="bold"
-        fontSize="2xl"
-        mt="10px"
-        mb="15px"
+        fontSize="11px"
+        fontWeight="600"
+        color={labelColor}
+        textTransform="uppercase"
+        letterSpacing="0.6px"
+        mb="4px"
+      >
+        {label}
+      </Text>
+      <Text
+        fontSize="sm"
+        fontWeight="600"
+        color={valueColor}
+        noOfLines={2}
+      >
+        {value || '—'}
+      </Text>
+    </Box>
+  );
+
+  return (
+    <Card p="20px" {...rest}>
+      {/* Header */}
+      <Text
+        fontSize="lg"
+        fontWeight="800"
+        color={titleColor}
+        mb="16px"
       >
         General Information
       </Text>
-      <SimpleGrid columns={2} row={3} rowGap="10px" columnGap='15px'>
-        <Information boxShadow={cardShadow} title="Name" value={name} gridArea="1 / 1 / 2 / 2"/>
-        <Information
-          boxShadow={cardShadow}
-          title="Github Username"
-          value={githubId}
-          gridArea="1 / 2 / 2 / 3"
-        />
-       {college && (
-          <Information boxShadow={cardShadow} title="College" value={college} gridArea="2 / 1 / 3 / 2"/>
-        )}
-        {discordId && (
-          <Information
-            boxShadow={cardShadow}
-            title="Discord ID"
-            value={discordId}
-            gridArea="2 / 2 / 3 / 3"
-          />
-        )}
-        {email && (
-          <Information boxShadow={cardShadow} title="Email" value={email} gridArea="3 / 1 / 4 / 3"/>
-        )}
-      </SimpleGrid>
+
+      {/* Grid */}
+      <Grid
+        templateColumns={{
+          base: '1fr',
+          sm: 'repeat(2, 1fr)',
+        }}
+        gap="12px"
+      >
+        <Item label="Name" value={name} />
+        <Item label="GitHub Username" value={githubId} />
+        {college && <Item label="College" value={college} />}
+        {discordId && <Item label="Discord ID" value={discordId} />}
+        {email && <Item label="Email" value={email} />}
+      </Grid>
     </Card>
   );
 }

@@ -118,7 +118,7 @@ const OpenCodeHero = () => {
             </div>
           </div>
 
-          <div className="mt-4 p-3 rounded-lg bg-white/3">
+          {/* <div className="mt-4 p-3 rounded-lg bg-white/3">
             <div className="flex items-center justify-between">
               <div className="text-xs text-white/70">Top Projects</div>
               <div className="text-xs text-white/60">Updated</div>
@@ -139,17 +139,15 @@ const OpenCodeHero = () => {
                 <div className="text-white/70 flex items-center gap-1"><Star className="w-4 h-4 text-yellow-300"/> 980</div>
               </li>
             </ul>
-          </div>
+          </div> */}
 
-          <div className="mt-4 flex gap-2">
-            <Link href="/leaderboard">
+          <div className=" ml-10 mt-8 flex gap-2 ">
+            <Link href="https://github.com/OpenCode2025">
               <button className="flex-1 px-3 py-2 rounded-full bg-gradient-to-r from-[#7551FF] to-[#E9E3FF] font-semibold text-black flex items-center justify-center gap-2">
                 Explore Projects <ArrowRight className="w-4 h-4" />
               </button>
             </Link>
-            <Link href="/auth/sign-in">
-              <button className="px-3 py-2 rounded-full border border-white/10">Sign In</button>
-            </Link>
+            
           </div>
         </aside>
       </div>

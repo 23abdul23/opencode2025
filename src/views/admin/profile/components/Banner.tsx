@@ -1,89 +1,127 @@
-'use client'
+'use client';
+
 // Chakra imports
-import { Box, Flex, Text, useColorModeValue } from '@chakra-ui/react';
+import {
+  Box,
+  Flex,
+  Text,
+  useColorModeValue,
+} from '@chakra-ui/react';
 import Card from 'components/card/Card';
 import { NextAvatar } from 'components/image/Avatar';
 
 export default function Banner(props: {
-  banner: string;
+  banner?: string;
   avatar: string;
   name: string;
-
   githubUrl: string;
   prMerged: number;
-  prContributed: number;
+  prContributed?: number;
   pointsEarned: number;
-
   [x: string]: any;
 }) {
   const {
-    banner,
-    githubUrl,
     avatar,
     name,
-    pointsEarned,
-
+    githubUrl,
     prMerged,
-    prContributed,
-    posts,
-    followers,
-    following,
-
+    pointsEarned,
     ...rest
   } = props;
-  // Chakra Color Mode
 
-  const textColorPrimary = useColorModeValue('secondaryGray.900', 'white');
-  const textColorSecondary = 'gray.400';
-  const borderColor = useColorModeValue(
-    'white !important',
-    '#111C44 !important',
-  );
+  const textPrimary = useColorModeValue('gray.800', 'white');
+  const textSecondary = useColorModeValue('gray.500', 'gray.400');
+  const avatarBorder = useColorModeValue('white', 'navy.700');
+  const hintColor = useColorModeValue('gray.500', 'gray.400');
+
   return (
     <Card
-      mb={{ base: '0px', lg: '20px' }}
-      mt={{ base: '20px' }}
-      padding="0"
-      paddingBottom="20px"
+      p="24px"
       alignItems="center"
+      textAlign="center"
       {...rest}
     >
-      
+      {/* Avatar */}
       <NextAvatar
-        mx="auto"
         src={avatar}
-        h="87px"
-        w="87px"
-        mt="-43px"
+        name={name}
+        h="130px"
+        w="130px"
+        mb="14px"
         border="4px solid"
-        borderColor={borderColor}
-        position="relative"
-        top="10px"
+        borderColor={avatarBorder}
+        boxShadow="0 16px 40px rgba(0,0,0,0.25)"
       />
-      <Text color={textColorPrimary} fontWeight="bold" fontSize="xl" mt="10px">
+
+      {/* Name */}
+      <Text
+        color={textPrimary}
+        fontWeight="800"
+        fontSize="xl"
+        lineHeight="1.2"
+      >
         {name}
       </Text>
-      <Text color={textColorSecondary} fontSize="sm">
+
+      {/* GitHub */}
+      <Text
+        color={textSecondary}
+        fontSize="sm"
+        mb="20px"
+      >
         {githubUrl}
       </Text>
-      <Flex w="max-content" mx="auto" mt="26px" position="relative" left="30px">
-        <Flex mx="auto" me="60px" alignItems="center" flexDirection="column">
-          <Text color={textColorPrimary} fontSize="2xl" fontWeight="700">
+
+      {/* Stats */}
+      <Flex
+        w="100%"
+        maxW="360px"
+        justify="space-between"
+        mb="8px"
+      >
+        <Box>
+          <Text
+            color={textPrimary}
+            fontSize="28px"
+            fontWeight="800"
+          >
             {prMerged}
           </Text>
-          <Text color={textColorSecondary} fontSize="sm" fontWeight="400" w={150} textAlign='center'>
+          <Text
+            color={textSecondary}
+            fontSize="sm"
+          >
             PRs Merged
           </Text>
-        </Flex>
-        <Flex mx="auto" me="60px" alignItems="center" flexDirection="column">
-          <Text color={textColorPrimary} fontSize="2xl" fontWeight="700">
+        </Box>
+
+        <Box>
+          <Text
+            color={textPrimary}
+            fontSize="28px"
+            fontWeight="800"
+          >
             {pointsEarned}
           </Text>
-          <Text color={textColorSecondary} fontSize="sm" fontWeight="400" w={150} textAlign='center'>
-            Recent Points Earned{' '}
+          <Text
+            color={textSecondary}
+            fontSize="sm"
+          >
+            Points Earned
           </Text>
-        </Flex>
+        </Box>
       </Flex>
+
+      {/* Empty state hint */}
+      {prMerged === 0 && pointsEarned === 0 && (
+        <Text
+          mt="12px"
+          fontSize="sm"
+          color={hintColor}
+        >
+          Start contributing to see your stats grow!!
+        </Text>
+      )}
     </Card>
   );
 }

@@ -1,44 +1,48 @@
 'use client';
+
 import { PropsWithChildren, useState } from 'react';
-
-// Chakra imports
-import { Box, useColorModeValue } from '@chakra-ui/react';
-
-// Layout components
+import { Box, Flex, useColorModeValue } from '@chakra-ui/react';
 import { SidebarContext } from 'contexts/SidebarContext';
 
 interface AuthProps extends PropsWithChildren {}
 
 export default function AuthLayout({ children }: AuthProps) {
-  // states and functions
   const [toggleSidebar, setToggleSidebar] = useState(false);
-  const authBg = useColorModeValue('white', 'navy.900');
+
+  const pageBg = useColorModeValue(
+    'linear-gradient(180deg, #f7f8ff 0%, #eef0ff 100%)',
+    'linear-gradient(180deg, #0b1437 0%, #060b28 100%)'
+  );
+
   return (
-    <Box>
-      <SidebarContext.Provider
-        value={{
-          toggleSidebar,
-          setToggleSidebar,
-        }}
+    <SidebarContext.Provider
+      value={{
+        toggleSidebar,
+        setToggleSidebar,
+      }}
+    >
+      <Box
+        minH="100vh"
+        w="100%"
+        bgGradient={pageBg}
+        position="relative"
       >
-        <Box
-          bg={authBg}
-          float="right"
-          minHeight="100vh"
-          height="100%"
-          position="relative"
-          w="100%"
-          transition="all 0.33s cubic-bezier(0.685, 0.0473, 0.346, 1)"
-          transitionDuration=".2s, .2s, .35s"
-          transitionProperty="top, bottom, width"
-          transitionTimingFunction="linear, linear, ease"
-          
+        {/* Centered content wrapper */}
+        <Flex
+          minH="100vh"
+          align="center"
+          justify="center"
+          px={{ base: '16px', md: '0px' }}
         >
-          <Box mx="auto" minH="100vh">
+          <Box
+            w="100%"
+            maxW="100%"
+            transition="all 0.3s ease"
+          >
             {children}
           </Box>
-        </Box>
-      </SidebarContext.Provider>
-    </Box>
+        </Flex>
+      </Box>
+    </SidebarContext.Provider>
   );
 }
