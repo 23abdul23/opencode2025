@@ -171,7 +171,7 @@ const OpenCodeHero = () => {
           </div> */}
 
           <div className="mt-6 flex gap-2">
-            <Link href="https://github.com/OpenCode2025">
+            <Link href="https://github.com/opencodeiiita">
               <button className="w-full px-3 py-2 rounded-full bg-gradient-to-r from-[#7551FF] to-[#E9E3FF] font-semibold text-black flex items-center justify-center gap-2">
                 Explore Projects <ArrowRight className="w-4 h-4" />
               </button>

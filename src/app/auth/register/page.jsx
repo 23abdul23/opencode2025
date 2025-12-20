@@ -88,7 +88,6 @@ export default function SignIn() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    registerMutation.mutate(formData);
 
     for (const key in formData) {
       if (formData.hasOwnProperty(key) && formData[key].trim() === '') {
@@ -104,7 +103,10 @@ export default function SignIn() {
       }
     }
 
-    console.log(formData);
+    const dataToSend = { ...formData, gender: formData.gender.toLowerCase() };
+    registerMutation.mutate(dataToSend);
+
+    console.log(dataToSend);
   };
 
   return (
