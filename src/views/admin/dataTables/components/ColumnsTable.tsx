@@ -237,7 +237,7 @@ export default function ColumnTable({
         <Flex justify="space-between" mb="20px">
           <Box>
             <Text fontSize="28px" fontWeight="800">
-              Leaderboard
+              {showProgress? "Leaderboard": "Progress"}
             </Text>
             <Text fontSize="14px" color="gray.500">
               Code. Compete. Conquer.

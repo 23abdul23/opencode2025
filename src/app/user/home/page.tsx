@@ -70,7 +70,7 @@ export default function Dashboard() {
       <Box
         key={event.name}
         position="relative"
-        minH={{ base: '70vh', md: '80vh' }}
+        minH={{ base: '37vh', md: '80vh' }}
         overflow="hidden"
         borderRadius={{ base: '16px', md: '20px' }}
       >
@@ -100,14 +100,14 @@ export default function Dashboard() {
           px={{ base: '16px', md: '0' }}
           maxW={{ base: '320px', md: '600px' }}
         >
-          <Text fontSize={{ base: '2xl', md: '4xl' }} fontWeight="bold" mb="3">
+          {/* <Text fontSize={{ base: '2xl', md: '4xl' }} fontWeight="bold" mb="3">
             {event.name}
           </Text>
-          <Text fontSize={{ base: 'sm', md: 'xl' }}>{event.description}</Text>
+          <Text fontSize={{ base: 'sm', md: 'xl' }}>{event.description}</Text> */}
         </Box>
         <Box
           position="absolute"
-          bottom={{ base: '6', md: '8' }}
+          bottom={{ base: '3', md: '8' }}
           left="50%"
           transform="translateX(-50%)"
           zIndex="2"

@@ -199,37 +199,49 @@ export default function LeaderboardGraph({ eventName, topN = 10, startDate, endD
 
   const chartData = { labels, datasets };
 
-  const options: any = {
-    responsive: true,
-    maintainAspectRatio: false,
-    plugins: {
-      legend: { position: 'top' as const },
-      tooltip: {
-        callbacks: {
-          title: (items: any[]) => {
-            const idx = items[0]?.dataIndex;
-            const raw = transformed.dates[idx] ?? '';
-            if (mode === 'daily') return raw;
-            try {
-              return new Date(raw).toLocaleString();
-            } catch {
-              return raw;
-            }
-          },
-          label: (context: any) => `${context.dataset.label}: ${context.formattedValue}`
-        }
+ const options: any = {
+  responsive: true,
+  maintainAspectRatio: false,
+  plugins: {
+    legend: {
+      position: 'top',
+      labels: {
+        // 👇 THIS is the fix
+        font: {
+          size: typeof window !== 'undefined' && window.innerWidth < 640 ? 10 : 12
+        },
+        boxWidth: typeof window !== 'undefined' && window.innerWidth < 640 ? 8 : 12,
+        padding: typeof window !== 'undefined' && window.innerWidth < 640 ? 6 : 12
       }
     },
-    scales: {
-      x: {
-        title: { display: false },
-      },
-      y: {
-        beginAtZero: true,
-        ticks: { precision: 0 }
+    tooltip: {
+      callbacks: {
+        title: (items: any[]) => {
+          const idx = items[0]?.dataIndex;
+          const raw = transformed.dates[idx] ?? '';
+          if (mode === 'daily') return raw;
+          try {
+            return new Date(raw).toLocaleString();
+          } catch {
+            return raw;
+          }
+        },
+        label: (context: any) =>
+          `${context.dataset.label}: ${context.formattedValue}`
       }
     }
-  };
+  },
+  scales: {
+    x: {
+      title: { display: false }
+    },
+    y: {
+      beginAtZero: true,
+      ticks: { precision: 0 }
+    }
+  }
+};
+
 
   return (
     <div style={{ width: '100%', height: 480 }}>
