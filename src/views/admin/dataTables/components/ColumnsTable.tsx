@@ -26,6 +26,7 @@ import {
   flexRender,
   getCoreRowModel,
   getSortedRowModel,
+  getPaginationRowModel,
   SortingState,
   useReactTable,
 } from "@tanstack/react-table";
@@ -35,6 +36,8 @@ import LeaderboardGraph from "./LeadearboardGraph";
 import { NextAvatar } from "components/image/Avatar";
 
 gsap.registerPlugin(Flip);
+
+
 
 type RowObj = {
   position: number;
@@ -49,53 +52,93 @@ const columnHelper = createColumnHelper<RowObj>();
 
 
 
-function MobileLeaderboard({ data }: { data: RowObj[] }) {
+function MobileLeaderboard({
+  table,
+}: {
+  table: any;
+}) {
+  if(!table) return null;
+  const rows = table.getPaginationRowModel().rows;
+
   return (
-    <Flex direction="column" gap="14px">
-      {data.map((user) => (
-        <Flex
-          key={user.githubid}
-          align="center"
-          justify="space-between"
-          p="14px"
-          borderRadius="18px"
-          bg="rgba(255,255,255,0.08)"
-          backdropFilter="blur(14px)"
-        >
-          {/* LEFT */}
-          <Flex align="center" gap="12px">
-            <Text fontWeight="800" fontSize="18px">
-              {user.position}
-            </Text>
+    <Flex direction="column" gap="16px">
+      {/* LIST */}
+      {rows.map((row: any) => {
+        const user = row.original as RowObj;
 
-            <NextAvatar
-              src={user.avatarUrl}
-              h="44px"
-              w="44px"
-            />
+        return (
+          <Flex
+            key={user.githubid}
+            align="center"
+            justify="space-between"
+            p="14px"
+            borderRadius="18px"
+            bg="rgba(255,255,255,0.08)"
+            backdropFilter="blur(14px)"
+          >
+            <Link href={`/user/profile/${user.githubid}`}>
+              <Flex align="center" gap="12px">
+                <Text fontWeight="800">{user.position}</Text>
 
-            <Box>
-              <Text fontWeight="700" fontSize="15px">
-                {user.name}
+                <NextAvatar
+                  src={user.avatarUrl}
+                  h="44px"
+                  w="44px"
+                />
+
+                <Box>
+                  <Text fontWeight="700">{user.name}</Text>
+                  <Text fontSize="12px" color="gray.400">
+                    @{user.githubid}
+                  </Text>
+                </Box>
+              </Flex>
+            </Link>
+
+            <Flex align="center" gap="6px">
+              <Text fontWeight="800" color="purple.400">
+                {user.points}
               </Text>
-              <Text fontSize="12px" color="gray.400">
-                @{user.githubid}
-              </Text>
-            </Box>
+              <FaTrophy color="#FFB547" />
+            </Flex>
           </Flex>
+        );
+      })}
 
-          
-          <Flex align="center" gap="6px">
-            <Text fontWeight="800" color="purple.400">
-              {user.points}
-            </Text>
-            <FaTrophy color="#FFB547" />
-          </Flex>
+      {/* PAGINATION (STABLE) */}
+      <Flex direction="column" gap="8px" mt="8px">
+        <Text fontSize="12px" color="gray.400" textAlign="center">
+          Page {table.getState().pagination.pageIndex + 1} of{" "}
+          {table.getPageCount()}
+        </Text>
+
+        <Flex gap="10px">
+          <Button
+            flex="1"
+            size="sm"
+            onClick={() => table.previousPage()}
+            isDisabled={!table.getCanPreviousPage()}
+            borderRadius="full"
+          >
+            Prev
+          </Button>
+
+          <Button
+            flex="1"
+            size="sm"
+            onClick={() => table.nextPage()}
+            isDisabled={!table.getCanNextPage()}
+            borderRadius="full"
+          >
+            Next
+          </Button>
         </Flex>
-      ))}
+      </Flex>
     </Flex>
   );
 }
+
+
 
 
 
@@ -109,6 +152,11 @@ export default function ColumnTable({
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [showProgress, setShowProgress] = React.useState(true);
 
+  const [pagination, setPagination] = React.useState({
+    pageIndex: 0,
+    pageSize: 50,
+  });
+
   const isMobile = useBreakpointValue({ base: true, md: false });
 
   const glassBg = useColorModeValue(
@@ -119,8 +167,12 @@ export default function ColumnTable({
     "rgba(117,81,255,0.08)",
     "rgba(117,81,255,0.15)"
   );
+  const prsBorder = useColorModeValue("purple.300", "purple.400");
+
+
 
   const columns = [
+    
     columnHelper.accessor("position", {
       header: "RANK",
       cell: (info) => {
@@ -139,67 +191,101 @@ export default function ColumnTable({
       },
     }),
 
+    
     columnHelper.accessor("name", {
-      header: "NAME",
-      cell: (info) => (
-        <Text fontWeight="700">{info.getValue()}</Text>
-      ),
-    }),
+  header: () => (
+    <Text textAlign="left">NAME</Text>
+  ),
+  cell: (info) => (
+    <Text fontWeight="700" textAlign="left">
+      {info.getValue()}
+    </Text>
+  ),
+}),
 
+
+  
     columnHelper.accessor("githubid", {
-      header: "GITHUB",
-      cell: (info) => (
-        <Link href={`/user/profile/${info.getValue()}`}>
-          <Flex align="center" gap="10px">
-            <NextAvatar
-              src={info.row.original.avatarUrl}
-              h="40px"
-              w="40px"
-            />
-            <Text fontWeight="700">{info.getValue()}</Text>
-          </Flex>
-        </Link>
-      ),
-    }),
+  header: () => (
+    <Text textAlign="left">GITHUB</Text>
+  ),
+  cell: (info) => (
+    <Link href={`/user/profile/${info.getValue()}`}>
+      <Flex align="center" gap="10px">
+        <NextAvatar
+          src={info.row.original.avatarUrl}
+          h="40px"
+          w="40px"
+        />
+        <Text fontWeight="700">{info.getValue()}</Text>
+      </Flex>
+    </Link>
+  ),
+}),
 
+
+    
     columnHelper.accessor("prmerged", {
-      header: "PRS",
-      cell: (info) => (
-        <Box
-          px="12px"
-          py="4px"
-          bg="purple.100"
-          color="purple.700"
-          borderRadius="full"
-          fontWeight="700"
-        >
-          {info.getValue()}
-        </Box>
-      ),
-    }),
+  header: () => (
+    <Flex justify="center">
+      <Text>PRS</Text>
+    </Flex>
+  ),
+  cell: (info) => (
+    <Flex justify="center">
+      <Box
+        h="36px"
+        w="36px"
+        display="flex"
+        alignItems="center"
+        justifyContent="center"
+        border="2px solid"
+        borderColor="purple.400"
+        borderRadius="full"
+        fontWeight="800"
+        color="purple.400"
+      >
+        {info.getValue()}
+      </Box>
+    </Flex>
+  ),
+}),
+
+
 
     columnHelper.accessor("points", {
-      header: "POINTS",
-      cell: (info) => (
-        <Flex justify="flex-end" gap="6px">
-          <Text fontWeight="800" color="purple.500">
-            {info.getValue()}
-          </Text>
-          <FaTrophy color="#FFB547" />
-        </Flex>
-      ),
-    }),
+  header: () => (
+    <Flex justify="flex-end">
+      <Text>POINTS</Text>
+    </Flex>
+  ),
+  cell: (info) => (
+    <Flex justify="flex-end" gap="6px">
+      <Text fontWeight="800" color="purple.500">
+        {info.getValue()}
+      </Text>
+      <FaTrophy color="#FFB547" />
+    </Flex>
+  ),
+}),
+
   ];
+
+
 
   const table = useReactTable({
     data: tableData,
     columns,
-    state: { sorting },
+    state: { sorting, pagination },
     onSortingChange: setSorting,
+    onPaginationChange: setPagination,
     getCoreRowModel: getCoreRowModel(),
     getSortedRowModel: getSortedRowModel(),
+    getPaginationRowModel: getPaginationRowModel(),
     getRowId: (row) => row.githubid,
   });
+
+  
 
   const tbodyRef = React.useRef<HTMLTableSectionElement | null>(null);
   const prevFlipStateRef = React.useRef<Flip.FlipState | null>(null);
@@ -221,7 +307,9 @@ export default function ColumnTable({
       });
     }
     prevFlipStateRef.current = state;
-  }, [tableData, sorting, isMobile, showProgress]);
+  }, [pagination.pageIndex, sorting, isMobile, showProgress]);
+
+ 
 
   return (
     <>
@@ -232,12 +320,13 @@ export default function ColumnTable({
         borderRadius="20px"
         bg={glassBg}
         backdropFilter="blur(18px)"
+        zIndex={10}
       >
         {/* HEADER */}
         <Flex justify="space-between" mb="20px">
           <Box>
             <Text fontSize="28px" fontWeight="800">
-              {showProgress? "Leaderboard": "Progress"}
+              {showProgress ? "Leaderboard" : "Progress"}
             </Text>
             <Text fontSize="14px" color="gray.500">
               Code. Compete. Conquer.
@@ -256,7 +345,9 @@ export default function ColumnTable({
         {/* CONTENT */}
         {showProgress ? (
           isMobile ? (
-            <MobileLeaderboard data={tableData} />
+            <MobileLeaderboard
+              table={table}
+            />
           ) : (
             <Box overflowX="auto">
               <Table variant="unstyled" minW="720px">
@@ -276,7 +367,7 @@ export default function ColumnTable({
                 </Thead>
 
                 <Tbody ref={tbodyRef}>
-                  {table.getRowModel().rows.map((row) => (
+                  {table.getPaginationRowModel().rows.map((row) => (
                     <Tr
                       key={row.id}
                       data-row-id={row.id}
@@ -294,6 +385,30 @@ export default function ColumnTable({
                   ))}
                 </Tbody>
               </Table>
+
+              
+              <Flex mt="16px" justify="space-between" align="center">
+                <Text fontSize="13px" color="gray.400">
+                  Page {pagination.pageIndex + 1} of {table.getPageCount()}
+                </Text>
+
+                <Flex gap="8px">
+                  <Button
+                    size="sm"
+                    onClick={() => table.previousPage()}
+                    isDisabled={!table.getCanPreviousPage()}
+                  >
+                    Prev
+                  </Button>
+                  <Button
+                    size="sm"
+                    onClick={() => table.nextPage()}
+                    isDisabled={!table.getCanNextPage()}
+                  >
+                    Next
+                  </Button>
+                </Flex>
+              </Flex>
             </Box>
           )
         ) : (
@@ -307,11 +422,10 @@ export default function ColumnTable({
       </Card>
 
     
-      {!isMobile && (
-        <Box position="fixed" inset={0} pointerEvents="none" zIndex={1}>
-          <Snowfall snowflakeCount={110} />
-        </Box>
-      )}
+      <Box position="fixed" inset={0} pointerEvents="none" zIndex={1}>
+  <Snowfall snowflakeCount={110} />
+</Box>
+
     </>
   );
 }

@@ -123,7 +123,7 @@ export default function ProfileOverviewOther() {
       {isDesktop && (
         <>
           <Grid templateColumns="1.3fr 1fr" gap="24px" mb="24px">
-            {/* BANNER */}
+          
             <Box
               bg={cardBg}
               borderRadius="20px"
@@ -141,7 +141,7 @@ export default function ProfileOverviewOther() {
               />
             </Box>
 
-            {/* GENERAL */}
+        
             <Box
               bg={cardBg}
               borderRadius="20px"
@@ -158,7 +158,7 @@ export default function ProfileOverviewOther() {
             </Box>
           </Grid>
 
-          {/* PROJECTS */}
+          
           <Box bg={cardBg} borderRadius="20px" p="24px" boxShadow={shadowSoft}>
             <Projects PRs={profile?.PR || []} />
           </Box>
