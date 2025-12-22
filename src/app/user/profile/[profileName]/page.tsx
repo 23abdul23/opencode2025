@@ -12,6 +12,7 @@ import {
 import { useQuery } from '@tanstack/react-query';
 import { useParams } from 'next/navigation';
 import { RingLoader } from 'react-spinners';
+import Link from "next/link"
 import React from 'react';
 
 import Banner from 'views/admin/profile/components/Banner';
@@ -63,7 +64,17 @@ export default function ProfileOverviewOther() {
       pb="40px"
       maxW="1400px"
       mx="auto"
-    >
+    > 
+    <Link href="https://discord.gg/SxBATvUPnC">
+    <Box
+    bg={cardBg}
+            borderRadius="22px"
+            p="18px"
+            boxShadow={shadowHero}
+            mb="12px"
+            textAlign="center"
+    >Join Discord</Box>
+    </Link>
       
       {!isDesktop && (
         <>
