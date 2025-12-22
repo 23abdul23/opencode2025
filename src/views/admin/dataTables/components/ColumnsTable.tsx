@@ -34,7 +34,6 @@ import {
 import Card from "components/card/Card";
 import LeaderboardGraph from "./LeadearboardGraph";
 import { NextAvatar } from "components/image/Avatar";
-
 gsap.registerPlugin(Flip);
 
 
