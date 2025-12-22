@@ -6,7 +6,7 @@ import {
   Text,
   useColorModeValue,
 } from '@chakra-ui/react';
-import ColumnsTable from 'views/admin/dataTables/components/ColumnsTable';
+import ColumnsTable, { type RowObj } from 'views/admin/dataTables/components/ColumnsTable';
 import { useQuery } from '@tanstack/react-query';
 import { useParams } from 'next/navigation';
 import React from 'react';
@@ -35,18 +35,8 @@ export default function EventName() {
     return <LeaderboardLoader />;
   }
 
-  type RowObj = {
-    position: number;
-    name: string;
-    prmerged: number;
-    githubid: string;
-    points: number;
-    avatarUrl: string;
-    prDetailsURL: string;
-  };
-
   const tableDataColumns: RowObj[] = (LeadData || []).map((item) => ({
-    position: item.position,
+    position: String(item.position),
     name: item.name,
     prmerged: Number(item.prmerged),
     githubid: item.githubid,

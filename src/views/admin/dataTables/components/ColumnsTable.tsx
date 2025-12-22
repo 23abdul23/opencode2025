@@ -1,26 +1,10 @@
 "use client";
-
-import {
-  Flex,
-  Box,
-  Table,
-  Tbody,
-  Td,
-  Text,
-  Th,
-  Thead,
-  Tr,
-  useColorModeValue,
-  Link,
-  Button,
-  useBreakpointValue,
-} from "@chakra-ui/react";
-import * as React from "react";
-import { gsap } from "gsap";
-import Flip from "gsap/Flip";
-import { FaTrophy } from "react-icons/fa";
-import Snowfall from "react-snowfall";
-
+import { Flex, Box, Table, Checkbox, Tbody, Td, Text, Th, Thead, Tr, useColorModeValue, Link, Button, Modal, ModalOverlay, ModalContent, ModalHeader, ModalBody, ModalCloseButton, ModalFooter, useDisclosure, useBreakpointValue } from '@chakra-ui/react';
+import * as React from 'react';
+import {FaTrophy} from 'react-icons/fa'
+import Snowfall from 'react-snowfall';
+import gsap from 'gsap';
+import Flip from 'gsap/Flip';
 import {
   createColumnHelper,
   flexRender,
@@ -34,19 +18,18 @@ import {
 import Card from "components/card/Card";
 import LeaderboardGraph from "./LeadearboardGraph";
 import { NextAvatar } from "components/image/Avatar";
+
 gsap.registerPlugin(Flip);
-
-
-
-type RowObj = {
-  position: number;
-  name: string;
-  avatarUrl: string;
-  githubid: string;
-  prmerged: number;
-  points: number;
+export type RowObj = {
+	position: string;
+	name: string;
+    avatarUrl: string;
+	githubid: string;
+	prmerged: number;
+	points: number;
+	prDetailsURL: string;
 };
-
+ 
 const columnHelper = createColumnHelper<RowObj>();
 
 
@@ -175,15 +158,17 @@ export default function ColumnTable({
     columnHelper.accessor("position", {
       header: "RANK",
       cell: (info) => {
-        const pos = info.getValue();
+        const value = info.getValue();
+        const pos = typeof value === "string" ? parseInt(value, 10) : value;
+        const display = Number.isNaN(Number(pos)) ? value : pos;
         return (
           <Flex justify="center">
-            {pos <= 3 ? (
+            {typeof pos === "number" && pos <= 3 ? (
               <Box bg="#FFB547" p="8px" borderRadius="full">
                 <FaTrophy size={14} />
               </Box>
             ) : (
-              <Text fontWeight="700">{pos}</Text>
+              <Text fontWeight="700">{display}</Text>
             )}
           </Flex>
         );
@@ -281,7 +266,7 @@ export default function ColumnTable({
     getCoreRowModel: getCoreRowModel(),
     getSortedRowModel: getSortedRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
-    getRowId: (row) => row.githubid,
+    getRowId: (row) => String(row.githubid),
   });
 
   
@@ -313,6 +298,7 @@ export default function ColumnTable({
   return (
     <>
       <Card
+        flexDirection="column"
         w="100%"
         px="20px"
         py="20px"
@@ -357,7 +343,7 @@ export default function ColumnTable({
                         <Th key={header.id} fontSize="11px" color="gray.400">
                           {flexRender(
                             header.column.columnDef.header,
-                            header.getContext()
+                            header.getContext(),
                           )}
                         </Th>
                       ))}
@@ -414,8 +400,6 @@ export default function ColumnTable({
           <LeaderboardGraph
             eventName={decodeURIComponent(eventName)}
             topN={5}
-            startDate="2024-12-26"
-            endDate="2025-01-25"
           />
         )}
       </Card>
@@ -427,4 +411,4 @@ export default function ColumnTable({
 
     </>
   );
-}
+} 
