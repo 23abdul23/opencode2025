@@ -8,7 +8,33 @@ const faqs = [
   { question: 'Who can participate?', answer: 'Anyone interested in development can participate, regardless of experience level.' },
   { question: 'Is OpenCode free?', answer: 'Yes, OpenCode is completely free.' },
   { question: 'Do I need prior open-source experience?', answer: 'No, mentors will help you get started.' },
-  { question: 'What kind of projects are available?', answer: 'Everything ranging from Cybersec , Ai-ML to App and Web Development Opencode has projects from all domain' },
+  { question: 'What kind of projects are available?', answer: 'Everything for which you can write code for the domains are - Cybersec , Ai-ML , App Development , Web Development , Game Development and Blockchain. Opencode has projects from all domain' },
+  {
+    question: 'How do I get started?',
+    answer: (
+      <>
+        You can register through{' '}
+        <a
+          href="https://bit.ly/RegisterAtOpencode25"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="text-blue-400 underline"
+        >
+          Unstop
+        </a>{' '}
+        or via our own{' '}
+        <a
+          href="https://events.geekhaven.in/"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="text-blue-400 underline"
+        >
+          website
+        </a>
+        .
+      </>
+    ),
+  },
   { question: 'Can I work in a team?', answer: 'No, Each issue is meant to be solved individually' },
   { question: 'Is mentorship provided?', answer: 'Yes, maintainers actively review PRs and guide contributors.' },
   { question: 'Do I get certificates?', answer: 'Top contributors receive certificates and recognition.' },
