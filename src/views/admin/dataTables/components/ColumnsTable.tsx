@@ -26,8 +26,8 @@ type RowObj = {
 	name: string;
     avatarUrl: string;
 	githubid: number;
-	prmerged: string;
-	points:string; 
+	prmerged: number;
+	points:number; 
 };
  
 const columnHelper = createColumnHelper<RowObj>();

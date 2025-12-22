@@ -36,20 +36,20 @@ export default function EventName() {
   }
 
   type RowObj = {
-    position: number;
+    position: string;
     name: string;
     prmerged: number;
-    githubid: string;
+    githubid: number;
     points: number;
     avatarUrl: string;
     prDetailsURL: string;
   };
 
   const tableDataColumns: RowObj[] = (LeadData || []).map((item) => ({
-    position: item.position,
+    position: String(item.position),
     name: item.name,
     prmerged: Number(item.prmerged),
-    githubid: item.githubid,
+    githubid: Number(item.githubid),
     points: Number(item.points),
     avatarUrl: item.avatarUrl,
     prDetailsURL: item.prDetailsURL,
