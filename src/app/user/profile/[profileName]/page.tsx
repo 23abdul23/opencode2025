@@ -165,7 +165,7 @@ export default function ProfileOverviewOther() {
                 college={profile?.college}
                 discordId={profile?.discordId}
                 email={profile?.email}
-                gender={profile?.gender}
+                gender={(profile?.gender == 'male')?'Male' : 'Female'}
                 year={profile?.year}
               />
             </Box>
