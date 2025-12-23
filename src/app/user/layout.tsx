@@ -86,7 +86,6 @@ export default function AdminLayout(props: DashboardLayoutProps) {
         w={{ base: '100%', xl: 'calc(100% - 300px)' }}
         maxWidth={{ base: '100%', xl: 'calc(100% - 300px)' }}
         transition="all 0.33s cubic-bezier(0.685, 0.0473, 0.346, 1)"
-        // 4. Important: Add padding bottom so content isn't hidden behind menu
         pb={{ base: '80px', xl: '0px' }}
       >
         <Portal>

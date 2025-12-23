@@ -1,24 +1,23 @@
 'use client';
 
 import {
+  Avatar,
   Box,
+  Flex,
   Grid,
   Text,
-  Flex,
-  Avatar,
   useBreakpointValue,
   useColorModeValue,
 } from '@chakra-ui/react';
 import { useQuery } from '@tanstack/react-query';
 import { useParams } from 'next/navigation';
 import { RingLoader } from 'react-spinners';
-import Link from "next/link"
-import React from 'react';
 
+import { getUserProfileByName } from 'api/profile/profile';
 import Banner from 'views/admin/profile/components/Banner';
+import DiscordBanner from 'views/admin/profile/components/DiscordBanner';
 import General from 'views/admin/profile/components/General';
 import Projects from 'views/admin/profile/components/Projects';
-import { getUserProfileByName } from 'api/profile/profile';
 import { ProfileData } from '../page';
 
 export default function ProfileOverviewOther() {
@@ -40,11 +39,11 @@ export default function ProfileOverviewOther() {
 
   const shadowHero = useColorModeValue(
     '0 18px 40px rgba(0,0,0,0.12)',
-    '0 18px 40px rgba(0,0,0,0.45)'
+    '0 18px 40px rgba(0,0,0,0.45)',
   );
   const shadowSoft = useColorModeValue(
     '0 10px 24px rgba(0,0,0,0.08)',
-    '0 10px 24px rgba(0,0,0,0.35)'
+    '0 10px 24px rgba(0,0,0,0.35)',
   );
 
   if (isLoading) {
@@ -64,22 +63,12 @@ export default function ProfileOverviewOther() {
       pb="40px"
       maxW="1400px"
       mx="auto"
-    > 
-    <Link href="https://discord.gg/SxBATvUPnC">
-    <Box
-    bg={cardBg}
-            borderRadius="22px"
-            p="18px"
-            boxShadow={shadowHero}
-            mb="12px"
-            textAlign="center"
-            // bgColor={'#5865F2'}
-    >Join Discord</Box>
-    </Link>
-      
+    >
+      {/* 2. Use the Component here */}
+      <DiscordBanner />
+
       {!isDesktop && (
         <>
-        
           <Box
             bg={cardBg}
             borderRadius="22px"
@@ -104,7 +93,6 @@ export default function ProfileOverviewOther() {
             </Flex>
           </Box>
 
-  
           <Box
             bg={cardBg}
             borderRadius="20px"
@@ -121,23 +109,23 @@ export default function ProfileOverviewOther() {
               <Info label="Email" value={profile?.email} />
               <Info label="Discord ID" value={profile?.discordId} />
               <Info label="GitHub" value={`@${profile?.githubId}`} />
-              <Info label="Gender" value={(profile?.gender == 'male')? 'Male': 'Female'}/>
-              <Info label='Year' value={profile?.year}/>
+              <Info
+                label="Gender"
+                value={profile?.gender == 'male' ? 'Male' : 'Female'}
+              />
+              <Info label="Year" value={profile?.year} />
             </Grid>
           </Box>
 
-          
           <Box bg={cardBg} borderRadius="20px" p="16px" boxShadow={shadowSoft}>
             <Projects PRs={profile?.PR || []} />
           </Box>
         </>
       )}
 
-      
       {isDesktop && (
         <>
           <Grid templateColumns="1.3fr 1fr" gap="24px" mb="24px">
-          
             <Box
               bg={cardBg}
               borderRadius="20px"
@@ -155,7 +143,6 @@ export default function ProfileOverviewOther() {
               />
             </Box>
 
-        
             <Box
               bg={cardBg}
               borderRadius="20px"
@@ -174,7 +161,6 @@ export default function ProfileOverviewOther() {
             </Box>
           </Grid>
 
-          
           <Box bg={cardBg} borderRadius="20px" p="24px" boxShadow={shadowSoft}>
             <Projects PRs={profile?.PR || []} />
           </Box>
@@ -183,7 +169,6 @@ export default function ProfileOverviewOther() {
     </Box>
   );
 }
-
 
 function StatPill({ label, value }: { label: string; value: number }) {
   return (
