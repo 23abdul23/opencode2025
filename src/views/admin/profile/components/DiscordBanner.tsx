@@ -1,14 +1,18 @@
 'use client';
 
-import { Box, Flex, Icon, Text } from '@chakra-ui/react';
+import { Box, Flex, Icon, Text, useColorModeValue } from '@chakra-ui/react';
 import Link from 'next/link';
 import { FaDiscord } from 'react-icons/fa';
 
 export default function DiscordBanner() {
+  const bgColor = useColorModeValue('white', 'navy.800');
+  const textColor = useColorModeValue('navy.700', 'white');
+  const subtitleColor = useColorModeValue('gray.500', 'gray.400');
+
   return (
     <Link href="https://discord.gg/SxBATvUPnC" target="_blank">
       <Flex
-        bg="#5865F2"
+        bg={bgColor}
         direction="row"
         justify="space-between"
         align="center"
@@ -20,19 +24,18 @@ export default function DiscordBanner() {
         _hover={{
           transform: 'translateY(-2px)',
           boxShadow: 'xl',
-          bg: '#4752C4',
         }}
         gap={{ base: '12px', md: '0px' }}
       >
         <Flex align="center" gap={{ base: '12px', md: '16px' }}>
           <Box
-            bg="whiteAlpha.200"
+            bg="#5865F2"
             p={{ base: '10px', md: '12px' }}
             borderRadius="14px"
             display="flex"
             alignItems="center"
             justifyContent="center"
-            boxShadow="inner"
+            boxShadow="md"
             minW={{ base: '48px', md: '56px' }}
           >
             <Icon
@@ -42,46 +45,52 @@ export default function DiscordBanner() {
               color="white"
             />
           </Box>
-          <Box color="white">
+          <Box>
             <Text
               fontSize={{ base: '16px', md: '22px' }}
               fontWeight="800"
               lineHeight="1.2"
+              color={textColor}
             >
               Join Community
             </Text>
+            {/* Desktop Text */}
             <Text
               fontSize={{ base: '11px', md: '14px' }}
-              opacity={0.9}
+              color={subtitleColor}
               mt="2px"
               display={{ base: 'none', sm: 'block' }}
             >
-              Connect with mentors & contributors
+              Stay updated on issues & further communication
             </Text>
+            {/* Mobile Text */}
             <Text
               fontSize="10px"
-              opacity={0.9}
+              color={subtitleColor}
               mt="2px"
               display={{ base: 'block', sm: 'none' }}
             >
-              Connect on Discord
+              Stay updated on issues
             </Text>
           </Box>
         </Flex>
 
         <Box
-          bg="white"
-          color="#5865F2"
+          bg="#5865F2"
+          color="white"
           px={{ base: '16px', md: '24px' }}
           py={{ base: '8px', md: '10px' }}
           borderRadius="full"
           fontWeight="700"
           fontSize={{ base: '12px', md: '14px' }}
-          boxShadow="sm"
+          boxShadow="md"
           whiteSpace="nowrap"
           minW="fit-content"
-          transition="transform 0.2s"
-          _hover={{ transform: 'scale(1.05)' }}
+          transition="all 0.2s"
+          _hover={{
+            transform: 'scale(1.05)',
+            bg: '#4752C4',
+          }}
         >
           Join Server
         </Box>
