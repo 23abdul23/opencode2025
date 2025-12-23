@@ -120,6 +120,8 @@ export default function ProfileOverviewOther() {
               <Info label="Email" value={profile?.email} />
               <Info label="Discord ID" value={profile?.discordId} />
               <Info label="GitHub" value={`@${profile?.githubId}`} />
+              <Info label="General" value={profile?.gender}/>
+              <Info label='Year' value={profile?.year}/>
             </Grid>
           </Box>
 
