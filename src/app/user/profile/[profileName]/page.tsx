@@ -31,7 +31,6 @@ export default function ProfileOverviewOther() {
   });
 
   const profile = data?.data;
-  console.log(profile);
 
   const isDesktop = useBreakpointValue({ base: false, lg: true });
 
@@ -74,6 +73,7 @@ export default function ProfileOverviewOther() {
             boxShadow={shadowHero}
             mb="12px"
             textAlign="center"
+            // bgColor={'#5865F2'}
     >Join Discord</Box>
     </Link>
       
@@ -168,7 +168,7 @@ export default function ProfileOverviewOther() {
                 college={profile?.college}
                 discordId={profile?.discordId}
                 email={profile?.email}
-                gender={(profile?.gender == 'male')?'Male' : 'Female'}
+                gender={profile?.gender}
                 year={profile?.year}
               />
             </Box>

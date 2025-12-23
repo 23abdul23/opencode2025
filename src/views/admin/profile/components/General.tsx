@@ -85,7 +85,7 @@ export default function GeneralInformation(props: {
       >
        
         <Item label="Name" value={name} />
-        <Item label="GitHub Username" value={githubId} />
+        <Item label="GitHub" value={githubId} />
         {college && <Item label="College" value={college} />}
         {gender && <Item label="Gender" value={(gender == 'male')? 'Male': 'Female'} />}
         {year && <Item label="Year" value={year} />}
