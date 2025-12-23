@@ -165,6 +165,8 @@ export default function ProfileOverviewOther() {
                 college={profile?.college}
                 discordId={profile?.discordId}
                 email={profile?.email}
+                gender={profile?.gender}
+                year={profile?.year}
               />
             </Box>
           </Grid>

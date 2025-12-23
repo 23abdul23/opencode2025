@@ -16,9 +16,11 @@ export default function GeneralInformation(props: {
   discordId?: string;
   college?: string;
   email?: string;
+  gender?: string;
+  year?: string;
   [x: string]: any;
 }) {
-  const { name, githubId, discordId, college, email, ...rest } = props;
+  const { name, githubId, discordId, college, email, gender, year, ...rest } = props;
 
   const titleColor = useColorModeValue('gray.800', 'white');
   const labelColor = useColorModeValue('gray.500', 'gray.400');
@@ -82,6 +84,8 @@ export default function GeneralInformation(props: {
         <Item label="Name" value={name} />
         <Item label="GitHub Username" value={githubId} />
         {college && <Item label="College" value={college} />}
+        {gender && <Item label="Gender" value={gender} />}
+        {year && <Item label="Year" value={year} />}
         {discordId && <Item label="Discord ID" value={discordId} />}
         {email && <Item label="Email" value={email} />}
       </Grid>

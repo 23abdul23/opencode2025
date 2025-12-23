@@ -57,7 +57,7 @@ export async function getUserProfileByName(profileName) {
   const token = localStorage.getItem('token');
 
   const response = await fetch(
-    `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/participant/${profileName}/${process.env.NEXT_PUBLIC_EVENT_NAME}}`,
+    `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/participant/${profileName}/${process.env.NEXT_PUBLIC_EVENT_NAME}`,
     {
       method: 'GET',
       headers: {
