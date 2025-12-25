@@ -67,10 +67,10 @@ const faqs = [
       'Projects are from the following domains - AI-ML , Web Development , Add Development , Cyber-Security ,Block-Chain , Competetive Programming , Design , FOSS',
   },
   {
-    question: 'How do i get started?',
+    question: 'How do I get started?',
     answer: (
       <>
-        You can register through{' '}
+        You need to register through{' '}
         <a
           href="https://bit.ly/RegisterAtOpencode25"
           target="_blank"
@@ -79,7 +79,7 @@ const faqs = [
         >
           Unstop
         </a>{' '}
-        or via our own{' '}
+        and on our own{' '}
         <a
           href="https://events.geekhaven.in/"
           target="_blank"
@@ -110,8 +110,18 @@ const faqs = [
   },
   {
     question: 'How do I get started?',
-    answer:
-      'Sign in, join our Discord, wait for issues to be raised, and pick an issue.',
+    answer: (
+     <>
+      Sign in, join our {' '}
+      <a
+          href="https://discord.com/channels/885149696249708635/885151791329722448"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="text-blue-400 underline"
+      > Discord</a>
+      , wait for issues to be raised, and pick an issue.
+    </>
+    )
   },
   {
     question: 'Can I contribute to multiple projects?',
