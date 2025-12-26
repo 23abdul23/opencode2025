@@ -31,15 +31,34 @@ export default function EventName() {
     return <LeaderboardLoader />;
   }
 
-  const tableDataColumns: RowObj[] = (LeadData || []).map((item) => ({
-    position: String(item.position),
-    name: item.name,
-    prmerged: Number(item.prmerged),
-    githubid: item.githubid,
-    points: Number(item.points),
-    avatarUrl: item.avatarUrl,
-    prDetailsURL: item.prDetailsURL,
-  }));
+  const sorted = [...(LeadData || [])].sort((a, b) => {
+    const pointsDiff = Number(b.points) - Number(a.points);
+    if (pointsDiff !== 0) return pointsDiff;
+    const prDiff = Number(b.prmerged) - Number(a.prmerged);
+    if (prDiff !== 0) return prDiff;
+    return String(a.githubid).localeCompare(String(b.githubid));
+  });
+
+  let lastPoints: number | null = null;
+  let rankCounter = 0;
+
+  const tableDataColumns: RowObj[] = sorted.map((item, index) => {
+    const points = Number(item.points);
+    if (lastPoints === null || points !== lastPoints) {
+      rankCounter += 1;
+      lastPoints = points;
+    }
+
+    return {
+      position: String(rankCounter),
+      name: item.name,
+      prmerged: Number(item.prmerged),
+      githubid: item.githubid,
+      points,
+      avatarUrl: item.avatarUrl,
+      prDetailsURL: item.prDetailsURL,
+    };
+  });
 
   const participantCount = tableDataColumns.length;
 
