@@ -1,7 +1,13 @@
 'use client';
 
-import { Box, Flex, Icon } from '@chakra-ui/react';
-import { FaTrophy, FaStar, FaFlagCheckered, FaUsers, FaFire } from 'react-icons/fa';
+import { Box, Flex, Icon, useColorModeValue } from '@chakra-ui/react';
+import {
+  FaTrophy,
+  FaStar,
+  FaFlagCheckered,
+  FaUsers,
+  FaFire,
+} from 'react-icons/fa';
 import { MdCelebration } from 'react-icons/md';
 
 interface MilestoneRailProps {
@@ -17,6 +23,8 @@ export default function MilestoneRail({
   height = '440px',
   hideOnMobile = true,
 }: MilestoneRailProps) {
+  const railColor = useColorModeValue('gray.200', 'whiteAlpha.300');
+
   return (
     <Box
       position="absolute"
@@ -24,8 +32,7 @@ export default function MilestoneRail({
       left={left}
       h={height}
       w="2px"
-      bg="white"
-      opacity={0.15}
+      bg={railColor}
       borderRadius="full"
       zIndex={1}
       pointerEvents="none"
@@ -37,7 +44,6 @@ export default function MilestoneRail({
       <RailNode top="20%">
         <Icon as={FaFire} />
       </RailNode>
-
       <RailNode top="40%">
         <Icon as={MdCelebration} />
       </RailNode>
@@ -50,7 +56,6 @@ export default function MilestoneRail({
       <RailNode top="100%">
         <Icon as={FaStar} />
       </RailNode>
-      
     </Box>
   );
 }
@@ -62,6 +67,14 @@ function RailNode({
   children: React.ReactNode;
   top: string;
 }) {
+  const nodeBg = useColorModeValue('white', 'gray.900');
+  const innerBg = useColorModeValue('purple.500', 'purple.400');
+  const borderColor = useColorModeValue('purple.300', 'purple.500');
+  const glow = useColorModeValue(
+    '0 0 0 rgba(0,0,0,0)',
+    '0 0 18px rgba(128,90,213,0.4)'
+  );
+
   return (
     <Flex
       position="absolute"
@@ -74,16 +87,16 @@ function RailNode({
       h="34px"
       borderRadius="full"
       border="2px solid"
-      borderColor="purple.300"
-      bg="gray.900"
-      boxShadow="0 0 18px rgba(128,90,213,0.4)"
+      borderColor={borderColor}
+      bg={nodeBg}
+      boxShadow={glow}
       zIndex={2}
     >
       <Flex
         w="22px"
         h="22px"
         borderRadius="full"
-        bg="purple.500"
+        bg={innerBg}
         align="center"
         justify="center"
         color="white"
@@ -94,4 +107,3 @@ function RailNode({
     </Flex>
   );
 }
-

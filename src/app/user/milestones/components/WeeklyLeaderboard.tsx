@@ -124,7 +124,7 @@ export function WeeklyLeaderboardCard({ weeks }: WeeklyLeaderboardCardProps) {
                               zIndex={0}
                               cursor="pointer"
                               onClick={() =>
-                                router.push(`/user/profile/${user.userId}`)
+                                router.push(`/user/profile/${user.username}`)
                               }
                             />
                           ))}

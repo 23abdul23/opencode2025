@@ -1,4 +1,3 @@
-
 import {
   Text,
   useColorModeValue,
@@ -14,15 +13,20 @@ import { FaInbox } from 'react-icons/fa';
 export default function Projects(props: { PRs: PullRequest[] }) {
   const textPrimary = useColorModeValue('gray.800', 'white');
   const textSecondary = useColorModeValue('gray.500', 'gray.400');
-  const mutedBg = useColorModeValue('gray.50', 'gray.800');
+  const cardBg = useColorModeValue('white', 'gray.800');
+  const mutedBg = useColorModeValue('gray.50', 'gray.700');
+  const borderColor = useColorModeValue('gray.200', 'gray.700');
 
   return (
     <Card
       mb={{ base: '0px', '2xl': '20px' }}
       p="20px"
       borderRadius="20px"
-      bg="gray.800"
+      bg={cardBg}
+    
+      borderColor={borderColor}
     >
+      {/* Header */}
       <Box mb="28px">
         <Text
           color={textPrimary}
@@ -37,6 +41,7 @@ export default function Projects(props: { PRs: PullRequest[] }) {
         </Text>
       </Box>
 
+      {/* Content */}
       {props.PRs.length ? (
         <Stack spacing="14px">
           {props.PRs.map((pr) => (
@@ -53,14 +58,16 @@ export default function Projects(props: { PRs: PullRequest[] }) {
       ) : (
         <Box
           p="40px"
-          bg={mutedBg}
+        
           borderRadius="16px"
           textAlign="center"
+          border="1px dashed"
+          borderColor={borderColor}
         >
           <Icon
             as={FaInbox}
             boxSize="32px"
-            color="gray.400"
+            color={textSecondary}
             mb="12px"
           />
           <Text fontSize="lg" fontWeight="700" color={textPrimary}>
