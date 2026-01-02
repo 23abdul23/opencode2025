@@ -146,7 +146,7 @@ export function AutoCarousel({ children }: AutoCarouselProps) {
           prevEl: prevRef.current,
           nextEl: nextRef.current,
         }}
-        onBeforeInit={(swiper) => {
+        onBeforeInit={(swiper: any) => {
           // @ts-ignore
           swiper.params.navigation.prevEl = prevRef.current;
           // @ts-ignore

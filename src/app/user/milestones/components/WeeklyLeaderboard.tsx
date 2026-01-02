@@ -152,6 +152,7 @@ export function WeeklyLeaderboardCard({ weeks }: WeeklyLeaderboardCardProps) {
                           size={isFirst ? 'lg' : 'md'}
                           border="3px solid white"
                           boxShadow="md"
+                          zIndex={1}
                         />
 
                         <Badge
@@ -164,6 +165,7 @@ export function WeeklyLeaderboardCard({ weeks }: WeeklyLeaderboardCardProps) {
                           bg="white"
                           color="gray.700"
                           px={2}
+                          zIndex={2}
                         >
                           #{user.rank}
                         </Badge>

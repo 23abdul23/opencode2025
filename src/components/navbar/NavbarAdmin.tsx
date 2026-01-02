@@ -102,7 +102,7 @@ export default function AdminNavbar(props: AdminNavbarProps) {
     color="purple.500"
     ml={{ base: 0, md: 1 }}
   >
-    welcome to OPENCODE
+    Welcome to OPENCODE
   </Text>
 </Text>
 
