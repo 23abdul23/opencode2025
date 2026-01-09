@@ -46,7 +46,7 @@ export default function Milestones() {
   const [selectedTab, setSelectedTab] = useState(0);
 
   
-  const WEEKS_TO_SHOW = [true, false, false, false, false];
+  const WEEKS_TO_SHOW = [true, true, false, false, false];
   const SHOW_EVENTS = false;
 
   const bgColor = useColorModeValue('gray.50', 'gray.900');
@@ -219,7 +219,7 @@ export default function Milestones() {
 
       
         <Flex justify="center" gap="24px" mb="40px" wrap="wrap">
-          <Stat label="Participants" value="840+" />
+          <Stat label="Participants" value="920+" />
           <Stat label="Sub Events Hosted" value={(events.length + 1).toString()} />
           <Stat label="Weeks Completed" value={weeklyData.length.toString()} />
         </Flex>
