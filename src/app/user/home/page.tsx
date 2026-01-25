@@ -36,7 +36,7 @@ export default function Dashboard() {
   });
 
   const events = eventData?.data;
-  console.log(events);
+  // console.log(events);
 
   useEffect(() => {
     const querystring = window.location.search;

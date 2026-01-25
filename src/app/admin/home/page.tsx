@@ -175,7 +175,7 @@ export default function Dashboard() {
         eventName,
       };
 
-      console.log(prUpdateData);
+      // console.log(prUpdateData);
 
       pointUpdate.mutate(prUpdateData);
     }
