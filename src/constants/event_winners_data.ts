@@ -191,4 +191,34 @@ export const EventWinners = {
       },
     ],
   },
+
+  'Speedcode': {
+    1: [
+      {
+        name: 'Team Beginners ',
+        username: 'IIIT Allahabad (IIITA)',
+        avatar: "https://placehold.co/600x400/orange/white?text=B",
+        score: 1,
+        date: '2026-01-22',
+      },
+    ],
+    2: [
+      {
+        name: 'Team Speedcode',
+        username: 'IIIT Allahabad (IIITA)',
+        avatar: "https://placehold.co/600x400/black/white?text=S",
+        score: 2,
+        date: '2026-01-22',
+      },
+    ],
+    3: [
+      {
+        name: 'Team N/A',
+        username: 'IIIT Allahabad (IIITA)',
+        avatar: "https://placehold.co/600x400/orange/white?text=N",
+        score: 3,
+        date: '2026-01-16',
+      },
+    ],
+  },
 };
