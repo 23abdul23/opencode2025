@@ -60,7 +60,7 @@ export default function Dashboard() {
   useEffect(() => {
     if (UserIssueDetils) {
       setuserIssueDetails(UserIssueDetils);
-      console.log(UserIssueDetils);
+      // console.log(UserIssueDetils);
     }
   }, [UserIssueDetils]);
 

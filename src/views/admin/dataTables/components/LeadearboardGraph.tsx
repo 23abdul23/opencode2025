@@ -29,7 +29,7 @@ async function fetchProgress(eventName: string) {
   const r = await fetch(url, { headers: { Authorization: `Bearer ${token}` } });
   if (!r.ok) throw new Error('Failed to fetch leaderboard progress');
   const json = await r.json();
-  console.log('Res: ', json)
+  // console.log('Res: ', json)
 
   
   if (json && Array.isArray(json.data)) return json.data as ParticipantSeries[];
@@ -76,23 +76,23 @@ const genTenMinSlots = (dayIso: string) => {
 
 const pivotParticipants = (participants: ParticipantSeries[], startDate: string, endDate: string, mode: 'daily' | 'tenMin' = 'daily') => {
   const dates = mode === 'daily' ? genDates(startDate, endDate) : genTenMinSlots(startDate);
-  console.log('[pivotParticipants] Date range:', { startDate, endDate, dates: dates.slice(0, 5) });
+  // console.log('[pivotParticipants] Date range:', { startDate, endDate, dates: dates.slice(0, 5) });
   
   const map = participants.map((p) => {
     if (mode === 'daily') {
       const dmap = new Map<string, number>();
-      console.log(`[${p.participantId}] Processing ${p.data.length} data entries`);
+      // console.log(`[${p.participantId}] Processing ${p.data.length} data entries`);
       
       for (const entry of p.data) {
         if (!entry || typeof entry.date !== 'string') continue;
         const ymd = new Date(entry.date).toISOString().slice(0, 10);
-        console.log(`  Entry date: ${entry.date} -> ymd: ${ymd}, points: ${entry.points}`);
+        // console.log(`  Entry date: ${entry.date} -> ymd: ${ymd}, points: ${entry.points}`);
         if (entry.points > 0) dmap.set(ymd, entry.points);
       }
       
-      console.log(`  Map keys:`, Array.from(dmap.keys()));
+      // console.log(`  Map keys:`, Array.from(dmap.keys()));
       const rowPoints = dates.map((date) => (dmap.has(date) ? dmap.get(date)! : null));
-      console.log(`  ${p.participantId} rowPoints non-null count:`, rowPoints.filter(p => p !== null).length);
+      // console.log(`  ${p.participantId} rowPoints non-null count:`, rowPoints.filter(p => p !== null).length);
       
       return { participantId: p.participantId, name: p.name, pointsByDate: rowPoints as (number | null)[] };
     }
@@ -138,7 +138,7 @@ const COLORS = [
 
 function ThirtyDayGraph({ data, startDate, endDate }:{ data: ParticipantSeries[]; startDate: string; endDate: string; }) {
   const transformed = useMemo(() => pivotParticipants(data, startDate, endDate, 'daily'), [data, startDate, endDate]);
-  console.log('Transformed 30: ', transformed);
+  // console.log('Transformed 30: ', transformed);
   if (!transformed.dates.length) return <div>No data available</div>;
 
   const labels = transformed.dates.map((_, i) => `Day ${i + 1}`);

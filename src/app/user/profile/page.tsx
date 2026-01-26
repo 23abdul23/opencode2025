@@ -34,7 +34,7 @@ export default function ProfileSelf() {
   useEffect(() => {
     const githubID = JSON.parse(localStorage.getItem('user') ?? '{}')?.githubId;
  
-    console.log('GitHub ID from localStorage:', githubID);
+    // console.log('GitHub ID from localStorage:', githubID);
 
     if (githubID) redirect(`/user/profile/${githubID}`);
     
