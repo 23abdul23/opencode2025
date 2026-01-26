@@ -221,4 +221,34 @@ export const EventWinners = {
       },
     ],
   },
+
+  'CSS Battle': {
+    1: [
+      {
+        name: 'Krishna Sikeriya',
+        username: 'Krishna200608',
+        avatar: "https://placehold.co/600x400/orange/white?text=K",
+        score: 1,
+        date: '2026-01-22',
+      },
+    ],
+    2: [
+      {
+        name: 'Apoorv Mittal',
+        username: 'Apoorv012',
+        avatar: "https://placehold.co/600x400/black/white?text=A",
+        score: 2,
+        date: '2026-01-22',
+      },
+    ],
+    3: [
+      {
+        name: 'Ishan Raj Singh',
+        username: 'ishanrajsingh',
+        avatar: "https://placehold.co/600x400/orange/white?text=I",
+        score: 3,
+        date: '2026-01-16',
+      },
+    ],
+  },
 };

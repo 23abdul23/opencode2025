@@ -219,7 +219,7 @@ export default function Milestones() {
 
       
         <Flex justify="center" gap="24px" mb="40px" wrap="wrap">
-          <Stat label="Participants" value="980+" />
+          <Stat label="Participants" value="995+" />
           <Stat label="Sub Events Hosted" value={(events.length).toString()} />
           <Stat label="Weeks Completed" value={weeklyData.length.toString()} />
         </Flex>
