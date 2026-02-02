@@ -61,27 +61,25 @@ type RawPoint = {
   points: number;
 };
 
-
-
-
 const OVERALL_COLORS = [
-  '#F5C542', 
+  '#c65eaf', 
   '#b4aea2',
   '#3e3b40', 
 
 ];
 
 const COLLEGE_COLORS = [
-  '#4ADE80', 
-  '#C0C7D1', 
+  '#45c07f', 
+  '#e690a2',
+  '#b4aea2', 
   '#8a32cd', 
   '#F5C542',
 
 ];
 const RANK_COLORS = [
-  '#F5C542',
-  '#4ADE80', 
-  '#C0C7D1',
+  '#c65eaf', 
+  '#b4aea2',
+  '#3e3b40',
   '#8a32cd', 
   '#F5C542', 
 ]
@@ -95,10 +93,10 @@ const OVERALL_WINNERS: Winner[] = [
 
 const COLLEGE_WINNERS: Winner[] = [
   { position: 1, name: 'Krishna Sikheriya', githubid: 'Krishna200608', points: 3095, prmerged: 48, color: COLLEGE_COLORS[0] },
-  { position: 2, name: 'Vishva Modh', githubid: 'ViMo018', points: 2590, prmerged: 41, color: COLLEGE_COLORS[1] },
+  { position: 2, name: 'Vishva Modh', githubid: 'ViMo018', points: 2590, prmerged: 41, color: COLLEGE_COLORS[2] },
   { position: 2, name: 'Ibrahim Raza Beg', githubid: 'PHOX-9', points: 2590, prmerged: 36, color: COLLEGE_COLORS[1] },
-  { position: 3, name: 'Omdeep', githubid: 'omicoded19', points: 1160, prmerged: 29, color: COLLEGE_COLORS[2] },
-  { position: 4, name: 'Khushi Shorey', githubid: 'khushishorey', points: 1100, prmerged: 22, color: COLLEGE_COLORS[3] },
+  { position: 3, name: 'Omdeep', githubid: 'omicoded19', points: 1160, prmerged: 29, color: COLLEGE_COLORS[3] },
+  { position: 4, name: 'Khushi Shorey', githubid: 'khushishorey', points: 1100, prmerged: 22, color: COLLEGE_COLORS[4] },
 ];
 
 function WinnersBackground() {
@@ -273,7 +271,7 @@ function OverallSideStats() {
       position="absolute"
       top="50%"
       transform="translateY(-50%)"
-      {...(side === 'left' ? { left: '48px' } : { right: '48px' })}
+      {...(side === 'left' ? { left: '20px' } : { right: '20px' })}
       display={{ base: 'none', lg: 'flex' }}
       w="200px"
       h="200px"
