@@ -90,6 +90,83 @@ const COLLEGE_WINNERS: Winner[] = [
 
 /* ================= API ================= */
 
+function TopThreeCards({ winners }: { winners: Winner[] }) {
+  const bg = useColorModeValue('white', 'gray.900');
+  const text = useColorModeValue('gray.800', 'white');
+  const muted = useColorModeValue('gray.500', 'gray.400');
+  const medals = ['🥇', '🥈', '🥉'];
+
+  return (
+    <Flex justify="center" gap="28px" wrap="wrap" mt="28px">
+      {winners.slice(0, 3).map((w, i) => (
+        <Box
+          key={w.githubid}
+          bg={bg}
+          borderRadius="22px"
+          px="26px"
+          py="22px"
+          minW="270px"
+          boxShadow="2xl"
+          border={`2px solid ${RANK_COLORS[w.position - 1]}66`}
+          position="relative"
+        >
+          {/* ===== ICONS ===== */}
+          <Flex
+            position="absolute"
+            top="-20px"
+            right="18px"
+            gap="6px"
+            fontSize="32px"
+          >
+          
+            <span>{medals[i]}</span>
+          </Flex>
+
+          {/* ===== USER ===== */}
+          <Flex align="center" gap="14px" mb="14px">
+            <Avatar
+              src={`https://github.com/${w.githubid}.png`}
+              size="md"
+              border={`3px solid ${RANK_COLORS[w.position - 1]}`}
+            />
+            <Box>
+              <Text fontWeight="800" color={text}>
+                {w.name}
+              </Text>
+              <Text fontSize="12px" color={muted}>
+                @{w.githubid}
+              </Text>
+            </Box>
+          </Flex>
+
+          {/* ===== STATS ===== */}
+          <Flex justify="space-between" mt="10px">
+            <Box>
+              <Text fontSize="11px" color={muted}>
+                POINTS
+              </Text>
+              <Text fontSize="22px" fontWeight="900" color={text}>
+                {w.points}
+              </Text>
+            </Box>
+
+            <Box textAlign="right">
+              <Text fontSize="11px" color={muted}>
+                PRs MERGED
+              </Text>
+              <Text fontSize="22px" fontWeight="900" color={text}>
+                {w.prmerged}
+              </Text>
+            </Box>
+          </Flex>
+        </Box>
+      ))}
+    </Flex>
+  );
+}
+
+
+
 async function fetchProgress(githubId: string) {
   const res = await fetch(
     `https://events.geekhaven.in/back/api/v1/leaderboard/progress/${githubId}?eventName=Opencode`,
@@ -98,7 +175,7 @@ async function fetchProgress(githubId: string) {
   return json.data.data as RawPoint[];
 }
 
-/* ================= HELPERS ================= */
+
 
 function buildDateRange(start: string, end: string) {
   const dates: string[] = [];
@@ -272,6 +349,10 @@ export default function WinnersPodiumComparisonPage() {
     <Box minH="100vh" pt="40px">
       <Stack spacing="36px">
         <WinnersHeader />
+
+         <TopThreeCards
+    winners={tab === 0 ? OVERALL_WINNERS : COLLEGE_WINNERS}
+  />
 
         <Tabs index={tab} onChange={setTab} variant="soft-rounded" colorScheme="purple">
           <TabList>
