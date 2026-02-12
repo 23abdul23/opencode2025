@@ -74,12 +74,9 @@ export default function AppWrappers({ children }: { children: ReactNode }) {
 
   return (
     <QueryClientProvider client={queryClient}>
-      <AuthProvider>
         <SidebarProvider>
           <ChakraProvider theme={theme}>{children}</ChakraProvider>
         </SidebarProvider>
-      </AuthProvider>
-
       {isLoading && (
         <InitialLoader
           isExiting={isExiting}
@@ -87,7 +84,6 @@ export default function AppWrappers({ children }: { children: ReactNode }) {
           variant={initialVariant}
         />
       )}
-
       <PageTransition />
     </QueryClientProvider>
   );

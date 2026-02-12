@@ -23,13 +23,6 @@ export default function Dashboard() {
     (eventName: string) => {
       router.push(`/user/leaderboard/${encodeURIComponent(eventName)}`);
     };
-
-  const auth = useAuth();
-
-  useEffect(() => {
-    auth.check_login();
-  }, [auth]);
-
   const { data: eventData, isLoading } = useQuery({
     queryKey: ['EventInfo'],
     queryFn: FetchedEvents,
@@ -38,33 +31,6 @@ export default function Dashboard() {
   const events = eventData?.data;
   // console.log(events);
 
-  useEffect(() => {
-    const querystring = window.location.search;
-    const urlParam = new URLSearchParams(querystring);
-    const TokenParam = urlParam.get('token');
-
-    if (TokenParam === null) {
-      auth.check_login();
-    } else {
-      localStorage.setItem('token', TokenParam);
-    }
-    if (localStorage.getItem('token')) {
-      fetchLoggedInBasicDetails();
-      axios.post(
-        `${
-          process.env.NEXT_PUBLIC_BACKEND_URL
-        }/api/v1/events/register?eventName=${encodeURIComponent(
-          `${process.env.NEXT_PUBLIC_EVENT_NAME}`,
-        )}`,
-        {},
-        {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem('token')}`,
-          },
-        },
-      );
-    }
-  }, [auth]);
 
   if (isLoading) {
     return (
@@ -126,23 +92,6 @@ export default function Dashboard() {
               w={{ base: '100%', sm: 'auto' }}
               px={{ base: '16px', sm: '0' }}
             >
-              {!auth.isLoggedIn && (
-                <Link href="/auth/sign-in">
-                  <Button
-                    w={{ base: '100%', sm: 'auto' }}
-                    colorScheme="teal"
-                    mb={{ base: '3', sm: '0' }}
-                    mr={{ base: '0', sm: '3' }}
-                    bg="linear-gradient(to right, #001f3f, #003366)"
-                    _hover={{
-                      bg: 'linear-gradient(to right, #001a33, #001f3f)',
-                    }}
-                    color="white"
-                  >
-                    Join Now
-                  </Button>
-                </Link>
-              )}
               <Button
                 w={{ base: '100%', sm: 'auto' }}
                 colorScheme="teal"

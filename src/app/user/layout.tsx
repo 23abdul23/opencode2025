@@ -64,13 +64,7 @@ export default function AdminLayout(props: DashboardLayoutProps) {
           layout: '/user',
           path: '/milestones',
           icon: <Icon as={MdEmojiEvents} w="20px" h="20px" />,
-        },
-        {
-          name: 'Profile',
-          layout: '/user',
-          path: '/profile',
-          icon: <Icon as={MdPerson} w="20px" h="20px" />,
-        },
+        }
       );
     }
     return baseRoutes;

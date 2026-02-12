@@ -18,11 +18,6 @@ const OpenCodeHero = () => {
     return () => window.removeEventListener('resize', update);
   }, []);
 
-  const handleLoginWithGitHub = () => {
-    window.location.assign(
-      `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/auth/github`,
-    );
-  };
 
   return (
     <section
@@ -94,8 +89,8 @@ const OpenCodeHero = () => {
             {/* <Link href="/auth/sign-in">
 
             </Link> */}
-           <button
-  onClick={handleLoginWithGitHub}
+            <Link href="/home">
+            <button
   className="
     flex items-center justify-center gap-2
     px-4 py-2
@@ -111,12 +106,9 @@ const OpenCodeHero = () => {
     mx-auto
   "
 >
-  <span>Sign in</span>
-  <Icon as={FaGithub} w="16px" h="16px" className="sm:w-[20px] sm:h-[20px]" />
+  <span>Continue</span>
 </button>
-
-
-
+            </Link>
             <Link href="https://opencode.geekhaven.in">
               <button
                 className="px-7 sm:px-8 py-3 rounded-full font-semibold text-white
