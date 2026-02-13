@@ -2,6 +2,7 @@
   "name": "geekportal-frontend",
   "version": "2.0.0",
   "private": true,
+  "homepage": "https://23abdul23.github.io/opencode2025",
   "dependencies": {
     "@chakra-ui/icons": "^2.0.19",
     "@chakra-ui/next-js": "^2.1.5",
@@ -66,7 +67,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "predeploy": "yarn run build"
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d out"
   },
   "browserslist": {
     "production": [
