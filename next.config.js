@@ -1,9 +1,5 @@
 /** @type {import('next').NextConfig} */
-
 const nextConfig = {
-  output: 'export',
-  basePath: '/opencode2025',
-  assetPrefix: '/opencode2025',
   trailingSlash: true,
   images: {
     unoptimized: true,
