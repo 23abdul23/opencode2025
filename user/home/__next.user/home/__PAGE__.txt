@@ -1,0 +1,9 @@
+1:"$Sreact.fragment"
+2:I[47257,["/opencode2025/_next/static/chunks/ff1a16fafef87110.js","/opencode2025/_next/static/chunks/44cd96693135f9b9.js"],"ClientPageRoot"]
+3:I[57846,["/opencode2025/_next/static/chunks/ac677d49c73f50d3.js","/opencode2025/_next/static/chunks/4d2e3c39f321bd29.js","/opencode2025/_next/static/chunks/7c1a1de0d1e3f1c3.js","/opencode2025/_next/static/chunks/9d9d083bed5cca0f.js","/opencode2025/_next/static/chunks/e765e5ed1f67b12d.js","/opencode2025/_next/static/chunks/fb7f49286eeb53a5.js","/opencode2025/_next/static/chunks/a42a8cd186af39c3.js","/opencode2025/_next/static/chunks/527b3812b9e17f5f.js","/opencode2025/_next/static/chunks/70cc2c40f31489cc.js","/opencode2025/_next/static/chunks/96bdcf4ace70942e.js","/opencode2025/_next/static/chunks/3bd39b3b8b668c84.js"],"default"]
+6:I[97367,["/opencode2025/_next/static/chunks/ff1a16fafef87110.js","/opencode2025/_next/static/chunks/44cd96693135f9b9.js"],"OutletBoundary"]
+7:"$Sreact.suspense"
+0:{"buildId":"x-1wgyhXULjMQ2XftDPMV","rsc":["$","$1","c",{"children":[["$","$L2",null,{"Component":"$3","serverProvidedParams":{"searchParams":{},"params":{},"promises":["$@4","$@5"]}}],[["$","script","script-0",{"src":"/opencode2025/_next/static/chunks/3bd39b3b8b668c84.js","async":true}]],["$","$L6",null,{"children":["$","$7",null,{"name":"Next.MetadataOutlet","children":"$@8"}]}]]}],"loading":null,"isPartial":false}
+4:{}
+5:{}
+8:null

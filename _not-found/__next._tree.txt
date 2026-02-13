@@ -1,0 +1,2 @@
+:HL["/opencode2025/_next/static/chunks/efd8f981756c0d21.css","style"]
+0:{"buildId":"x-1wgyhXULjMQ2XftDPMV","tree":{"name":"","paramType":null,"paramKey":"","hasRuntimePrefetch":false,"slots":{"children":{"name":"/_not-found","paramType":null,"paramKey":"/_not-found","hasRuntimePrefetch":false,"slots":{"children":{"name":"__PAGE__","paramType":null,"paramKey":"__PAGE__","hasRuntimePrefetch":false,"slots":null,"isRootLayout":false}},"isRootLayout":false}},"isRootLayout":true},"staleTime":300}
